@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>FLOW — Family OS</title>
+<title>FLOW v17 — Family OS</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#0D9488">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -55,7 +57,7 @@
   --b1:rgba(255,255,255,0.06); --b2:rgba(255,255,255,0.11); --b3:rgba(255,255,255,0.18);
   --t1:#EDEDF0; --t2:#8A8A9E; --t3:#555568;
   --tapflash:rgba(255,255,255,0.10);
-  --work:#4F8EF7; --wlow:rgba(79,142,247,0.12); --wmid:rgba(79,142,247,0.25);
+  --work:#14B8A6; --wlow:rgba(20,184,166,0.12); --wmid:rgba(20,184,166,0.25);
   --personal:#2DD4BF; --plow:rgba(45,212,191,0.12); --pmid:rgba(45,212,191,0.25);
   --danger:#F56565; --dlow:rgba(245,101,101,0.15);
   --warn:#FBBF24; --warnlow:rgba(251,191,36,0.15);
@@ -77,7 +79,7 @@
   --bg:#FFFFFF; --s1:#FFFFFF; --s2:#F8F9FC; --s3:#EEF0F6; --s4:#E2E5EF;
   --b1:rgba(17,24,39,0.06); --b2:rgba(17,24,39,0.11); --b3:rgba(17,24,39,0.18);
   --t1:#0F172A; --t2:#475569; --t3:#94A3B8;
-  --work:#2563EB; --wlow:rgba(37,99,235,0.08); --wmid:rgba(37,99,235,0.16);
+  --work:#0D9488; --wlow:rgba(13,148,136,0.08); --wmid:rgba(13,148,136,0.16);
   --personal:#059669; --plow:rgba(5,150,105,0.08); --pmid:rgba(5,150,105,0.16);
   --danger:#DC2626; --dlow:rgba(220,38,38,0.08);
   --warn:#D97706; --warnlow:rgba(217,119,6,0.10);
@@ -145,12 +147,12 @@ button{cursor:pointer}
   width:56px;height:56px;border-radius:28px;
   background:var(--work);border:none;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 20px rgba(79,142,247,0.45);
+  box-shadow:0 4px 20px rgba(13,148,136,0.45);
   z-index:110;cursor:pointer;
   transition:transform 0.12s ease,box-shadow 0.12s ease;
 }
-.fab:active{transform:scale(0.92);box-shadow:0 2px 10px rgba(79,142,247,0.3)}
-.fab.held{transform:scale(1.08);background:#6BA3FF;box-shadow:0 6px 28px rgba(79,142,247,0.6)}
+.fab:active{transform:scale(0.92);box-shadow:0 2px 10px rgba(13,148,136,0.3)}
+.fab.held{transform:scale(1.08);background:#0ABFB0;box-shadow:0 6px 28px rgba(13,148,136,0.6)}
 .prog-track{height:4px;border-radius:2px;background:var(--s3);overflow:hidden}
 .prog-fill{height:100%;border-radius:2px;background:var(--success);transition:width 0.4s cubic-bezier(0.16,1,0.3,1)}
 .focus-item{display:flex;align-items:center;gap:12px;padding:10px 0}
@@ -240,6 +242,35 @@ body { font-size: var(--fs-body) !important; line-height: var(--lh-body); }
 .focus-card-item + .focus-card-item { border-top:1px solid var(--b1); }
 .focus-num { width:30px; height:30px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px; font-weight:900; }
 
+/* ── Floating AI Orb ── */
+.ai-orb {
+  position:fixed; bottom:80px; left:20px;
+  width:52px; height:52px; border-radius:50%;
+  background:linear-gradient(135deg,#0D9488,#7C3AED);
+  border:none; cursor:pointer; z-index:120;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 20px rgba(13,148,136,0.5);
+  transition:transform 0.15s ease, box-shadow 0.15s ease;
+  font-size:22px;
+}
+.ai-orb:active { transform:scale(0.9); }
+.ai-orb.pulse-ring::before {
+  content:''; position:absolute; inset:-4px; border-radius:50%;
+  border:2px solid rgba(13,148,136,0.4);
+  animation:orbPulse 2s ease infinite;
+}
+@keyframes orbPulse {
+  0%,100%{transform:scale(1);opacity:0.6}
+  50%{transform:scale(1.15);opacity:0.2}
+}
+.ai-orb-panel {
+  position:fixed; bottom:140px; left:16px;
+  width:calc(100vw - 32px); max-width:360px;
+  background:var(--s1); border:1px solid var(--b2);
+  border-radius:20px; box-shadow:0 8px 32px rgba(0,0,0,0.2);
+  z-index:119; padding:16px;
+  animation:popIn 0.2s cubic-bezier(0.16,1,0.3,1) forwards;
+}
 /* ── AI 패널 ── */
 .ai-panel { background:linear-gradient(135deg,var(--wlow),var(--purplow)); border-radius:var(--radius-card); border:1px solid var(--wmid); padding:16px; margin-bottom:var(--spacing-section); }
 .ai-panel-title { font-size:13px; font-weight:800; color:var(--work); margin-bottom:8px; display:flex; align-items:center; gap:6px; }
@@ -269,6 +300,21 @@ details.acc > summary::-webkit-details-marker { display:none; }
 details.acc > summary:after { content:'▾'; font-size:14px; color:var(--t2); }
 details.acc[open] > summary:after { content:'▴'; }
 details.acc .acc-body { margin-top:10px; }
+</style>
+
+<style>
+/* v15 celebration (subtle) */
+@keyframes popUp {
+  0%{transform:translate(-50%,0) scale(0.9); opacity:0;}
+  20%{opacity:1;}
+  60%{transform:translate(-50%,-10px) scale(1.02); opacity:1;}
+  100%{transform:translate(-50%,-18px) scale(1.0); opacity:0;}
+}
+@keyframes sparkle {
+  0%{transform:translate(-50%,0) scale(0.6); opacity:0;}
+  25%{opacity:1;}
+  100%{transform:translate(-50%,-24px) scale(1.1); opacity:0;}
+}
 </style>
 </head>
 <body>
@@ -700,6 +746,12 @@ function scheduleDayV3({date,tasks,events,existingBlocks,settings}){
      Grok:   grok-4-1-fast-reasoning-latest
      Gemini: gemini-3-pro-preview / gemini-2.5-pro / gemini-2.5-flash
 ═══════════════════════════════════════════ */
+// ═══════════════════════════════════════════
+// FLOW v17 — Production Release
+// Build: 2026-03-06
+// Fixes: deleteLesson bracket, sanitizeForPersist, Firebase 3-way merge
+// New: Floating AI Orb, Teal color system, improved CelebrationOverlay
+// ═══════════════════════════════════════════
 const AI_PROXY_URL = 'https://flow-ai-proxy.yhoon-jun.workers.dev';
 
 // 기본 AI 제공자 설정 (설정 페이지에서 변경 가능)
@@ -842,16 +894,18 @@ const SEED={
     deepWorkWindows:[{start:'10:00',end:'12:00'},{start:'14:00',end:'16:00'}],
     slotMin:30,
     theme:'light',
+    simpleUI:true,
     currentUserId:null,
     rememberLogin:false,
     sessionUserId:null,
+    focusMemberId:null,
   }
 };
 
 /* ═══════════════════════════════════════════
    LOCAL STORAGE
 ═══════════════════════════════════════════ */
-const STORE_KEY='flow_v11_bugfix'; // v10: 목업 데이터 제거 - 기존 캐시 무효화
+const STORE_KEY='flow_v15_must'; // v10: 목업 데이터 제거 - 기존 캐시 무효화
 const SESSION_KEY='flow_session_user';
 function getSessionUserId(){
   try{
@@ -889,17 +943,66 @@ function loadData(){
 function sanitizeForPersist(d){
   const s={...(d.settings||{})};
   delete s.currentUserId;
-  delete s.sessionUserId;
+  // rememberLogin이 true일 때 sessionUserId 보존 (자동 로그인용)
+  if(!s.rememberLogin) delete s.sessionUserId;
+  // 마지막 동기화 시간 기록 (3-way merge용)
+  s.lastSyncAt = Date.now();
   return{...d,settings:s};
 }
-function saveData(data){
+function mergeArrayById(remoteArr, localArr, baseArr){
+  const r=Array.isArray(remoteArr)?remoteArr:[];
+  const l=Array.isArray(localArr)?localArr:[];
+  const b=Array.isArray(baseArr)?baseArr:[];
+  const rMap=new Map(r.map(x=>[x.id,x]));
+  const lMap=new Map(l.map(x=>[x.id,x]));
+  const bMap=new Map(b.map(x=>[x.id,x]));
+
+  // removals: existed in base, now missing in local => remove from remote
+  for(const [id,_] of bMap.entries()){
+    if(!lMap.has(id)){
+      rMap.delete(id);
+    }
+  }
+  // additions/updates
+  for(const [id,loc] of lMap.entries()){
+    const base=bMap.get(id);
+    if(!base || JSON.stringify(base)!==JSON.stringify(loc)){
+      rMap.set(id,loc);
+    }
+  }
+  // stable ordering: by (updatedAt/createdAt desc) then id
+  const out=[...rMap.values()];
+  out.sort((a,b)=>{
+    const ta=(a.updatedAt||a.createdAt||0);
+    const tb=(b.updatedAt||b.createdAt||0);
+    if(tb!==ta) return tb-ta;
+    return String(b.id||'').localeCompare(String(a.id||''));
+  });
+  return out;
+}
+function saveData(data, baseRemote, currentUserId){
   const toSave=sanitizeForPersist(data);
   // localStorage (로컬 캐시)
   try{localStorage.setItem(STORE_KEY,JSON.stringify(toSave));}catch(e){}
-  // Firebase Realtime Database (실시간 동기화)
+  // Firebase Realtime Database (실시간 동기화) — 동시편집 안전(핵심: tasks/notes)
   if(window._fbReady && window._fbDb){
     try{
-      window._fbDb.ref('flowdata').set(toSave);
+      const ref=window._fbDb.ref('flowdata');
+      const base=baseRemote||{};
+      ref.transaction(curr=>{
+        const remote=curr||{};
+        const next={...remote,...toSave};
+
+        next.tasks = mergeArrayById(remote.tasks, toSave.tasks, base.tasks);
+        next.notes = mergeArrayById(remote.notes, toSave.notes, base.notes);
+
+        const rev=((remote.meta&&remote.meta.rev)||0)+1;
+        next.meta={...(remote.meta||{}),...(toSave.meta||{}),rev,updatedAt:Date.now(),updatedBy:currentUserId||null};
+
+        return next;
+      },(err,committed,snap)=>{
+        if(err){console.warn('Firebase tx save error',err);}
+      });
     }catch(e){console.warn('Firebase save error',e);}
   }
 }
@@ -916,35 +1019,65 @@ function AppProvider({children}){
     const sess=getSessionUserId();
     const remember=d.settings?.rememberLogin && d.settings?.sessionUserId;
     d.settings.currentUserId = sess || (remember? d.settings.sessionUserId : null);
+    if(!d.settings.focusMemberId){ d.settings.focusMemberId = d.settings.currentUserId || 'all'; }
     return d;
   });
   const [toasts,setToasts]=useState([]);
+  const [celebrate,setCelebrate]=useState(null);
   const lastSavedRef=useRef(null);
+  const saveTimerRef=useRef(null);
+  const suppressNextSaveRef=useRef(false);
+  const lastRemoteRef=useRef(null);
+
 
   useEffect(()=>{
+    // 원격(Firebase)에서 들어온 데이터 적용 직후에는 재저장을 막음(루프 방지)
+    if(suppressNextSaveRef.current){
+      suppressNextSaveRef.current=false;
+      return;
+    }
     const persistObj=sanitizeForPersist(data);
     const persistJson=JSON.stringify(persistObj);
     if(lastSavedRef.current===persistJson) return; // 변경없으면 저장 안 함
-    lastSavedRef.current=persistJson;
-    saveData(data);
-    // 다른 탭/창에 실시간 동기화 신호
-    try{localStorage.setItem(STORE_KEY+'_ts', Date.now().toString());}catch(e){}
+
+    // 입력(타이핑)마다 Firebase에 즉시 set() 하지 않도록 디바운스
+    if(saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current=setTimeout(()=>{
+      lastSavedRef.current=persistJson;
+      saveData(data,lastRemoteRef.current,data.settings.currentUserId);
+      // 다른 탭/창에 실시간 동기화 신호
+      try{localStorage.setItem(STORE_KEY+'_ts', Date.now().toString());}catch(e){}
+    }, 450);
   },[data]);
 
-  // Firebase 초기 데이터 로드: Firebase에 데이터가 있으면 가져와서 localStorage 덮어쓰기
+  // Firebase 초기 데이터 로드: 3-way merge (remote + local + seed)
   useEffect(()=>{
     if(!window._fbReady || !window._fbDb) return;
     window._fbDb.ref('flowdata').once('value').then(snap=>{
       const remote=snap.val();
       if(remote){
-        // Firebase에 데이터가 있으면 로컬 데이터를 Firebase 데이터로 교체
+        lastRemoteRef.current=remote;
+        // 3-way merge: 로컬 최신 데이터 우선, Firebase 원격 데이터 보완
+        const localRaw = localStorage.getItem(STORE_KEY);
+        const local = localRaw ? JSON.parse(localRaw) : null;
+        const localTs = local?.settings?.lastSyncAt || 0;
+        const remoteTs = remote?.settings?.lastSyncAt || 0;
+        // 더 최신 데이터를 기준으로 merge
+        const base = remoteTs >= localTs ? remote : (local || remote);
+        const other = remoteTs >= localTs ? (local || {}) : remote;
         const merged={
-          ...SEED,...remote,
-          settings:{...SEED.settings,...(remote.settings||{})},
-          familyMembers:remote.familyMembers||SEED.familyMembers,
-          authUsers:remote.authUsers||SEED.authUsers,
+          ...SEED,...base,
+          settings:{...SEED.settings,...(base.settings||{})},
+          familyMembers:mergeArrayById(remote.familyMembers||[], local?.familyMembers||[], SEED.familyMembers),
+          authUsers:mergeArrayById(remote.authUsers||[], local?.authUsers||[], SEED.authUsers),
+          tasks:mergeArrayById(remote.tasks||[], local?.tasks||[], []),
+          events:mergeArrayById(remote.events||[], local?.events||[], []),
+          habits:mergeArrayById(remote.habits||[], local?.habits||[], []),
+          notes:mergeArrayById(remote.notes||[], local?.notes||[], []),
+          lessons:mergeArrayById(remote.lessons||[], local?.lessons||[], []),
         };
         try{localStorage.setItem(STORE_KEY,JSON.stringify(merged));}catch(e){}
+        suppressNextSaveRef.current=true;
         setData(d=>({...merged,settings:{...merged.settings,currentUserId:d.settings.currentUserId,sessionUserId:d.settings.sessionUserId,rememberLogin:d.settings.rememberLogin}}));
       }
       // Firebase가 비어있으면 아무것도 올리지 않음 (빈 상태 유지)
@@ -960,6 +1093,7 @@ function AppProvider({children}){
       fbUnsub=fbRef.on('value',(snapshot)=>{
         const remote=snapshot.val();
         if(!remote) return;
+        lastRemoteRef.current=remote;
         const remoteJson=JSON.stringify(remote);
         if(remoteJson===lastSavedRef.current) return;
         // 원격 데이터와 SEED 병합
@@ -979,6 +1113,7 @@ function AppProvider({children}){
         lastSavedRef.current=mergedJson;
         // localStorage도 업데이트
         try{localStorage.setItem(STORE_KEY,JSON.stringify(merged));}catch(e){}
+        suppressNextSaveRef.current=true;
         setData(d=>({...merged,settings:{...merged.settings,currentUserId:d.settings.currentUserId,sessionUserId:d.settings.sessionUserId,rememberLogin:d.settings.rememberLogin}}));
       });
     }
@@ -1008,12 +1143,18 @@ function AppProvider({children}){
     document.documentElement.setAttribute('data-theme',data.settings.theme||'light');
   },[data.settings.theme]);
 
-  function showToast(msg,type='info'){
-    const id=uid();
-    setToasts(t=>[...t,{id,msg,type}]);
-    setTimeout(()=>setToasts(t=>t.filter(x=>x.id!==id)),3000);
-  }
-  // Auth operations
+  function showToast(msg,type='info',action=null,duration=3000){
+  const id=uid();
+  setToasts(t=>[...t,{id,msg,type,action,duration}]);
+  setTimeout(()=>setToasts(t=>t.filter(x=>x.id!==id)), duration);
+}
+  function triggerCelebrate(text='완료!'){ 
+  const id=uid();
+  setCelebrate({id,text,ts:Date.now()});
+  setTimeout(()=>setCelebrate(null), 900);
+}
+
+// Auth operations
   function findAuthUserByUsername(username){
     return (data.authUsers||[]).find(u=> (u.username||'')===username);
   }
@@ -1024,7 +1165,7 @@ function AppProvider({children}){
       return false;
     }
     setData(d=>{
-      const next={...d, settings:{...d.settings, currentUserId:u.userId, rememberLogin:!!remember, sessionUserId: remember? u.userId : null}};
+      const next={...d, settings:{...d.settings, currentUserId:u.userId, focusMemberId:u.userId, rememberLogin:!!remember, sessionUserId: remember? u.userId : null}};
       return next;
     });
     if(remember){
@@ -1037,7 +1178,7 @@ function AppProvider({children}){
   }
   function logout(){
     const uid0=data.settings.currentUserId;
-    setData(d=>({...d, settings:{...d.settings, currentUserId:null, sessionUserId: d.settings.rememberLogin? d.settings.sessionUserId:null}}));
+    setData(d=>({...d, settings:{...d.settings, currentUserId:null, focusMemberId:null, sessionUserId: d.settings.rememberLogin? d.settings.sessionUserId:null}}));
     setSessionUserId(null);
     showToast('로그아웃','info');
   }
@@ -1097,14 +1238,25 @@ function AppProvider({children}){
     setData(d=>({...d,tasks:d.tasks.map(t=>t.id===id?{...t,...patch,updatedAt:Date.now()}:t)}));
   }
   function deleteTask(id){
-    setData(d=>({...d,tasks:d.tasks.map(t=>t.id===id?{...t,deletedAt:Date.now()}:t)}));
-  }
+  const prev=data.tasks.find(t=>t.id===id);
+  setData(d=>({...d,tasks:d.tasks.map(t=>t.id===id?{...t,deletedAt:Date.now(),updatedAt:Date.now()}:t)}));
+  showToast('할 일을 삭제했어요','warn',{label:'되돌리기',onClick:()=>{ if(prev) updateTask(id,{deletedAt:null,updatedAt:Date.now()}); }},5000);
+}
   function toggleDone(id){
+    let celebrateText=null;
+    let shouldCelebrate=false;
     setData(d=>({...d,tasks:d.tasks.map(t=>{
       if(t.id!==id)return t;
       const done=t.status==='done';
-      return{...t,status:done?'todo':'done',updatedAt:Date.now()};
+      const nextStatus=done?'todo':'done';
+      if(!done && nextStatus==='done'){
+        celebrateText=(t.title||'완료!').slice(0,14);
+        const me=d.familyMembers.find(m=>m.id===d.settings.currentUserId);
+        shouldCelebrate = (me && me.role==='child');
+      }
+      return{...t,status:nextStatus,completedAt:(nextStatus==='done'?Date.now():null),updatedAt:Date.now()};
     })}));
+    if(shouldCelebrate && celebrateText) triggerCelebrate('잘했어! ' + celebrateText);
   }
   function moveTomorrow(id){
     const tmr=addDays(todayStr(),1);
@@ -1292,13 +1444,16 @@ function addExpense(exp){
 
   // Notes
   function addNote(note){
-    const n={id:uid(),type:'note',tags:[],createdAt:Date.now(),...note};
-    setData(d=>({...d,notes:[n,...d.notes]}));
-    showToast('노트 저장됨','success');
-  }
-  function deleteNote(id){
-    setData(d=>({...d,notes:d.notes.filter(n=>n.id!==id)}));
-  }
+  const now=Date.now();
+  const n={id:uid(),type:'note',tags:[],createdAt:now,updatedAt:now,deletedAt:null,...note};
+  setData(d=>({...d,notes:[n,...d.notes]}));
+  showToast('노트 저장됨','success');
+}
+function deleteNote(id){
+  const prev=data.notes.find(n=>n.id===id);
+  setData(d=>({...d,notes:d.notes.map(n=>n.id===id?{...n,deletedAt:Date.now(),updatedAt:Date.now()}:n)}));
+  showToast('노트를 삭제했어요','warn',{label:'되돌리기',onClick:()=>{ if(prev) setData(d=>({...d,notes:d.notes.map(n=>n.id===id?{...n,deletedAt:null,updatedAt:Date.now()}:n)})); }},5000);
+}
 
   // Reset
   function resetData(){
@@ -1415,6 +1570,7 @@ function addExpense(exp){
       addLesson,updateLesson,deleteLesson,setLessonTeacher,setLessonStudents,setLessonActive,
     }}>
       {children}
+      {celebrate && <CelebrationOverlay text={celebrate.text} />}
       <ToastStack toasts={toasts}/>
     </AppCtx.Provider>
   );
@@ -1423,19 +1579,120 @@ function addExpense(exp){
 /* ═══════════════════════════════════════════
    TOAST
 ═══════════════════════════════════════════ */
+
+/* v15: Subtle celebration overlay */
+function CelebrationOverlay({text}){
+  const emojis=['🎉','✨','🌟','💫','🎊'];
+  return(
+    <div style={{position:'fixed',left:'50%',top:84,transform:'translateX(-50%)',zIndex:9998,pointerEvents:'none',textAlign:'center'}}>
+      <div style={{
+        padding:'12px 20px',
+        borderRadius:999,
+        background:'linear-gradient(135deg,var(--work),var(--purple))',
+        color:'#fff',
+        boxShadow:'0 8px 32px rgba(13,148,136,0.4)',
+        display:'inline-flex',
+        alignItems:'center',
+        gap:8,
+        animation:'popIn 0.3s cubic-bezier(0.16,1,0.3,1) forwards'
+      }}>
+        <span style={{fontSize:20}}>🎉</span>
+        <span style={{fontWeight:900,fontSize:15}}>{text||'완료!'}</span>
+        <span style={{fontSize:18}}>✨</span>
+      </div>
+      <div style={{marginTop:4,fontSize:22,animation:'popIn 0.4s 0.1s cubic-bezier(0.16,1,0.3,1) both'}}>🌟</div>
+    </div>
+  );
+}
+
 function ToastStack({toasts}){
   return(
-    <div style={{position:'fixed',top:20,left:'50%',transform:'translateX(-50%)',zIndex:9999,display:'flex',flexDirection:'column',gap:8,pointerEvents:'none',width:'calc(100% - 32px)',maxWidth:360}}>
+    <div style={{position:'fixed',top:16,left:'50%',transform:'translateX(-50%)',zIndex:9999,display:'flex',flexDirection:'column',gap:8,pointerEvents:'none',width:'calc(100% - 32px)',maxWidth:420}}>
       {toasts.map(t=>(
         <div key={t.id} className="fade-in" style={{
-          padding:'12px 18px',borderRadius:12,
-          background:t.type==='success'?'var(--success)':t.type==='error'?'var(--danger)':'var(--s3)',
-          color:t.type==='success'||t.type==='error'?'#fff':'var(--t1)',
-          fontSize:14,fontWeight:600,textAlign:'center',
-          boxShadow:'0 4px 16px rgba(0,0,0,0.4)',
-        }}>{t.msg}</div>
+          pointerEvents:'auto',
+          padding:'12px 14px',borderRadius:14,
+          background:t.type==='success'?'var(--success)':t.type==='error'?'var(--danger)':t.type==='warn'?'var(--warn)':'var(--s3)',
+          color:(t.type==='success'||t.type==='error'||t.type==='warn')?'#fff':'var(--t1)',
+          fontSize:14,fontWeight:700,
+          boxShadow:'0 6px 18px rgba(0,0,0,0.25)',
+          display:'flex',alignItems:'center',justifyContent:'space-between',gap:10
+        }}>
+          <div style={{flex:1,minWidth:0,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
+            {t.msg}
+          </div>
+          {t.action ? (
+            <button className="press no-dim" onClick={()=>{
+              try{t.action.onClick&&t.action.onClick();}catch(e){}
+            }} style={{
+              height:30,padding:'0 10px',borderRadius:10,border:'1px solid rgba(255,255,255,0.25)',
+              background:(t.type==='success'||t.type==='error')?'rgba(255,255,255,0.16)':'var(--s2)',
+              color:(t.type==='success'||t.type==='error')?'#fff':'var(--t1)',
+              fontSize:12,fontWeight:900,whiteSpace:'nowrap'
+            }}>
+              {t.action.label||'실행'}
+            </button>
+          ) : null}
+        </div>
       ))}
     </div>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   HOLD TO CONFIRM (kid-proof delete)
+═══════════════════════════════════════════ */
+function HoldToConfirmButton({label='삭제',holdMs=900,onConfirm,style={},danger=false}){
+  const timerRef=useRef(null);
+  const [holding,setHolding]=useState(false);
+  const [pct,setPct]=useState(0);
+
+  function clear(){
+    if(timerRef.current){clearInterval(timerRef.current); timerRef.current=null;}
+    setHolding(false); setPct(0);
+  }
+  function start(){
+    if(holding) return;
+    setHolding(true);
+    const startAt=Date.now();
+    timerRef.current=setInterval(()=>{
+      const p=Math.min(1,(Date.now()-startAt)/holdMs);
+      setPct(Math.round(p*100));
+      if(p>=1){
+        clear();
+        onConfirm&&onConfirm();
+      }
+    },30);
+  }
+
+  return (
+    <button
+      className="press no-dim"
+      onPointerDown={start}
+      onPointerUp={clear}
+      onPointerLeave={clear}
+      onPointerCancel={clear}
+      style={{
+        height:34, padding:'0 12px', borderRadius:12,
+        border:'1px solid var(--b1)',
+        background: danger ? 'transparent' : 'transparent',
+        color: danger ? 'var(--danger)' : 'var(--t1)',
+        fontSize:12, fontWeight:900, whiteSpace:'nowrap',
+        position:'relative', overflow:'hidden',
+        ...style
+      }}
+      aria-label={label}
+      title={label}
+    >
+      {holding ? (
+        <span style={{position:'absolute',inset:0,background: danger?'rgba(220,38,38,0.12)':'rgba(37,99,235,0.10)'}}>
+          <span style={{position:'absolute',left:0,top:0,bottom:0,width:`${pct}%`,background: danger?'rgba(220,38,38,0.18)':'rgba(37,99,235,0.16)'}}/>
+        </span>
+      ) : null}
+      <span style={{position:'relative',zIndex:1}}>
+        {holding ? `${label} ${pct}%` : label}
+      </span>
+    </button>
   );
 }
 
@@ -3064,6 +3321,556 @@ function TodayPage(){
 /* ═══════════════════════════════════════════
    PLAN PAGE (14-day)
 ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   v14 SIMPLE UI — Today / Tasks / Notes
+   (초직관, 오늘 중심, 실수 방지)
+═══════════════════════════════════════════ */
+
+function TodayPageV14(){
+  const {data}=useApp();
+  const simple = (data.settings.simpleUI !== false);
+  return simple ? <SimpleTodayPage/> : <TodayPage/>;
+}
+
+function TasksPageV14(){
+  return <SimpleTasksPage/>;
+}
+
+function NotesPageV14(){
+  const {data}=useApp();
+  const simple = (data.settings.simpleUI !== false);
+  return simple ? <SimpleNotesPage/> : <NotesPage/>;
+}
+
+function SimpleTodayPage(){
+  const {data,addTask,toggleDone,deleteTask,addNote,showToast,updateSettings}=useApp();
+  const meId=data.settings.currentUserId;
+  const me=data.familyMembers.find(m=>m.id===meId);
+  const isChild=(me && me.role==='child');
+  const focusId=isChild ? meId : (data.settings.focusMemberId || 'all');
+  const selectableMembers=data.familyMembers.filter(m=>m.role==='parent' || m.role==='child');
+  function pickFocus(id){ updateSettings({focusMemberId:id}); }
+  const today=todayStr();
+  const tasksAll=data.tasks.filter(t=>!t.deletedAt);
+  const tasks=tasksAll.filter(t=>{
+    const owner=t.ownerUserId || null;
+    if(focusId==='all') return true;
+    return owner===focusId;
+  });
+  const todayTodo=tasks.filter(t=>t.status!=='done' && t.dueDate===today)
+    .sort((a,b)=> (a.priority||9)-(b.priority||9) || (b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0));
+  const todayDone=tasks.filter(t=>t.status==='done' && t.dueDate===today);
+  const total=todayTodo.length+todayDone.length;
+  const pct=total?Math.round((todayDone.length/total)*100):0;
+  const nextTask=todayTodo[0]||null;
+
+  const [quickTitle,setQuickTitle]=useState('');
+  const [quickMemo,setQuickMemo]=useState('');
+
+  // Kid recommendations (v16): personalize by recent completions + weekday + today's school/lesson hints
+  const KID_SUGGESTION_ITEMS=[
+    {id:'water',title:'물 한 컵 마시기',keywords:['물'],weekdays:[0,1,2,3,4,5,6]},
+    {id:'read',title:'10분 책 읽기',keywords:['책','독서','읽기'],weekdays:[0,1,2,3,4,5,6]},
+    {id:'tidy',title:'장난감 정리하기',keywords:['정리','장난감','청소'],weekdays:[0,1,2,3,4,5,6]},
+    {id:'homework',title:'숙제 1개 끝내기',keywords:['숙제','과제'],schoolday:true},
+    {id:'stretch',title:'스트레칭 2분',keywords:['스트레칭','운동'],weekdays:[0,1,2,3,4,5,6]},
+    {id:'bag',title:'가방/준비물 챙기기',keywords:['가방','준비물','챙기기'],schoolday:true,lessonHint:true},
+    {id:'brush',title:'양치하기',keywords:['양치','치카'],weekdays:[0,1,2,3,4,5,6]},
+    {id:'air',title:'방 환기하기',keywords:['환기'],weekdays:[0,1,2,3,4,5,6]},
+    {id:'mood',title:'오늘 기분 한 줄 쓰기',keywords:['기분','일기','한 줄'],weekdays:[0,1,2,3,4,5,6]},
+    {id:'prep',title:'레슨/학원 준비하기',keywords:['레슨','학원','수업'],lessonHint:true}
+  ];
+
+  function dowOf(dateStr){
+    const [y,m,d]=dateStr.split('-').map(Number);
+    return new Date(y,m-1,d).getDay(); // 0=Sun
+  }
+  const dow=dowOf(today);
+  const isSchoolDay = dow>=1 && dow<=5;
+
+  const existingTitles=new Set(tasks.filter(t=>t.dueDate===today && t.status!=='done').map(t=>(t.title||'').trim()));
+
+  function hasLessonOrSchoolHintFor(userId, dateStr){
+    const dowName=['일','월','화','수','목','금','토'][dowOf(dateStr)];
+    const lessonHint=(data.lessons||[]).some(l=>{
+      const s=String(l.schedule||'');
+      const includesDow = s.includes(dowName) || /Mon|Tue|Wed|Thu|Fri|Sat|Sun/i.test(s) && s.toLowerCase().includes(['sun','mon','tue','wed','thu','fri','sat'][dowOf(dateStr)]);
+      const isMine = (l.studentIds||[]).includes(userId);
+      return isMine && includesDow;
+    });
+    const eventHint=(data.events||[]).some(e=>{
+      if(e.date!==dateStr) return false;
+      const title=String(e.title||'');
+      const isSchool = /학교|등교|수업|학원|레슨|피아노|영어/i.test(title);
+      // if event has assigneeId/ownerUserId use it; otherwise treat as family event
+      const owner = e.assigneeId || e.ownerUserId || e.userId || null;
+      return isSchool && (!owner || owner===userId);
+    });
+    return lessonHint || eventHint;
+  }
+
+  function kidPersonalRecs(userId){
+    const now=Date.now();
+    const lookbackDays=21;
+    const since= now - lookbackDays*24*60*60*1000;
+    const doneTasks = (data.tasks||[]).filter(t=>{
+      const owner=t.assigneeId || t.ownerUserId || null;
+      if(owner!==userId) return false;
+      if(t.status!=='done') return false;
+      const ts = t.completedAt || t.updatedAt || t.createdAt || 0;
+      return ts>=since;
+    });
+    const doneTitles = doneTasks.map(t=>String(t.title||'')).join(' ');
+    const lessonHint=hasLessonOrSchoolHintFor(userId, today);
+
+    const scored = KID_SUGGESTION_ITEMS
+      .filter(it=>!existingTitles.has(it.title))
+      .map(it=>{
+        let score=0;
+        // recent pattern: keyword matches in completed titles
+        if(it.keywords && it.keywords.some(k=>doneTitles.includes(k))) score+=4;
+        // weekday / schoolday
+        if(it.schoolday && isSchoolDay) score+=2;
+        if(Array.isArray(it.weekdays) && it.weekdays.includes(dow)) score+=1;
+        // schedule hint
+        if(lessonHint && it.lessonHint) score+=3;
+        // small variety: prefer different types
+        score += Math.random()*0.01;
+        return {...it,score};
+      })
+      .sort((a,b)=>b.score-a.score);
+
+    return scored.slice(0,3).map(x=>x.title);
+  }
+
+  const kidRecs = isChild ? kidPersonalRecs(meId) : [];
+
+  // 7-day streak (v16): consecutive days with at least 1 completed task (max 7)
+  function dayKeyFromTs(ts){
+    const dt=new Date(ts||Date.now());
+    const y=dt.getFullYear();
+    const m=String(dt.getMonth()+1).padStart(2,'0');
+    const d=String(dt.getDate()).padStart(2,'0');
+    return `${y}-${m}-${d}`;
+  }
+  function streakCount7(userId){
+    const days=Array.from({length:7},(_,i)=>addDays(today,-i)); // today back
+    const doneByDay=new Set();
+    (data.tasks||[]).forEach(t=>{
+      const owner=t.assigneeId || t.ownerUserId || null;
+      if(owner!==userId) return;
+      if(t.status!=='done') return;
+      const k=dayKeyFromTs(t.completedAt || t.updatedAt || t.createdAt || 0);
+      doneByDay.add(k);
+    });
+    let count=0;
+    for(const d of days){
+      if(doneByDay.has(d)) count++;
+      else break;
+    }
+    return Math.min(7,count);
+  }
+  const kidStreak = isChild ? streakCount7(meId) : 0;
+
+  // Parent-only Family Board (v16): per-child completion rate today
+  const kids = data.familyMembers.filter(m=>m.role==='child');
+  function todayStatsForKid(kidId){
+    const list = tasksAll.filter(t=>{
+      const owner=t.assigneeId || t.ownerUserId || null;
+      if(owner!==kidId) return false;
+      return t.dueDate===today && !t.deletedAt;
+    });
+    const total=list.length;
+    const done=list.filter(t=>t.status==='done').length;
+    const pct = total===0 ? 0 : Math.round((done/total)*100);
+    return {total,done,pct};
+  }
+
+  function pickFocus(id){
+    updateSettings({focusMemberId:id});
+  }
+  const selectableMembers=data.familyMembers.filter(m=>m.role==='parent' || m.role==='child');
+
+  function addQuickTask(){
+    const title=quickTitle.trim();
+    if(!title) return;
+    addTask({title,domain:'work',dueDate:today,priority:2,ownerUserId:(focusId==='all'?meId:focusId)});
+    setQuickTitle('');
+    showToast('오늘 할 일 추가됨','success');
+  }
+  function saveQuickMemo(){
+    const body=quickMemo.trim();
+    if(!body) return;
+    const title=body.split('\n')[0].slice(0,20) || '빠른 메모';
+    addNote({title,body,tags:['quick'],authorId:(focusId==='all'?meId:focusId)});
+    setQuickMemo('');
+    showToast('메모 저장됨','success');
+  }
+
+  return(
+    <div className="scroll" style={{flex:1,padding:'14px 16px 90px'}}>
+      {/* 상단 */}
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10,marginBottom:12}}>
+        <div>
+          <div style={{fontSize:22,fontWeight:900,color:'var(--t1)'}}>
+            {isChild && me ? `${me.avatar||'🙂'} ${me.name}의 오늘` : '오늘'}
+          </div>
+          <div style={{fontSize:12,color:'var(--t2)',marginTop:2}}>{fmt(today).full}</div>
+        </div>
+        <div style={{display:'flex',alignItems:'center',gap:10}}>
+          {/* 진행률 서클 */}
+          <div style={{position:'relative',width:56,height:56}}>
+            <svg width="56" height="56" style={{transform:'rotate(-90deg)'}}>
+              <circle cx="28" cy="28" r="22" fill="none" stroke="var(--s3)" strokeWidth="4"/>
+              <circle cx="28" cy="28" r="22" fill="none"
+                stroke={pct===100?'var(--success)':'var(--work)'}
+                strokeWidth="4"
+                strokeDasharray={String(2*Math.PI*22)}
+                strokeDashoffset={String(2*Math.PI*22*(1-pct/100))}
+                strokeLinecap="round"
+                style={{transition:'stroke-dashoffset 0.5s ease'}}
+              />
+            </svg>
+            <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <span style={{fontSize:12,fontWeight:900,color:pct===100?'var(--success)':'var(--work)'}}>{pct}%</span>
+            </div>
+          </div>
+          <ThemeToggle/>
+        </div>
+
+      </div>
+
+      {/* 가족 선택 (부모용) */}
+      {!isChild && (
+        <div className="card" style={{padding:12,marginBottom:12}}>
+          <div style={{fontSize:12,fontWeight:900,color:'var(--t2)',marginBottom:8}}>누구의 오늘?</div>
+          <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+            <button className="press" onClick={()=>pickFocus('all')} style={{
+              padding:'8px 10px',borderRadius:999,border:'1px solid var(--b2)',
+              background:focusId==='all'?'var(--wmid)':'var(--s2)',color:'var(--t1)',fontWeight:900,fontSize:12
+            }}>전체</button>
+            {selectableMembers.map(m=>(
+              <button key={m.id} className="press" onClick={()=>pickFocus(m.id)} style={{
+                padding:'8px 10px',borderRadius:999,border:'1px solid var(--b2)',
+                background:focusId===m.id?(m.color||'var(--wmid)'):'var(--s2)',
+                color:focusId===m.id?'#fff':'var(--t1)',fontWeight:900,fontSize:12,display:'flex',alignItems:'center',gap:6
+              }}>
+                <span>{m.avatar||'🙂'}</span><span>{m.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+            {/* 7일 연속 기록 */}
+      {isChild && (
+        <div className="card" style={{padding:12,marginBottom:12}}>
+          <div style={{fontSize:12,fontWeight:900,color:'var(--t2)',marginBottom:6}}>연속 기록 (최근 7일)</div>
+          <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',gap:12}}>
+            <div style={{fontSize:44,fontWeight:1000,letterSpacing:-1,color:'var(--t1)'}}>{kidStreak}<span style={{fontSize:16,fontWeight:900,color:'var(--t2)',marginLeft:6}}>일</span></div>
+            <div style={{display:'flex',gap:6,flexWrap:'wrap',justifyContent:'flex-end'}}>
+              {Array.from({length:7},(_,i)=>{
+                const filled = i < kidStreak;
+                return (
+                  <div key={i} title={filled?'완료':'비어있음'} style={{
+                    width:18,height:18,borderRadius:999,
+                    background: filled ? 'var(--success)' : 'var(--b2)',
+                    border: filled ? '1px solid rgba(255,255,255,0.25)' : '1px solid var(--b3)'
+                  }}/>
+                );
+              })}
+            </div>
+          </div>
+          <div style={{marginTop:8,fontSize:12,color:'var(--t2)'}}>하루에 할 일 1개만 완료해도 기록이 이어져요.</div>
+        </div>
+      )}
+
+{/* 아이 추천 3개 */}
+      {isChild && kidRecs.length>0 && (
+        <div className="card" style={{padding:12,marginBottom:12}}>
+          <div style={{fontSize:12,fontWeight:900,color:'var(--t2)',marginBottom:8}}>오늘 추천 3개</div>
+          <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+            {kidRecs.map(text=>(
+              <button key={text} className="press" onClick={()=>{addTask({title:text,domain:'personal',dueDate:today,priority:3,ownerUserId:meId}); showToast('추천 할 일 추가됨','success');}} style={{
+                padding:'10px 12px',borderRadius:14,border:'1px solid var(--b2)',
+                background:'var(--plow)',color:'var(--t1)',fontWeight:900,fontSize:13
+              }}>
+                + {text}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+            {/* 가족 보드 (부모만) */}
+      {!isChild && kids.length>0 && (
+        <div className="card" style={{padding:14,marginBottom:12}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
+            <div style={{fontSize:13,fontWeight:1000,color:'var(--t1)'}}>가족 공유 보드</div>
+            <div style={{fontSize:12,fontWeight:900,color:'var(--t2)'}}>{today}</div>
+          </div>
+          <div style={{display:'grid',gap:10}}>
+            {kids.map(k=>{
+              const st=todayStatsForKid(k.id);
+              const label = st.total===0 ? '오늘 할 일이 없어요' : `${st.done}/${st.total} 완료 · ${st.pct}%`;
+              return (
+                <div key={k.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10}}>
+                  <div style={{display:'flex',alignItems:'center',gap:10,minWidth:140}}>
+                    <div style={{width:34,height:34,borderRadius:14,background:'var(--b2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>{k.avatar||'🙂'}</div>
+                    <div>
+                      <div style={{fontWeight:1000,color:'var(--t1)',fontSize:13,lineHeight:1.1}}>{k.name}</div>
+                      <div style={{fontSize:12,color:'var(--t2)',fontWeight:800,marginTop:2}}>{label}</div>
+                    </div>
+                  </div>
+                  <div style={{flex:1,maxWidth:220}}>
+                    <div style={{height:10,borderRadius:999,background:'var(--b2)',overflow:'hidden'}}>
+                      <div style={{height:'100%',width:`${st.pct}%`,background:'var(--success)'}}/>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div style={{marginTop:10,fontSize:12,color:'var(--t2)'}}>한 줄 요약으로 오늘 흐름이 바로 보여요.</div>
+        </div>
+      )}
+
+{/* 지금 할 일 */}
+
+      <div className="card" style={{padding:14,marginBottom:12}}>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
+          <div style={{fontSize:13,fontWeight:900,color:'var(--t2)'}}>지금 할 일 1개</div>
+          <button className="press no-dim" onClick={()=>{ try{navigator.vibrate&&navigator.vibrate(10);}catch(e){} }} style={{fontSize:12,fontWeight:900,padding:'6px 10px',borderRadius:12,border:'1px solid var(--b1)',background:'var(--s2)'}}>집중</button>
+        </div>
+
+        {nextTask ? (
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10}}>
+            <div style={{minWidth:0}}>
+              <div style={{fontSize:16,fontWeight:900,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{nextTask.title}</div>
+              <div style={{fontSize:12,color:'var(--t2)',marginTop:4}}>
+                {nextTask.domain==='work'?'업무':'개인'} · 우선순위 {nextTask.priority||3}
+              </div>
+            </div>
+            <button className="press no-dim" onClick={()=>toggleDone(nextTask.id)} style={{height:44,padding:'0 14px',borderRadius:14,border:'none',background:'var(--success)',color:'#fff',fontWeight:900}}>
+              완료
+            </button>
+          </div>
+        ) : (
+          <div style={{fontSize:14,color:'var(--t2)'}}>오늘 할 일이 없어요 🙂</div>
+        )}
+      </div>
+
+      {/* 빠른 추가 */}
+      <div className="card" style={{padding:14,marginBottom:12}}>
+        <div style={{fontSize:13,fontWeight:900,color:'var(--t2)',marginBottom:10}}>오늘 할 일 추가</div>
+        <div style={{display:'flex',gap:8}}>
+          <input value={quickTitle} onChange={e=>setQuickTitle(e.target.value)} placeholder="예: 수학 숙제 10분" style={{flex:1,background:'var(--s2)',border:'1px solid var(--b1)',borderRadius:14,padding:'12px 12px',fontWeight:800}}/>
+          <button className="press no-dim" onClick={addQuickTask} style={{width:64,borderRadius:14,border:'none',background:'var(--work)',color:'#fff',fontWeight:900}}>추가</button>
+        </div>
+      </div>
+
+      {/* 오늘 할 일 리스트 */}
+      <div className="card" style={{padding:14,marginBottom:12}}>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
+          <div style={{fontSize:13,fontWeight:900,color:'var(--t2)'}}>오늘 할 일</div>
+          <button className="press no-dim" onClick={()=>{ try{localStorage.setItem('flow_last_tab','tasks');}catch(e){} }} style={{fontSize:12,fontWeight:900,padding:'6px 10px',borderRadius:12,border:'1px solid var(--b1)',background:'transparent'}}>전체</button>
+        </div>
+
+        {todayTodo.slice(0,6).map(t=>(
+          <div key={t.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10,padding:'10px 0',borderTop:'1px solid var(--b1)'}}>
+            <div style={{minWidth:0}}>
+              <div style={{fontWeight:900,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{t.title}</div>
+              <div style={{fontSize:12,color:'var(--t2)',marginTop:3}}>우선순위 {t.priority||3}</div>
+            </div>
+            <div style={{display:'flex',gap:8,flexShrink:0}}>
+              <button className="press no-dim" onClick={()=>toggleDone(t.id)} style={{height:34,padding:'0 10px',borderRadius:12,border:'1px solid var(--b1)',background:'var(--slow)',color:'var(--success)',fontWeight:900,fontSize:12}}>체크</button>
+              <HoldToConfirmButton label="삭제" danger onConfirm={()=>deleteTask(t.id)} />
+            </div>
+          </div>
+        ))}
+        {todayTodo.length===0 && <div style={{fontSize:13,color:'var(--t2)'}}>할 일이 없습니다.</div>}
+        {todayTodo.length>6 && <div style={{fontSize:12,color:'var(--t3)',marginTop:10}}>… {todayTodo.length-6}개 더 있음 (전체 탭에서 보기)</div>}
+      </div>
+
+      {/* 빠른 메모 */}
+      <div className="card" style={{padding:14}}>
+        <div style={{fontSize:13,fontWeight:900,color:'var(--t2)',marginBottom:10}}>빠른 메모</div>
+        <textarea value={quickMemo} onChange={e=>setQuickMemo(e.target.value)} placeholder="적고 저장만 누르면 끝!" style={{width:'100%',minHeight:96,background:'var(--s2)',border:'1px solid var(--b1)',borderRadius:14,padding:'12px 12px',fontWeight:700,resize:'vertical'}}/>
+        <button className="press no-dim" onClick={saveQuickMemo} style={{width:'100%',marginTop:10,height:44,borderRadius:14,border:'none',background:'var(--purple)',color:'#fff',fontWeight:900}}>저장</button>
+      </div>
+    </div>
+  );
+}
+
+function SimpleTasksPage(){
+  const {data,addTask,toggleDone,deleteTask,showToast,updateSettings}=useApp();
+  const meId=data.settings.currentUserId;
+  const me=data.familyMembers.find(m=>m.id===meId);
+  const isChild=(me && me.role==='child');
+  const focusId=isChild ? meId : (data.settings.focusMemberId || 'all');
+  const selectableMembers=data.familyMembers.filter(m=>m.role==='parent' || m.role==='child');
+  const today=todayStr();
+  const tasksAll=data.tasks.filter(t=>!t.deletedAt);
+  const tasks=tasksAll.filter(t=>{
+    const owner=t.ownerUserId || null;
+    if(focusId==='all') return true;
+    return owner===focusId;
+  });
+  function pickFocus(id){ updateSettings({focusMemberId:id}); }
+  const [mode,setMode]=useState('today'); // today | all | done
+  const [q,setQ]=useState('');
+  const [title,setTitle]=useState('');
+
+  const list=tasks
+    .filter(t=>{
+      if(mode==='today') return t.dueDate===today && t.status!=='done';
+      if(mode==='done') return t.status==='done';
+      return true;
+    })
+    .filter(t=>{
+      if(!q) return true;
+      const qq=q.toLowerCase();
+      return (t.title||'').toLowerCase().includes(qq) || (t.notes||'').toLowerCase().includes(qq);
+    })
+    .sort((a,b)=> (a.status==='done')-(b.status==='done') || (a.dueDate||'').localeCompare(b.dueDate||'') || (a.priority||9)-(b.priority||9));
+
+  function addNow(){
+    const tt=title.trim();
+    if(!tt) return;
+    addTask({title:tt,domain:'work',dueDate:today,priority:2,ownerUserId:(focusId==='all'?meId:focusId)});
+    setTitle('');
+    showToast('할 일 추가됨','success');
+  }
+
+  return(
+    <div className="scroll" style={{flex:1,padding:'16px 16px 90px'}}>
+      <PageHeader title="할 일" subtitle="체크하고 끝. 삭제는 길게 누르기." />
+      {!isChild && (
+        <div className="card" style={{padding:12,marginBottom:12}}>
+          <div style={{fontSize:12,fontWeight:900,color:'var(--t2)',marginBottom:8}}>필터</div>
+          <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+            <button className="press" onClick={()=>pickFocus('all')} style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b2)',background:focusId==='all'?'var(--wmid)':'var(--s2)',color:'var(--t1)',fontWeight:900,fontSize:12}}>전체</button>
+            {selectableMembers.map(m=>(
+              <button key={m.id} className="press" onClick={()=>pickFocus(m.id)} style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b2)',background:focusId===m.id?(m.color||'var(--wmid)'):'var(--s2)',color:focusId===m.id?'#fff':'var(--t1)',fontWeight:900,fontSize:12,display:'flex',alignItems:'center',gap:6}}>
+                <span>{m.avatar||'🙂'}</span><span>{m.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="card" style={{padding:14,marginBottom:12}}>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 72px',gap:8}}>
+          <input value={title} onChange={e=>setTitle(e.target.value)} placeholder="할 일 입력" style={{background:'var(--s2)',border:'1px solid var(--b1)',borderRadius:14,padding:'12px 12px',fontWeight:800}}/>
+          <button className="press no-dim" onClick={addNow} style={{borderRadius:14,border:'none',background:'var(--work)',color:'#fff',fontWeight:900}}>추가</button>
+        </div>
+        <div style={{display:'flex',gap:6,marginTop:10}}>
+          {[
+            ['today','오늘'],['all','전체'],['done','완료']
+          ].map(([id,label])=>(
+            <button key={id} className="press no-dim" onClick={()=>setMode(id)} style={{
+              height:30,padding:'0 10px',borderRadius:999,border:'1px solid var(--b1)',
+              background: mode===id?'var(--wlow)':'transparent',
+              color: mode===id?'var(--work)':'var(--t2)',fontSize:12,fontWeight:900
+            }}>{label}</button>
+          ))}
+          <div style={{flex:1}}/>
+          <input value={q} onChange={e=>setQ(e.target.value)} placeholder="검색" style={{height:30,width:120,background:'var(--s2)',border:'1px solid var(--b1)',borderRadius:999,padding:'0 10px',fontSize:12,fontWeight:800}}/>
+        </div>
+      </div>
+
+      <div className="card" style={{padding:14}}>
+        {list.map(t=>(
+          <div key={t.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10,padding:'10px 0',borderTop:'1px solid var(--b1)'}}>
+            <div style={{minWidth:0}}>
+              <div style={{fontWeight:900,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',textDecoration:t.status==='done'?'line-through':'none',opacity:t.status==='done'?0.6:1}}>
+                {t.title}
+              </div>
+              <div style={{fontSize:12,color:'var(--t2)',marginTop:3}}>
+                {(t.dueDate||'')} · 우선순위 {t.priority||3}
+              </div>
+            </div>
+            <div style={{display:'flex',gap:8,flexShrink:0}}>
+              <button className="press no-dim" onClick={()=>toggleDone(t.id)} style={{height:34,padding:'0 10px',borderRadius:12,border:'1px solid var(--b1)',background:t.status==='done'?'var(--s2)':'var(--slow)',color:t.status==='done'?'var(--t2)':'var(--success)',fontWeight:900,fontSize:12}}>
+                {t.status==='done'?'되돌리기':'체크'}
+              </button>
+              <HoldToConfirmButton label="삭제" danger onConfirm={()=>deleteTask(t.id)} />
+            </div>
+          </div>
+        ))}
+        {list.length===0 && <div style={{fontSize:13,color:'var(--t2)'}}>표시할 항목이 없어요.</div>}
+      </div>
+    </div>
+  );
+}
+
+function SimpleNotesPage(){
+  const {data,addNote,deleteNote,showToast,updateSettings}=useApp();
+  const meId=data.settings.currentUserId;
+  const [q,setQ]=useState('');
+  const [memo,setMemo]=useState('');
+
+  const notes=(data.notes||[]).filter(n=>!n.deletedAt)
+    .filter(n=>{ if(focusId==='all') return true; return (n.authorId||null)===focusId; })
+    .filter(n=>{
+      if(!q) return true;
+      const qq=q.toLowerCase();
+      return (n.title||'').toLowerCase().includes(qq) || (n.body||'').toLowerCase().includes(qq);
+    })
+    .sort((a,b)=> (b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0));
+
+  function save(){
+    const body=memo.trim();
+    if(!body) return;
+    const title=body.split('\n')[0].slice(0,26) || '메모';
+    addNote({title,body,tags:['memo'],authorId:meId});
+    setMemo('');
+    showToast('메모 저장됨','success');
+  }
+
+  return(
+    <div className="scroll" style={{flex:1,padding:'16px 16px 90px'}}>
+      <PageHeader title="노트" subtitle="적고 저장. 삭제는 길게 누르기." />
+      {!isChild && (
+        <div className="card" style={{padding:12,marginBottom:12}}>
+          <div style={{fontSize:12,fontWeight:900,color:'var(--t2)',marginBottom:8}}>필터</div>
+          <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+            <button className="press" onClick={()=>pickFocus('all')} style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b2)',background:focusId==='all'?'var(--wmid)':'var(--s2)',color:'var(--t1)',fontWeight:900,fontSize:12}}>전체</button>
+            {selectableMembers.map(m=>(
+              <button key={m.id} className="press" onClick={()=>pickFocus(m.id)} style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b2)',background:focusId===m.id?(m.color||'var(--wmid)'):'var(--s2)',color:focusId===m.id?'#fff':'var(--t1)',fontWeight:900,fontSize:12,display:'flex',alignItems:'center',gap:6}}>
+                <span>{m.avatar||'🙂'}</span><span>{m.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="card" style={{padding:14,marginBottom:12}}>
+        <textarea value={memo} onChange={e=>setMemo(e.target.value)} placeholder="빠르게 적기…" style={{width:'100%',minHeight:110,background:'var(--s2)',border:'1px solid var(--b1)',borderRadius:14,padding:'12px 12px',fontWeight:700,resize:'vertical'}}/>
+        <button className="press no-dim" onClick={save} style={{width:'100%',marginTop:10,height:44,borderRadius:14,border:'none',background:'var(--purple)',color:'#fff',fontWeight:900}}>저장</button>
+      </div>
+
+      <div style={{display:'flex',gap:8,alignItems:'center',marginBottom:10}}>
+        <input value={q} onChange={e=>setQ(e.target.value)} placeholder="검색" style={{flex:1,height:38,background:'var(--s2)',border:'1px solid var(--b1)',borderRadius:14,padding:'0 12px',fontWeight:800}}/>
+        <div style={{fontSize:12,color:'var(--t2)',fontWeight:900}}>{notes.length}개</div>
+      </div>
+
+      <div className="card" style={{padding:14}}>
+        {notes.map(n=>(
+          <div key={n.id} style={{padding:'12px 0',borderTop:'1px solid var(--b1)'}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10}}>
+              <div style={{minWidth:0}}>
+                <div style={{fontWeight:900,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{n.title}</div>
+                <div style={{fontSize:12,color:'var(--t2)',marginTop:4,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{n.body}</div>
+              </div>
+              <HoldToConfirmButton label="삭제" danger onConfirm={()=>deleteNote(n.id)} />
+            </div>
+          </div>
+        ))}
+        {notes.length===0 && <div style={{fontSize:13,color:'var(--t2)'}}>노트가 없어요.</div>}
+      </div>
+    </div>
+  );
+}
+
 function PlanPage(){
   const {data}=useApp();
   const today=todayStr();
@@ -3874,7 +4681,7 @@ function NotesPage(){
   const [noteTags,setNoteTags]=useState('');
   const [selectedNote,setSelectedNote]=useState(null);
 
-  const filtered=data.notes.filter(n=>{
+  const filtered=data.notes.filter(n=>!n.deletedAt).filter(n=>{
     if(!search)return true;
     const q=search.toLowerCase();
     return n.title.toLowerCase().includes(q)||n.body.toLowerCase().includes(q)||(n.tags||[]).some(t=>t.toLowerCase().includes(q));
@@ -4918,7 +5725,8 @@ function getTabConfig(data){
   if(role==='child'){
     return [
       {id:'today',icon:'☀️',label:'Today'},
-      {id:'checklist',icon:'✅',label:'체크'},
+      {id:'tasks',icon:'✅',label:'할일'},
+      {id:'notes',icon:'📝',label:'노트'},
       {id:'month',icon:'🗓',label:'캘린더'},
       {id:'habits',icon:'🌱',label:'습관'},
       {id:'lboard',icon:'📌',label:'레슨'},
@@ -4928,15 +5736,14 @@ function getTabConfig(data){
   // parent
   const base=[
     {id:'today',icon:'☀️',label:'Today'},
+    {id:'tasks',icon:'✅',label:'할일'},
     {id:'family',icon:'👨‍👩‍👧',label:'Family'},
     {id:'month',icon:'🗓',label:'Month'},
-    {id:'signal',icon:'⚡',label:'Signal'},
     {id:'inbox',icon:'📥',label:'Inbox'},
   ];
   const tail=[
     ...(isMom?[{id:'budget',icon:'💰',label:'가계부'}]:[]),
     {id:'habits',icon:'🌱',label:'습관'},
-    {id:'notes',icon:'📝',label:'노트'},
     ...(isAdminUser?[{id:'admin',icon:'🛡️',label:'관리자'}]:[]),
     {id:'settings',icon:'⚙️',label:'설정'},
   ];
@@ -4977,6 +5784,87 @@ function TabBar({active,onChange,tabs}){
 /* ═══════════════════════════════════════════
    APP ROOT
 ═══════════════════════════════════════════ */
+function FloatingAIOrb(){
+  const {data,showToast}=useApp();
+  const [open,setOpen]=useState(false);
+  const [input,setInput]=useState('');
+  const [reply,setReply]=useState('');
+  const [loading,setLoading]=useState(false);
+  const meId=data.settings.currentUserId;
+  const me=data.familyMembers.find(m=>m.id===meId);
+
+  async function ask(){
+    if(!input.trim()) return;
+    setLoading(true);
+    setReply('');
+    try{
+      const today=todayStr();
+      const todayTasks=(data.tasks||[]).filter(t=>t.dueDate===today && t.status!=='done' && !t.deletedAt);
+      const context=`오늘(${today}) 할 일: ${todayTasks.slice(0,5).map(t=>t.title).join(', ')||'없음'}`;
+      const res=await callAI(
+        `${context}
+
+사용자 질문: ${input}`,
+        data.settings.aiProvider||'openai',
+        '당신은 가족 생산성 앱 FLOW의 AI 코치입니다. 간결하고 따뜻하게 한국어로 답변하세요. 2-3문장으로 요약하세요.'
+      );
+      setReply(res);
+    }catch(e){
+      setReply('AI 응답을 받을 수 없습니다. 잠시 후 다시 시도해주세요.');
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  // 관리자/부모만 표시
+  if(!me || (me.role!=='parent' && me.role!=='admin')) return null;
+
+  return(
+    <>
+      {open && (
+        <div className="ai-orb-panel">
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}}>
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              <span style={{fontSize:20}}>🤖</span>
+              <span style={{fontWeight:800,fontSize:14,color:'var(--t1)'}}>AI 어시스턴트</span>
+            </div>
+            <button onClick={()=>setOpen(false)} style={{background:'none',border:'none',fontSize:18,color:'var(--t3)',cursor:'pointer'}}>✕</button>
+          </div>
+          {reply && (
+            <div style={{background:'var(--s2)',borderRadius:12,padding:'10px 12px',marginBottom:10,fontSize:13,color:'var(--t1)',lineHeight:1.6}}>
+              {reply}
+            </div>
+          )}
+          <div style={{display:'flex',gap:8}}>
+            <input
+              value={input}
+              onChange={e=>setInput(e.target.value)}
+              onKeyDown={e=>e.key==='Enter'&&ask()}
+              placeholder="무엇이든 물어보세요..."
+              style={{flex:1,background:'var(--s2)',border:'1px solid var(--b2)',borderRadius:10,padding:'8px 12px',fontSize:13,color:'var(--t1)'}}
+            />
+            <button
+              onClick={ask}
+              disabled={loading||!input.trim()}
+              style={{background:'var(--work)',color:'#fff',border:'none',borderRadius:10,padding:'8px 14px',fontSize:13,fontWeight:700,cursor:'pointer',opacity:loading?0.6:1}}
+            >
+              {loading?'..':'전송'}
+            </button>
+          </div>
+          <div style={{display:'flex',gap:6,marginTop:8,flexWrap:'wrap'}}>
+            {['오늘 뭐 먼저 할까?','집중 팁 알려줘','일정 요약해줘'].map(q=>(
+              <button key={q} onClick={()=>{setInput(q);}} style={{background:'var(--s3)',border:'none',borderRadius:20,padding:'4px 10px',fontSize:11,color:'var(--t2)',cursor:'pointer'}}>{q}</button>
+            ))}
+          </div>
+        </div>
+      )}
+      <button className={"ai-orb press"+(open?' pulse-ring':'')} onClick={()=>setOpen(o=>!o)} title="AI 어시스턴트">
+        🤖
+      </button>
+    </>
+  );
+}
+
 function App(){
   const [tab,setTab]=useState('today');
   const [showAddTask,setShowAddTask]=useState(false);
@@ -5024,15 +5912,16 @@ function AppInner({tab,setTab,showAddTask,setShowAddTask,fabShort,fabLong}){
           <ThemeToggle/>
         </div>
       )}
-      {tab==='today'&&<TodayPage/>}
+      {tab==='today'&&<TodayPageV14/>}
         {tab==='plan'&&<PlanPage/>}
         {tab==='month'&&<MonthPage/>}
         {tab==='signal'&&<SignalPage/>}
         {tab==='inbox'&&<InboxPage/>}
+        {tab==='tasks'&&<TasksPageV14/>}
         {tab==='family'&&<FamilyPage/>}
         {tab==='budget'&&<BudgetPage/>}
         {tab==='habits'&&<HabitsPage/>}
-        {tab==='notes'&&<NotesPage/>}
+        {tab==='notes'&&<NotesPageV14/>}
         {tab==='admin'&&<AdminPage/>}
         {tab==='settings'&&<SettingsPage/>}
 
@@ -5050,7 +5939,7 @@ function AppInner({tab,setTab,showAddTask,setShowAddTask,fabShort,fabLong}){
         const r=myRole(data);
         if(r==='teacher'){setTab('board');return;}
         // 탭별 동작
-        if(tab==='today'||tab==='plan'||tab==='month'||tab==='family'||tab==='inbox'){
+        if(tab==='today'||tab==='plan'||tab==='month'||tab==='family'||tab==='inbox'||tab==='tasks'){
           setShowAddTask(true);
         } else {
           setTab('inbox');
@@ -5063,6 +5952,7 @@ function AppInner({tab,setTab,showAddTask,setShowAddTask,fabShort,fabLong}){
         defaultDomain={tab==='family'?'work':tab==='inbox'?'inbox':'work'}
         defaultDueDate={tab==='today'||tab==='family'?todayStr():null}
       />
+      <FloatingAIOrb/>
     </div>
   );
 }
@@ -5164,5 +6054,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 <!-- v9.1 PATCH: CompactHome + PageHeader -->
 
 
+<script>
+  // PWA offline 지원
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    });
+  }
+</script>
 </body>
 </html>
