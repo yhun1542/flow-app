@@ -3197,7 +3197,6 @@ function TodayPage(){
               </div>
             )}
           </div>
-        )}
 
         {/* ── 개인 ── */}
         {(personalTasks.length>0||true)&&(
@@ -3485,11 +3484,6 @@ function SimpleTodayPage(){
     const pct = total===0 ? 0 : Math.round((done/total)*100);
     return {total,done,pct};
   }
-
-  function pickFocus(id){
-    updateSettings({focusMemberId:id});
-  }
-  const selectableMembers=data.familyMembers.filter(m=>m.role==='parent' || m.role==='child');
 
   function addQuickTask(){
     const title=quickTitle.trim();
