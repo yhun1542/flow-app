@@ -141,12 +141,12 @@ button{cursor:pointer}
 
 /* Swipe */
 .swipe-wrap{position:relative;border-radius:12px;overflow:hidden;margin-bottom:6px;user-select:none}
-.swipe-bg{position:absolute;inset:0;display:flex;align-items:center;border-radius:12px;z-index:2}
+.swipe-bg{position:absolute;inset:0;display:flex;align-items:center;border-radius:12px;z-index:1}
 .swipe-bg-left{justify-content:flex-start;padding-left:16px;gap:8px}
 .swipe-bg-right{justify-content:flex-end;padding-right:16px;gap:8px}
-.swipe-front{position:relative;border-radius:12px;background:var(--s1);border:1px solid var(--b1);will-change:transform;transition:transform 0.22s cubic-bezier(0.16,1,0.3,1);z-index:3}
+.swipe-front{position:relative;border-radius:12px;background:var(--s1);border:1px solid var(--b1);will-change:transform;transition:transform 0.22s cubic-bezier(0.16,1,0.3,1);z-index:2}
 .swipe-front.dragging{transition:none}
-.swipe-front.snapped{pointer-events:none}
+.swipe-front.snapped{}
 
 .dot{width:5px;height:5px;border-radius:3px;display:inline-block}
 .tl-now-line{position:absolute;left:0;right:0;height:2px;background:var(--danger);pointer-events:none;z-index:5}
@@ -827,8 +827,44 @@ function AppProvider({children}){
     return d;
   });
   const [toasts,setToasts]=useState([]);
+  const lastSavedRef=useRef(null);
 
-  useEffect(()=>{saveData(data);},[data]);
+  useEffect(()=>{
+    const json=JSON.stringify(data);
+    if(lastSavedRef.current===json) return; // 변경없으면 저장 안 함
+    lastSavedRef.current=json;
+    saveData(data);
+    // 다른 탭/창에 실시간 동기화 신호
+    try{localStorage.setItem(STORE_KEY+'_ts', Date.now().toString());}catch(e){}
+  },[data]);
+
+  // 실시간 업데이트: storage 이벤트 (다른 탭) + 폴링 (1초)
+  useEffect(()=>{
+    let lastTs=localStorage.getItem(STORE_KEY+'_ts')||'0';
+    function checkUpdate(){
+      const ts=localStorage.getItem(STORE_KEY+'_ts')||'0';
+      if(ts!==lastTs){
+        lastTs=ts;
+        const fresh=loadData();
+        const freshJson=JSON.stringify(fresh);
+        if(freshJson!==lastSavedRef.current){
+          lastSavedRef.current=freshJson;
+          setData(d=>{
+            // 현재 로그인 사용자 정보는 유지
+            return {...fresh, settings:{...fresh.settings, currentUserId:d.settings.currentUserId, sessionUserId:d.settings.sessionUserId, rememberLogin:d.settings.rememberLogin}};
+          });
+        }
+      }
+    }
+    // storage 이벤트 (다른 탭/창)
+    window.addEventListener('storage', checkUpdate);
+    // 폴링 (같은 탭 내 다른 사용자)
+    const timer=setInterval(checkUpdate, 2000);
+    return ()=>{
+      window.removeEventListener('storage', checkUpdate);
+      clearInterval(timer);
+    };
+  },[]);
 
   // Theme effect
   useEffect(()=>{
@@ -1324,32 +1360,29 @@ function SwipeRow({children,onLeft1,onLeft2,onRight1,onRight2,left1Label='완료
     }
   }
 
-  const showLeft=dx<0;
-  const showRight=dx>0;
   const absD=Math.abs(dx);
   const btnOpacity=clamp((absD-20)/40,0,1);
+  function resetSwipe(){setDx(0);setStage(0);stateRef.current.dx=0;}
 
   return(
-    <div className="swipe-wrap" style={{touchAction:'pan-y'}}>
-      {showLeft&&(
-        <div className="swipe-bg swipe-bg-right" style={{opacity:btnOpacity}}>
-          <button onPointerDown={e=>e.stopPropagation()} onClick={()=>{setDx(0);setStage(0);stateRef.current.dx=0;onLeft2&&onLeft2();}} style={{background:left2Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{left2Label}</button>
-          <button onPointerDown={e=>e.stopPropagation()} onClick={()=>{setDx(0);setStage(0);stateRef.current.dx=0;onLeft1&&onLeft1();}} style={{background:left1Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{left1Label}</button>
-        </div>
-      )}
-      {showRight&&(
-        <div className="swipe-bg swipe-bg-left" style={{opacity:btnOpacity}}>
-          <button onPointerDown={e=>e.stopPropagation()} onClick={()=>{setDx(0);setStage(0);stateRef.current.dx=0;onRight1&&onRight1();}} style={{background:right1Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{right1Label}</button>
-          <button onPointerDown={e=>e.stopPropagation()} onClick={()=>{setDx(0);setStage(0);stateRef.current.dx=0;onRight2&&onRight2();}} style={{background:right2Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{right2Label}</button>
-        </div>
-      )}
+    <div className="swipe-wrap" style={{touchAction:'pan-y',position:'relative'}}>
+      {/* 왼쪽 스와이프 시 오른쪽에 버튼 표시 (삭제/완료) */}
+      <div className="swipe-bg swipe-bg-right" style={{opacity:dx<0?btnOpacity:0,pointerEvents:dx<0&&stage>0?'auto':'none'}}>
+        {onLeft2&&<button onPointerDown={e=>e.stopPropagation()} onTouchEnd={e=>{e.stopPropagation();resetSwipe();onLeft2&&onLeft2();}} onClick={e=>{e.stopPropagation();resetSwipe();onLeft2&&onLeft2();}} style={{background:left2Color,border:'none',color:'#fff',borderRadius:10,padding:'10px 16px',fontSize:13,fontWeight:700,cursor:'pointer',minWidth:56}}>{left2Label}</button>}
+        {onLeft1&&<button onPointerDown={e=>e.stopPropagation()} onTouchEnd={e=>{e.stopPropagation();resetSwipe();onLeft1&&onLeft1();}} onClick={e=>{e.stopPropagation();resetSwipe();onLeft1&&onLeft1();}} style={{background:left1Color,border:'none',color:'#fff',borderRadius:10,padding:'10px 16px',fontSize:13,fontWeight:700,cursor:'pointer',minWidth:56}}>{left1Label}</button>}
+      </div>
+      {/* 오른쪽 스와이프 시 왼쪽에 버튼 표시 */}
+      <div className="swipe-bg swipe-bg-left" style={{opacity:dx>0?btnOpacity:0,pointerEvents:dx>0&&stage>0?'auto':'none'}}>
+        {onRight1&&<button onPointerDown={e=>e.stopPropagation()} onTouchEnd={e=>{e.stopPropagation();resetSwipe();onRight1&&onRight1();}} onClick={e=>{e.stopPropagation();resetSwipe();onRight1&&onRight1();}} style={{background:right1Color,border:'none',color:'#fff',borderRadius:10,padding:'10px 16px',fontSize:13,fontWeight:700,cursor:'pointer',minWidth:56}}>{right1Label}</button>}
+        {onRight2&&<button onPointerDown={e=>e.stopPropagation()} onTouchEnd={e=>{e.stopPropagation();resetSwipe();onRight2&&onRight2();}} onClick={e=>{e.stopPropagation();resetSwipe();onRight2&&onRight2();}} style={{background:right2Color,border:'none',color:'#fff',borderRadius:10,padding:'10px 16px',fontSize:13,fontWeight:700,cursor:'pointer',minWidth:56}}>{right2Label}</button>}
+      </div>
       <div
         ref={frontRef}
         className={`swipe-front${stateRef.current.active?' dragging':''}${stage>0?' snapped':''}`}
-        style={{transform:`translateX(${dx}px)`}}
+        style={{transform:`translateX(${dx}px)`,position:'relative',zIndex:2}}
         onMouseDown={onPD} onMouseMove={onPM} onMouseUp={onPU} onMouseLeave={onPU}
         onTouchStart={onPD} onTouchMove={onPM} onTouchEnd={onPU}
-        onClick={dx!==0?(e=>{e.stopPropagation();setDx(0);setStage(0);stateRef.current.dx=0;}):undefined}
+        onClick={dx!==0?(e=>{e.stopPropagation();resetSwipe();}):undefined}
       >
         {children}
       </div>
@@ -1382,6 +1415,10 @@ function TaskRow({task,onTap,showDate=false,showProject=false,compact=false}){
       onRight1={()=>moveTomorrow(task.id)}
       left1Label={done?'미완료':'완료'}
       left1Color={done?'var(--t3)':'var(--success)'}
+      left2Label='삭제'
+      left2Color='var(--danger)'
+      right1Label='내일로'
+      right1Color='var(--work)'
     >
       <div
         className="row-in press"
@@ -4723,7 +4760,23 @@ function AppInner({tab,setTab,showAddTask,setShowAddTask,fabShort,fabLong}){
         {tab==='lboard'&&<LessonBoardChildPage/>}
 </div>
       <TabBar active={tab} onChange={setTab} tabs={tabs}/>
-      <FAB onShortPress={()=>{ const r=myRole(data); if(r==='teacher') setTab('board'); else setTab('inbox'); }} onLongPress={handleFabLong}/>
+      <FAB onShortPress={()=>{
+        const r=myRole(data);
+        if(r==='teacher'){setTab('board');return;}
+        // 탭별 동작
+        if(tab==='today'||tab==='plan'||tab==='month'||tab==='family'||tab==='inbox'){
+          setShowAddTask(true);
+        } else {
+          setTab('inbox');
+        }
+      }} onLongPress={handleFabLong}/>
+      {/* 전역 AddTaskSheet - FAB 버튼으로 열림 */}
+      <AddTaskSheet
+        open={showAddTask}
+        onClose={()=>setShowAddTask(false)}
+        defaultDomain={tab==='family'?'work':tab==='inbox'?'inbox':'work'}
+        defaultDueDate={tab==='today'||tab==='family'?todayStr():null}
+      />
     </div>
   );
 }
