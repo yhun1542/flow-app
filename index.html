@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>FLOW — Family OS</title>
+<title>FLOW v19 — 가족 생산성 앱</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -269,6 +269,152 @@ details.acc > summary::-webkit-details-marker { display:none; }
 details.acc > summary:after { content:'▾'; font-size:14px; color:var(--t2); }
 details.acc[open] > summary:after { content:'▴'; }
 details.acc .acc-body { margin-top:10px; }
+/* ═══════════════════════════════════════════
+   CARD MODULE SYSTEM v19
+═══════════════════════════════════════════ */
+.mod-card {
+  background: var(--s1);
+  border-radius: 20px;
+  border: 1px solid var(--b1);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.mod-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--b1);
+}
+.mod-card-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.mod-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--t1);
+  flex: 1;
+}
+.mod-card-subtitle {
+  font-size: 11px;
+  color: var(--t3);
+  margin-top: 1px;
+}
+.mod-card-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--work);
+  background: var(--wlow);
+  border-radius: 20px;
+  padding: 2px 8px;
+  flex-shrink: 0;
+}
+.mod-card-toggle {
+  font-size: 10px;
+  color: var(--t3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+.mod-card-add {
+  font-size: 12px;
+  color: var(--work);
+  background: var(--wlow);
+  border: none;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.mod-card-body {
+  padding: 12px 16px;
+}
+.mod-card-body-empty {
+  padding: 20px 16px;
+  text-align: center;
+  color: var(--t3);
+  font-size: 13px;
+}
+/* 진행률 카드 */
+.progress-card {
+  background: linear-gradient(135deg, var(--s2) 0%, var(--s1) 100%);
+  border-radius: 20px;
+  border: 1px solid var(--b1);
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.progress-ring-wrap {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+}
+.progress-ring-pct {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--t1);
+}
+.progress-stats {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.progress-stat-cell {
+  text-align: center;
+}
+.progress-stat-val {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--t1);
+  line-height: 1;
+}
+.progress-stat-lbl {
+  font-size: 10px;
+  color: var(--t3);
+  margin-top: 3px;
+}
+/* 페이지 헤더 */
+.page-hdr-v19 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 8px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+}
+.page-hdr-title {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--t1);
+}
+.page-hdr-sub {
+  font-size: 12px;
+  color: var(--t3);
+  margin-top: 2px;
+}
+
 </style>
 </head>
 <body>
@@ -2784,19 +2930,22 @@ function TodayPage(){
     });
   }
 
-  const secHdr=(icon,label,count,collapsed,onToggle,onAdd)=>(
-    <div className="sec-hdr">
-      <button onClick={onToggle} className="sec-hdr-left" style={{background:'none',border:'none',cursor:'pointer',padding:0}}>
-        <div className="sec-hdr-icon" style={{background:label==='업무'?'var(--wlow)':label==='개인'?'var(--plow)':label==='완료'?'var(--slow)':'var(--s3)'}}>
+  const secHdr=(icon,label,count,collapsed,onToggle,onAdd)=>{
+    const bgMap={업무:'var(--wlow)',개인:'var(--plow)',완료:'var(--slow)',타임라인:'var(--s3)',가족현황:'var(--purplow)'};
+    return(
+      <div className="mod-card-header" style={{cursor:'pointer'}} onClick={onToggle}>
+        <div className="mod-card-icon" style={{background:bgMap[label]||'var(--s3)'}}>
           <span>{icon}</span>
         </div>
-        <span className="sec-hdr-label">{label}</span>
-        <span className="sec-hdr-count">{count}</span>
-        <span style={{fontSize:10,color:'var(--t3)',marginLeft:2}}>{collapsed?'▶':'▼'}</span>
-      </button>
-      {onAdd&&<button onClick={onAdd} className="sec-hdr-add">+ 추가</button>}
-    </div>
-  );
+        <div style={{flex:1}}>
+          <div className="mod-card-title">{label}</div>
+        </div>
+        {count>0&&<span className="mod-card-badge">{count}</span>}
+        <span className="mod-card-toggle">{collapsed?'▶':'▼'}</span>
+        {onAdd&&<button onClick={e=>{e.stopPropagation();onAdd();}} className="mod-card-add">+ 추가</button>}
+      </div>
+    );
+  };
 
   return(
     <div className="scroll" style={{flex:1,padding:'0 0 80px',background:'var(--bg)'}}>
@@ -2818,33 +2967,40 @@ function TodayPage(){
           <button onClick={()=>setShowTriage(true)} style={{padding:'7px 10px',borderRadius:10,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:11,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap'}}>⚡ 우선순위</button>
           <button onClick={()=>setShowSchedule(true)} style={{padding:'7px 10px',borderRadius:10,border:'none',background:'var(--work)',color:'#fff',fontSize:11,fontWeight:700,cursor:'pointer',whiteSpace:'nowrap'}}>🗓 자동배치</button>
         </div>
-        {/* 진행률 바 - 개선된 UI */}
-        <div style={{marginBottom:20,padding:'16px 18px',background:'var(--s1)',borderRadius:16,border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
-            <div>
-              <span style={{fontSize:14,fontWeight:700,color:'var(--t1)'}}>오늘 진행률</span>
-              <div style={{fontSize:12,color:'var(--t3)',marginTop:2}}>
-                {pct===100?'🎉 모두 완료!':pct>=50?`잘 하고 있어요 · ${totalToday-doneCount}개 남음`:`${totalToday-doneCount}개 남음`}
-              </div>
-            </div>
-            <div style={{textAlign:'right'}}>
-              <span style={{fontSize:22,fontWeight:900,color:pct===100?'var(--success)':pct>=50?'var(--work)':'var(--warn)',letterSpacing:-1}}>{pct}<span style={{fontSize:13,fontWeight:600}}>%</span></span>
-            </div>
-          </div>
-          <div style={{height:10,background:'var(--s3)',borderRadius:8,overflow:'hidden'}}>
-            <div style={{height:'100%',width:`${pct}%`,background:pct===100?'var(--success)':pct>=50?'var(--work)':'var(--warn)',borderRadius:8,transition:'width 0.5s cubic-bezier(0.4,0,0.2,1)'}}/>
-          </div>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:10}}>
-            <span style={{fontSize:12,color:'var(--success)',fontWeight:600}}>✓ 완료 {doneCount}개</span>
-            <div style={{display:'flex',alignItems:'center',gap:8}}>
-              <span style={{fontSize:12,color:'var(--t3)'}}>전체 {totalToday}개</span>
-              {doneCount>0&&<button onClick={()=>setCollapseDone(v=>!v)} style={{fontSize:11,fontWeight:700,color:collapseDone?'var(--work)':'var(--t2)',background:collapseDone?'var(--wlow)':'var(--s3)',border:'none',borderRadius:8,padding:'3px 8px',cursor:'pointer'}}>{collapseDone?'완료 보기':'완료 숨기기'}</button>}
-            </div>
-          </div>
-        </div>
       </div>
 
       <div style={{padding:'0 16px'}}>
+        {/* ── 진행률 카드 ── */}
+        <div className="progress-card">
+          <div className="progress-ring-wrap">
+            <svg width="64" height="64" viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="26" fill="none" stroke="var(--b2)" strokeWidth="6"/>
+              <circle cx="32" cy="32" r="26" fill="none"
+                stroke={pct===100?'var(--success)':pct>=50?'var(--work)':'var(--warn)'}
+                strokeWidth="6"
+                strokeDasharray={String(2*Math.PI*26)}
+                strokeDashoffset={String(2*Math.PI*26*(1-pct/100))}
+                strokeLinecap="round"
+                transform="rotate(-90 32 32)"
+                style={{transition:'stroke-dashoffset 0.5s ease'}}/>
+            </svg>
+            <div className="progress-ring-pct">{pct}%</div>
+          </div>
+          <div className="progress-stats">
+            <div className="progress-stat-cell">
+              <div className="progress-stat-val" style={{color:'var(--work)'}}>{workTasks.length}</div>
+              <div className="progress-stat-lbl">업무</div>
+            </div>
+            <div className="progress-stat-cell">
+              <div className="progress-stat-val" style={{color:'var(--personal)'}}>{personalTasks.length}</div>
+              <div className="progress-stat-lbl">개인</div>
+            </div>
+            <div className="progress-stat-cell">
+              <div className="progress-stat-val" style={{color:'var(--success)'}}>{doneCount}</div>
+              <div className="progress-stat-lbl">완료</div>
+            </div>
+          </div>
+        </div>
         {/* ── AI 브리핑 패널 ── */}
         {(aiBriefing||aiBriefingLoading)&&(
           <div className="ai-panel" style={{marginBottom:16}}>
@@ -2914,10 +3070,10 @@ function TodayPage(){
         </div>
 
         {/* ── 업무 ── (항상 표시) */}
-        <div style={{marginBottom:20}}>
+        <div className="mod-card">
             {secHdr('💼','업무',workTasks.length,collapseWork,()=>setCollapseWork(v=>!v),()=>setShowAddTask(true))}
             {!collapseWork&&(
-              <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
+              <div className="mod-card-body" style={{padding:0}}>
                 {Object.entries(projMap).map(([projId,ptasks],gi)=>{
                   const proj=projId!=='__none__'?data.projects.find(p=>p.id===projId):null;
                   return(
@@ -2944,10 +3100,10 @@ function TodayPage(){
 
         {/* ── 개인 ── */}
         {(personalTasks.length>0||true)&&(
-          <div style={{marginBottom:20}}>
+          <div className="mod-card">
             {secHdr('🌿','개인',personalTasks.length,collapsePersonal,()=>setCollapsePersonal(v=>!v),()=>setShowAddTask(true))}
             {!collapsePersonal&&(
-              <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
+              <div className="mod-card-body" style={{padding:0}}>
                 {personalTasks.length===0&&(
                   <div className="empty-state">
                     <span className="empty-state-icon">🌿</span>
@@ -2962,17 +3118,20 @@ function TodayPage(){
         )}
 
         {/* ── 타임라인 (기본 접기) ── */}
-        <div style={{marginBottom:20}}>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:collapseTimeline?0:10}}>
-            <button onClick={()=>setCollapseTimeline(v=>!v)} style={{display:'flex',alignItems:'center',gap:6,background:'none',border:'none',cursor:'pointer',padding:0}}>
-              <span style={{fontSize:11,fontWeight:700,color:'var(--t2)',letterSpacing:0.8,textTransform:'uppercase'}}>⏱ 타임라인</span>
-              {todayBlocks.length>0&&<span style={{fontSize:10,background:'var(--s3)',color:'var(--t2)',borderRadius:8,padding:'1px 6px',fontWeight:700}}>{todayBlocks.length}</span>}
-              <span style={{fontSize:10,color:'var(--t3)',marginLeft:2}}>{collapseTimeline?'▶':'▼'}</span>
-            </button>
-            {!collapseTimeline&&<button onClick={()=>setShowSchedule(true)} style={{fontSize:12,color:'var(--work)',background:'none',border:'none',cursor:'pointer',fontWeight:600,padding:'2px 6px'}}>자동 배치</button>}
+        <div className="mod-card">
+          <div className="mod-card-header" style={{cursor:'pointer'}} onClick={()=>setCollapseTimeline(v=>!v)}>
+            <div className="mod-card-icon" style={{background:'var(--s3)'}}>
+              <span>⏱</span>
+            </div>
+            <div style={{flex:1}}>
+              <div className="mod-card-title">타임라인</div>
+            </div>
+            {todayBlocks.length>0&&<span className="mod-card-badge">{todayBlocks.length}</span>}
+            <span className="mod-card-toggle">{collapseTimeline?'▶':'▼'}</span>
+            {!collapseTimeline&&<button onClick={e=>{e.stopPropagation();setShowSchedule(true);}} className="mod-card-add">자동 배치</button>}
           </div>
           {!collapseTimeline&&(
-            <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)',padding:'8px 0'}}>
+            <div className="mod-card-body" style={{padding:'8px 0'}}>
               <Timeline date={today} blocks={todayBlocks} events={todayEvents} onAddEvent={()=>setShowAddEvent(true)}/>
             </div>
           )}
@@ -2980,10 +3139,10 @@ function TodayPage(){
 
         {/* ── 완료 ── */}
         {doneTodayTasks.length>0&&(
-          <div style={{marginBottom:20}}>
+          <div className="mod-card" style={{opacity:0.85}}>
             {secHdr('✅','완료',doneTodayTasks.length,collapseDone,()=>setCollapseDone(v=>!v),null)}
             {!collapseDone&&(
-              <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)',opacity:0.7}}>
+              <div className="mod-card-body" style={{padding:0}}>
                 {doneTodayTasks.map(t=><TaskRow key={t.id} task={t} onTap={setDetailTask} compact/>)}
               </div>
             )}
@@ -2992,9 +3151,16 @@ function TodayPage(){
 
         {/* ── 가족 현황 (부모만) ── */}
         {isParent&&familyProgress.length>0&&(
-          <div style={{marginBottom:20}}>
-            <div style={{fontSize:11,fontWeight:700,color:'var(--t2)',letterSpacing:0.8,textTransform:'uppercase',marginBottom:10}}>👨‍👩‍👧 가족 현황</div>
-            <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
+          <div className="mod-card">
+            <div className="mod-card-header">
+              <div className="mod-card-icon" style={{background:'var(--purplow,#EDE9FE)'}}>
+                <span>👨‍👩‍👧</span>
+              </div>
+              <div style={{flex:1}}>
+                <div className="mod-card-title">가족 현황</div>
+              </div>
+            </div>
+            <div className="mod-card-body" style={{padding:0}}>
               {familyProgress.map(({child,done,total},i)=>(
                 <div key={child.id} style={{padding:'12px 16px',borderBottom:i<familyProgress.length-1?'1px solid var(--b1)':'none',display:'flex',alignItems:'center',gap:12}}>
                   <span style={{fontSize:22}}>{child.avatar||'👤'}</span>
@@ -5159,6 +5325,7 @@ window.addEventListener('load',()=>{
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+);
 </script>
 
 <!-- v9.1 PATCH: CompactHome + PageHeader -->
