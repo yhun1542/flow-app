@@ -2039,7 +2039,7 @@ function LoginPage(){
         <div style={{width:'100%',maxWidth:360}}>
           <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:14,marginBottom:18}}>
             <LogoMark login={true}/>
-            <div style={{fontSize:13,color:'var(--t2)',marginTop:6}}>가족 · 레슨 · 운영을 한 곳에서</div>
+
           </div>
 
           <div style={{border:'1px solid var(--b1)',borderRadius:16,padding:16,background:'var(--s1)'}}>
@@ -2055,17 +2055,11 @@ function LoginPage(){
               자동 로그인
             </label>
 
-            <button className="press no-dim"
+             <button className="press no-dim"
               onClick={()=>login(username.trim(),pw.trim(),remember)}
-              style={{marginTop:12,width:'100%',padding:'12px 14px',borderRadius:14,border:'1px solid var(--b1)',background:'var(--a1low)',fontWeight:1000}}>
+              style={{marginTop:12,width:'100%',padding:'12px 14px',borderRadius:14,border:'none',background:'#2563eb',color:'#fff',fontWeight:700,fontSize:15,cursor:'pointer'}}>
               로그인
             </button>
-
-            <div style={{marginTop:10,fontSize:12,color:'var(--t2)',lineHeight:1.5}}>
-              • 아이디: <b>본인 이름</b><br/>
-              • 비밀번호: <b>전화번호</b><br/>
-              • 관리자에게 계정 등록을 요청하세요.
-            </div>
           </div>
 
           <div style={{marginTop:14,fontSize:12,color:'var(--t2)',textAlign:'center'}}>
@@ -2474,19 +2468,21 @@ function AdminPage(){
 
 function TodayPage(){
   const {data,currentUser,showToast}=useApp();
-  const today=todayStr();
+  const todayReal=todayStr();
+  const [viewDate,setViewDate]=useState(todayReal);
+  const today=viewDate;
   const [detailTask,setDetailTask]=useState(null);
   const [showSchedule,setShowSchedule]=useState(false);
   const [showTriage,setShowTriage]=useState(false);
   const [showAddEvent,setShowAddEvent]=useState(false);
   const [showAddTask,setShowAddTask]=useState(false);
-
   const tasks=data.tasks.filter(t=>!t.deletedAt);
   const todayTasks=tasks.filter(t=>t.dueDate===today&&t.status!=='done');
   const doneTodayTasks=tasks.filter(t=>t.dueDate===today&&t.status==='done');
   const totalToday=todayTasks.length+doneTodayTasks.length;
   const doneCount=doneTodayTasks.length;
   const pct=totalToday>0?Math.round((doneCount/totalToday)*100):0;
+  const isToday=viewDate===todayReal;;
 
   // Focus 3: top priority tasks for today
   const focus3=tasks
@@ -2522,22 +2518,32 @@ function TodayPage(){
     return{child,done,total:childTasks.length};
   }):[];
 
+  const [showAll,setShowAll]=useState(false);
   const sectionStyle={marginBottom:24};
   const sectionTitle={fontSize:12,fontWeight:700,color:'var(--t2)',letterSpacing:1,textTransform:'uppercase',marginBottom:10};
 
   return(
     <div className="scroll" style={{flex:1,padding:'16px 16px 80px'}}>
-      {/* Header */}
-      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:20}}>
-        <div>
-          <div style={{fontSize:22,fontWeight:900,color:'var(--t1)'}}>{fmt(today).full}</div>
-          <div style={{fontSize:13,color:'var(--t2)',marginTop:2}}>
-            {pct===100?'🎉 오늘 완료!':pct>=50?`${pct}% 완료 · 잘 하고 있어요`:`${totalToday-doneCount}개 남음`}
+      {/* Header: 로고 옆에 날짜 + 버튼 한 줄 */}
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12,gap:8}}>
+        {/* 날짜 네비게이터 */}
+        <div style={{display:'flex',alignItems:'center',gap:6,flex:1,minWidth:0}}>
+          <button onClick={()=>setViewDate(addDays(today,-1))} style={{width:28,height:28,borderRadius:8,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>‹</button>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{display:'flex',alignItems:'center',gap:6}}>
+              <span style={{fontSize:17,fontWeight:900,color:'var(--t1)',whiteSpace:'nowrap'}}>{fmt(today).full}</span>
+              {!isToday&&<button onClick={()=>setViewDate(todayReal)} style={{fontSize:10,padding:'2px 7px',borderRadius:6,border:'none',background:'var(--work)',color:'#fff',cursor:'pointer',fontWeight:700,flexShrink:0}}>오늘</button>}
+            </div>
+            <div style={{fontSize:12,color:'var(--t2)',marginTop:1}}>
+              {isToday?(pct===100?'🎉 오늘 완료!':pct>=50?`${pct}% 완료 · 잘 하고 있어요`:`${totalToday-doneCount}개 남음`):relativeDay(today)}
+            </div>
           </div>
+          <button onClick={()=>setViewDate(addDays(today,1))} style={{width:28,height:28,borderRadius:8,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>›</button>
         </div>
-        <div style={{display:'flex',gap:8}}>
-          <button onClick={()=>setShowTriage(true)} style={{padding:'8px 12px',borderRadius:10,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:12,fontWeight:600,cursor:'pointer'}}>⚡ 우선순위</button>
-          <button onClick={()=>setShowSchedule(true)} style={{padding:'8px 12px',borderRadius:10,border:'none',background:'var(--work)',color:'#fff',fontSize:12,fontWeight:700,cursor:'pointer'}}>🗓 자동배치</button>
+        {/* 액션 버튼 */}
+        <div style={{display:'flex',gap:6,flexShrink:0}}>
+          <button onClick={()=>setShowTriage(true)} style={{padding:'7px 10px',borderRadius:10,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:11,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap'}}>⚡ 우선순위</button>
+          <button onClick={()=>setShowSchedule(true)} style={{padding:'7px 10px',borderRadius:10,border:'none',background:'var(--work)',color:'#fff',fontSize:11,fontWeight:700,cursor:'pointer',whiteSpace:'nowrap'}}>🗓 자동배치</button>
         </div>
       </div>
 
@@ -2608,7 +2614,14 @@ function TodayPage(){
         </div>
       )}
 
-      <div><div style={{fontSize:13,fontWeight:700,color:'var(--t2)',marginBottom:8}}>더보기(업무/개인/완료)</div><div>
+      {/* 더보기 토글 버튼 */}
+      <div style={{marginBottom:12}}>
+        <button onClick={()=>setShowAll(v=>!v)} style={{width:'100%',padding:'10px',borderRadius:12,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:13,fontWeight:600,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',gap:6}}>
+          <span>{showAll?'▲ 접기':'▼ 더보기 (업무/개인/완료)'}</span>
+          {!showAll&&(Object.keys(projMap).length>0||personalTasks.length>0||doneTodayTasks.length>0)&&<span style={{fontSize:11,background:'var(--work)',color:'#fff',borderRadius:10,padding:'1px 7px'}}>{Object.values(projMap).flat().length+personalTasks.length+doneTodayTasks.length}</span>}
+        </button>
+      </div>
+      {showAll&&<div>
       {/* Work tasks by project */}
       {Object.keys(projMap).length>0&&(
         <div style={sectionStyle}>
@@ -2653,8 +2666,7 @@ function TodayPage(){
         </div>
       )}
 
-      </div></div>
-
+      </div>}
       {/* Sheets */}
       <TaskDetailSheet task={detailTask} open={!!detailTask} onClose={()=>setDetailTask(null)}/>
       <ScheduleSheet open={showSchedule} onClose={()=>setShowSchedule(false)} date={today}/>
