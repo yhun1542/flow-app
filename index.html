@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>FLOW — 생산성 OS v7</title>
+<title>FLOW — Family OS</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -17,6 +17,7 @@
   --bg:#080809; --s1:#101012; --s2:#17171A; --s3:#1F1F24; --s4:#27272D;
   --b1:rgba(255,255,255,0.06); --b2:rgba(255,255,255,0.11); --b3:rgba(255,255,255,0.18);
   --t1:#EDEDF0; --t2:#8A8A9E; --t3:#555568;
+  --tapflash:rgba(255,255,255,0.10);
   --work:#4F8EF7; --wlow:rgba(79,142,247,0.12); --wmid:rgba(79,142,247,0.25);
   --personal:#2DD4BF; --plow:rgba(45,212,191,0.12); --pmid:rgba(45,212,191,0.25);
   --danger:#F56565; --dlow:rgba(245,101,101,0.15);
@@ -47,14 +48,14 @@
   --purple:#8B5CF6; --purplow:rgba(139,92,246,0.12);
   --a1c:#EF4444; --a1low:rgba(239,68,68,0.10);
   --orange:#FB923C; --orangelow:rgba(251,146,60,0.12);
-  --school:#D97706; --schoollow:rgba(217,119,6,0.12);
+  --school:#D97706; --tapflash:rgba(0,0,0,0.06); --schoollow:rgba(217,119,6,0.12);
   --lesson:#7C3AED; --lessonlow:rgba(124,58,237,0.12);
   --budget:#DB2777; --budgetlow:rgba(219,39,119,0.12);
   --tabbar-bg:rgba(255,255,255,0.93);
   --card-shadow:0 2px 12px rgba(0,0,0,0.08);
   --overlay:rgba(0,0,0,0.5);
 }
-:root { data-theme: dark; }
+:root { data-theme: light; }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
 html,body,#root{
@@ -63,7 +64,7 @@ html,body,#root{
   background:var(--bg);
   color:var(--t1);
 }
-body{overflow:hidden}
+body{overflow:hidden;font-size:17px;line-height:1.45}
 ::-webkit-scrollbar{width:0;height:0}
 button,input,textarea,select{font-family:inherit}
 input,textarea,select{background:none;color:inherit}
@@ -85,7 +86,7 @@ button{cursor:pointer}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
 .pulse{animation:pulse 2s ease infinite}
 @keyframes tapflash{0%{opacity:0.18}100%{opacity:0}}
-.tap-flash::after{content:'';position:absolute;inset:0;border-radius:12px;background:rgba(255,255,255,0.12);animation:tapflash 0.14s ease forwards;pointer-events:none}
+.tap-flash::after{content:'';position:absolute;inset:0;border-radius:12px;background:var(--tapflash);animation:tapflash 0.14s ease forwards;pointer-events:none}
 @keyframes popIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
 .pop-in{animation:popIn 0.18s cubic-bezier(0.16,1,0.3,1) forwards}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
@@ -93,33 +94,6 @@ button{cursor:pointer}
 
 .mono{font-family:'DM Mono',monospace}
 .scroll{overflow-y:auto;-webkit-overflow-scrolling:touch}
-
-/* ── 다크/라이트 토글 스위치 ── */
-.theme-toggle-wrap{
-  display:flex;align-items:center;gap:6px;
-}
-.theme-toggle-track{
-  width:48px;height:26px;border-radius:13px;
-  background:var(--s3);border:1.5px solid var(--b2);
-  position:relative;cursor:pointer;
-  transition:background 0.25s ease;
-  flex-shrink:0;
-}
-.theme-toggle-track.dark-on{ background:#4f8ef7; border-color:#4f8ef7; }
-.theme-toggle-thumb{
-  position:absolute;top:3px;left:3px;
-  width:18px;height:18px;border-radius:50%;
-  background:#fff;
-  box-shadow:0 1px 4px rgba(0,0,0,0.35);
-  transition:transform 0.22s cubic-bezier(0.16,1,0.3,1);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;line-height:1;
-}
-.theme-toggle-track.dark-on .theme-toggle-thumb{ transform:translateX(22px); }
-.theme-toggle-label{
-  font-size:11px;font-weight:600;color:var(--t2);
-  user-select:none;
-}
 
 .tab-bar{
   position:fixed;bottom:0;left:0;right:0;
@@ -180,6 +154,17 @@ select{-webkit-appearance:none;appearance:none}
 
 /* Theme transition */
 :root{transition:background 0.3s ease,color 0.3s ease}
+
+/* v9.0 readability + accordion */
+
+  :root { --fs-body: 18px; --fs-meta: 14px; }
+  body { font-size: var(--fs-body) !important; line-height: 1.5; }
+  details.acc { border:1px solid var(--b1); border-radius:16px; padding:10px 12px; background:var(--s1); }
+  details.acc > summary { list-style:none; cursor:pointer; font-weight:900; font-size:13px; color:var(--t2); display:flex; align-items:center; justify-content:space-between; }
+  details.acc > summary::-webkit-details-marker { display:none; }
+  details.acc > summary:after { content:'▾'; font-size:14px; color:var(--t2); }
+  details.acc[open] > summary:after { content:'▴'; }
+  details.acc .acc-body { margin-top:10px; }
 </style>
 </head>
 <body>
@@ -192,7 +177,104 @@ const {useState,useEffect,useRef,useMemo,useContext,createContext,useCallback,us
 ═══════════════════════════════════════════ */
 let _uid=0;
 function uid(){return 'id_'+(++_uid)+'_'+Math.random().toString(36).slice(2,7)}
-function todayStr(){const d=new Date();return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`}
+
+// v8.8: human-friendly lessonId (slug)
+function slugifyBase(s){
+  return String(s||'')
+    .toLowerCase()
+    .trim()
+    .replace(/[\s_]+/g,'-')
+    .replace(/[^a-z0-9\-]/g,'')
+    .replace(/\-+/g,'-')
+    .replace(/^\-+|\-+$/g,'');
+}
+function suggestLessonSlug(title){
+  const t=String(title||'').toLowerCase();
+  // quick mapping for common korean lesson names
+  if(t.includes('피아노')) return 'piano';
+  if(t.includes('영어')) return 'eng';
+  if(t.includes('수학')) return 'math';
+  if(t.includes('국어')) return 'kor';
+  if(t.includes('미술')) return 'art';
+  if(t.includes('코딩')||t.includes('프로그')) return 'coding';
+  const base=slugifyBase(t);
+  return base || 'lesson';
+}
+function generateLessonId(base, existingIds){
+  const b=slugifyBase(base) || 'lesson';
+  const set=new Set(existingIds||[]);
+  if(!set.has(b)) return b+'-1';
+  // if base already has -n, still generate base-n
+  let i=1;
+  while(set.has(`${b}-${i}`)) i++;
+  return `${b}-${i}`;
+}
+function todayStr(){
+  const d=new Date();
+  const yy=d.getFullYear();
+  const mm=String(d.getMonth()+1).padStart(2,'0');
+  const dd=String(d.getDate()).padStart(2,'0');
+  return `${yy}-${mm}-${dd}`;
+}
+
+// ───────────────────────────────────────────
+// ROLE / LESSON SCOPE HELPERS (v8)
+// ──────────────────────────────────────────
+function homeworkSummaryForPost(data, postId){
+  const arr=(data.homeworks||[]).filter(hw=>hw.sourcePostId===postId);
+  const total=arr.length;
+  const done=arr.filter(h=>Number(h.progress||0)>=100 || h.status==='done').length;
+  return {total, done};
+}
+
+function me(d){return d.familyMembers.find(m=>m.id===d.settings.currentUserId);}
+function myRole(d){return me(d)?.role||'parent';}
+function myLessonIds(d){
+  const m=me(d);
+  if(!m) return [];
+  if(m.role==='teacher') return m.lessonIds||[];
+  if(m.role==='child') return d.lessons.filter(L=>L.studentIds?.includes(m.id)).map(L=>L.id);
+  return d.lessons.map(L=>L.id);
+}
+function canAccessLesson(d,lessonId){return myLessonIds(d).includes(lessonId);}
+function visiblePosts(d){
+  const role=myRole(d);
+  const allowed=new Set(myLessonIds(d));
+  return (d.posts||[]).filter(p=>{
+    if(p.scopeType==='family') return role==='parent';
+    if(p.scopeType==='lesson') return allowed.has(p.lessonId);
+    return false;
+  });
+}
+function visibleMaterials(d){
+  const role=myRole(d);
+  const allowed=new Set(myLessonIds(d));
+  return (d.materials||[]).filter(m=>{
+    if(m.scopeType==='family') return role==='parent';
+    if(m.scopeType==='lesson') return allowed.has(m.lessonId);
+    return false;
+  });
+}
+function visibleHomeworks(d){
+  const role=myRole(d);
+  const allowed=new Set(myLessonIds(d));
+  const u=me(d);
+  return (d.homeworks||[]).filter(hw=>{
+    if(!hw.lessonId) return role==='parent';
+    if(!allowed.has(hw.lessonId)) return false;
+    if(role==='child') return hw.assigneeId===u?.id;
+    return true; // parent/teacher within scope
+  });
+}
+function normTags(x){if(!x) return []; if(Array.isArray(x)) return x; return String(x).split(',').map(s=>s.trim()).filter(Boolean);}
+function readFileAsDataURL(file){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.onload=()=>resolve(r.result);
+    r.onerror=reject;
+    r.readAsDataURL(file);
+  });
+}
 function p2(n){return String(n).padStart(2,'0')}
 function addDays(dateStr,days){
   const [y,m,d]=dateStr.split('-').map(Number);
@@ -589,6 +671,15 @@ const SEED={
     {id:'u6',name:'피아노 선생님',role:'teacher',avatar:'🎹',color:'#34D399',lessonIds:['l1']},
     {id:'u7',name:'영어 선생님',role:'teacher',avatar:'📖',color:'#FBBF24',lessonIds:['l2']},
   ],
+  authUsers:[
+    {userId:'u1',username:'아빠',password:'01012345678',isAdmin:true},
+    {userId:'u2',username:'엄마',password:'01023456789',isAdmin:false},
+    {userId:'u3',username:'큰딸',password:'01034567890',isAdmin:false},
+    {userId:'u4',username:'작은딸',password:'01045678901',isAdmin:false},
+    {userId:'u5',username:'막내아들',password:'01056789012',isAdmin:false},
+    {userId:'u6',username:'피아노 선생님',password:'01067890123',isAdmin:false},
+    {userId:'u7',username:'영어 선생님',password:'01078901234',isAdmin:false},
+  ],
   lessons:[
     {id:'l1',name:'피아노',teacherId:'u6',studentIds:['u3','u4'],color:'#A78BFA',schedule:'화/목 16:00'},
     {id:'l2',name:'영어',teacherId:'u7',studentIds:['u3','u4','u5'],color:'#34D399',schedule:'월/수/금 17:00'},
@@ -604,6 +695,19 @@ const SEED={
     {id:'hw3',title:'영어 단어 100개 암기',lessonId:'l2',assigneeId:'u3',status:'done',progress:100,dueDate:tomorrow,notes:'',createdAt:Date.now()},
     {id:'hw4',title:'영어 단어 100개 암기',lessonId:'l2',assigneeId:'u4',status:'doing',progress:60,dueDate:tomorrow,notes:'',createdAt:Date.now()},
     {id:'hw5',title:'영어 단어 100개 암기',lessonId:'l2',assigneeId:'u5',status:'todo',progress:10,dueDate:tomorrow,notes:'',createdAt:Date.now()},
+  ],
+  posts:[
+    {id:'p1',scopeType:'lesson',lessonId:'l1',type:'announcement',title:'피아노 공지',body:'이번 주 숙제 안내: 바흐 1~16마디 손분리 연습',tags:['공지','숙제'],authorId:'u6',createdAt:Date.now()-3600000,updatedAt:Date.now()-3600000,seenBy:['u1','u2']},
+    {id:'p2',scopeType:'lesson',lessonId:'l1',type:'discussion',title:'연습 질문',body:'손가락 번호가 자꾸 꼬여요. 어떤 순서로 연습하면 좋을까요?',tags:['질문'],authorId:'u3',createdAt:Date.now()-2400000,updatedAt:Date.now()-2400000,seenBy:['u6']},
+    {id:'p3',scopeType:'lesson',lessonId:'l2',type:'material',title:'단어 암기 팁',body:'이번 주 단어 100개 암기 방법: 하루 20개씩 5일.',tags:['자료'],authorId:'u7',createdAt:Date.now()-7200000,updatedAt:Date.now()-7200000,seenBy:[]},
+  ],
+  comments:[
+    {id:'c1',postId:'p2',authorId:'u3',body:'2-3-4가 자꾸 꼬여요',createdAt:Date.now()-2200000},
+    {id:'c2',postId:'p2',authorId:'u6',body:'속도를 낮추고 3번 반복해보세요. 2-3-4는 먼저 손분리로 안정시키는 게 좋아요.',createdAt:Date.now()-2000000},
+  ],
+  materials:[
+    {id:'m1',scopeType:'lesson',lessonId:'l1',type:'link',title:'바흐 인벤션 연습 영상',url:'https://www.youtube.com/',tags:['영상','연습'],uploaderId:'u6',createdAt:Date.now()-7200000},
+    {id:'m2',scopeType:'lesson',lessonId:'l2',type:'link',title:'단어 암기 카드 템플릿',url:'https://docs.google.com/',tags:['링크'],uploaderId:'u7',createdAt:Date.now()-5200000},
   ],
   expenses:[
     {id:'ex1',amount:85000,category:'식비',note:'마트 장보기',date:today,createdAt:Date.now()},
@@ -626,14 +730,29 @@ const SEED={
     deepWorkWindows:[{start:'10:00',end:'12:00'},{start:'14:00',end:'16:00'}],
     slotMin:30,
     theme:'dark',
-    currentUserId:'u1',
+    currentUserId:null,
+    rememberLogin:false,
+    sessionUserId:null,
   }
 };
 
 /* ═══════════════════════════════════════════
    LOCAL STORAGE
 ═══════════════════════════════════════════ */
-const STORE_KEY='flow_v7';
+const STORE_KEY='flow_v8_auth';
+const SESSION_KEY='flow_session_user';
+function getSessionUserId(){
+  try{
+    return sessionStorage.getItem(SESSION_KEY) || null;
+  }catch(e){return null;}
+}
+function setSessionUserId(uid){
+  try{
+    if(uid) sessionStorage.setItem(SESSION_KEY, uid);
+    else sessionStorage.removeItem(SESSION_KEY);
+  }catch(e){}
+}
+
 function loadData(){
   try{
     const raw=localStorage.getItem(STORE_KEY);
@@ -644,7 +763,7 @@ function loadData(){
         ...SEED,...parsed,
         settings:{...SEED.settings,...(parsed.settings||{})},
         familyMembers:parsed.familyMembers||SEED.familyMembers,
-        lessons:parsed.lessons||SEED.lessons,
+        lessons:(parsed.lessons||SEED.lessons).map(L=>({...L, active: L.active!==false})),
         announcements:parsed.announcements||SEED.announcements,
         homeworks:parsed.homeworks||SEED.homeworks,
         expenses:parsed.expenses||SEED.expenses,
@@ -653,7 +772,7 @@ function loadData(){
       };
     }
   }catch(e){}
-  return SEED;
+  return {...SEED, lessons:(SEED.lessons||[]).map(L=>({...L, active: L.active!==false}))};
 }
 function saveData(data){
   try{localStorage.setItem(STORE_KEY,JSON.stringify(data));}catch(e){}
@@ -666,7 +785,13 @@ const AppCtx=createContext(null);
 function useApp(){return useContext(AppCtx);}
 
 function AppProvider({children}){
-  const [data,setData]=useState(()=>loadData());
+  const [data,setData]=useState(()=>{
+    const d=loadData();
+    const sess=getSessionUserId();
+    const remember=d.settings?.rememberLogin && d.settings?.sessionUserId;
+    d.settings.currentUserId = sess || (remember? d.settings.sessionUserId : null);
+    return d;
+  });
   const [toasts,setToasts]=useState([]);
 
   useEffect(()=>{saveData(data);},[data]);
@@ -681,6 +806,78 @@ function AppProvider({children}){
     setToasts(t=>[...t,{id,msg,type}]);
     setTimeout(()=>setToasts(t=>t.filter(x=>x.id!==id)),3000);
   }
+  // Auth operations
+  function findAuthUserByUsername(username){
+    return (data.authUsers||[]).find(u=> (u.username||'')===username);
+  }
+  function login(username,password,remember){
+    const u=findAuthUserByUsername(username);
+    if(!u || String(u.password||'')!==String(password||'')){
+      showToast('아이디 또는 비밀번호가 올바르지 않습니다','warn');
+      return false;
+    }
+    setData(d=>{
+      const next={...d, settings:{...d.settings, currentUserId:u.userId, rememberLogin:!!remember, sessionUserId: remember? u.userId : null}};
+      return next;
+    });
+    if(remember){
+      setSessionUserId(null); // session not needed
+    }else{
+      setSessionUserId(u.userId);
+    }
+    showToast('로그인 완료','success');
+    return true;
+  }
+  function logout(){
+    const uid0=data.settings.currentUserId;
+    setData(d=>({...d, settings:{...d.settings, currentUserId:null, sessionUserId: d.settings.rememberLogin? d.settings.sessionUserId:null}}));
+    setSessionUserId(null);
+    showToast('로그아웃','info');
+  }
+  function isAdmin(){
+    const uid0=data.settings.currentUserId;
+    const au=(data.authUsers||[]).find(x=>x.userId===uid0);
+    return !!au?.isAdmin;
+  }
+
+  function upsertAuthUser(authUser){
+    // authUser: {userId,username,password,isAdmin}
+    setData(d=>{
+      const arr=[...(d.authUsers||[])];
+      const idx=arr.findIndex(x=>x.userId===authUser.userId);
+      if(idx>=0) arr[idx]={...arr[idx],...authUser};
+      else arr.push(authUser);
+      return {...d, authUsers:arr};
+    });
+  }
+  function addFamilyMember(member, phonePassword){
+    setData(d=>{
+      const fm=[...(d.familyMembers||[]), member];
+      const au=[...(d.authUsers||[]), {userId:member.id, username:member.name, password:String(phonePassword||''), isAdmin:false}];
+      return {...d, familyMembers:fm, authUsers:au};
+    });
+    showToast('회원 등록 완료','success');
+  }
+  function updateFamilyMember(id, patch){
+    setData(d=>{
+      const fm=(d.familyMembers||[]).map(m=>m.id===id?{...m,...patch}:m);
+      if(patch.name){
+        const au=(d.authUsers||[]).map(u=>u.userId===id?{...u,username:patch.name}:u);
+        return {...d,familyMembers:fm,authUsers:au};
+      }
+      return {...d,familyMembers:fm};
+    });
+    showToast('회원 수정됨','success');
+  }
+  function deleteFamilyMember(id){
+    setData(d=>({
+      ...d,
+      familyMembers:(d.familyMembers||[]).filter(m=>m.id!==id),
+      authUsers:(d.authUsers||[]).filter(u=>u.userId!==id),
+    }));
+    showToast('회원 삭제됨');
+  }
+
 
   // Task operations
   function addTask(task){
@@ -788,7 +985,93 @@ function AppProvider({children}){
   }
 
   // Expense operations
-  function addExpense(exp){
+  
+  // Lesson Board (Posts / Comments / Materials) — v8
+  function addPost(post){
+  const now=Date.now();
+  const p={id:uid(),scopeType:'lesson',type:'discussion',tags:[],seenBy:[],pinned:false,createdAt:now,updatedAt:now,...post};
+
+  if(p.scopeType==='lesson' && p.lessonId && !canAccessLesson(data,p.lessonId)){
+    showToast('권한 없음','warn'); return null;
+  }
+
+  setData(d=>{
+    const nextPosts=[...(d.posts||[]),p];
+    let nextHomeworks=(d.homeworks||[]);
+
+    if(p.type==='homework' && p.lessonId){
+      const lesson=d.lessons.find(L=>L.id===p.lessonId);
+      const students=lesson?.studentIds||[];
+      const due = p.dueDate || addDays(todayStr(), 3);
+
+      const created = students.map(sid=>({
+        id:uid(),
+        sourcePostId:p.id,
+        lessonId:p.lessonId,
+        assigneeId:sid,
+        title:p.title,
+        notes:p.body,
+        status:'todo',
+        progress:0,
+        dueDate:due,
+        createdAt:now
+      }));
+
+      nextHomeworks=[...nextHomeworks, ...created];
+      showToast(`숙제 자동 생성: ${students.length}명`,'success');
+    }
+
+    return {...d,posts:nextPosts,homeworks:nextHomeworks};
+  });
+
+  return p;
+}
+
+// v8.2: Update post
+function updatePost(postId, patch){
+  setData(d=>({
+    ...d,
+    posts:(d.posts||[]).map(p=>p.id===postId?{...p,...patch,updatedAt:Date.now()}:p)
+  }));
+}
+// v8.2b: Add comment
+function addComment(comment){
+  const c={id:uid(),createdAt:Date.now(),...comment};
+  setData(d=>({
+    ...d,
+    posts:(d.posts||[]).map(p=>p.id===c.postId?{...p,comments:[...(p.comments||[]),c],updatedAt:Date.now()}:p)
+  }));
+}
+// v8.2c: Add material
+function addMaterial(material){
+  const m={id:uid(),createdAt:Date.now(),pinned:false,...material};
+  setData(d=>({...d,materials:[m,...(d.materials||[])]}));
+  showToast('자료 업로드됨','성공');
+}
+// v8.2d: Mark post seen
+function markPostSeen(postId){
+  const uid2=data.settings.currentUserId;
+  setData(d=>({
+    ...d,
+    posts:(d.posts||[]).map(p=>p.id===postId?{...p,seenBy:[...new Set([...(p.seenBy||[]),uid2])]}:p)
+  }));
+}
+// v8.3: Pin (게시글/자료 상단 고정)
+function togglePinPost(postId){
+  setData(d=>{
+    const posts=(d.posts||[]).map(p=>p.id===postId?{...p,pinned:!p.pinned,updatedAt:Date.now()}:p);
+    return {...d,posts};
+  });
+}
+function togglePinMaterial(materialId){
+  setData(d=>{
+    const materials=(d.materials||[]).map(m=>m.id===materialId?{...m,pinned:!m.pinned}:m);
+    return {...d,materials};
+  });
+}
+
+
+function addExpense(exp){
     const e={id:uid(),createdAt:Date.now(),...exp};
     setData(d=>({...d,expenses:[e,...d.expenses]}));
     showToast('지출 기록됨','success');
@@ -816,6 +1099,94 @@ function AppProvider({children}){
     showToast('데이터 초기화됨');
   }
 
+  // Lessons (Admin)
+  function addLesson(lesson){
+    const now=Date.now();
+    const l={id:('l'+(Math.random().toString(16).slice(2,6))+now.toString(16).slice(-2)), title:'레슨', teacherId:null, studentIds:[], createdAt:now, ...lesson};
+    setData(d=>{
+      const lessons=[...(d.lessons||[]), l];
+      let familyMembers=[...(d.familyMembers||[])];
+      if(l.teacherId){
+        familyMembers=familyMembers.map(m=>{
+          if(m.id!==l.teacherId) return m;
+          const ids=new Set(m.lessonIds||[]); ids.add(l.id);
+          return {...m, lessonIds:[...ids]};
+        });
+      }
+      return {...d, lessons, familyMembers};
+    });
+    showToast('레슨 생성됨','success');
+    return l;
+  }
+  function updateLesson(id, patch){
+    setData(d=>{
+      const lessons=(d.lessons||[]).map(L=>L.id===id?{...L,...patch,updatedAt:Date.now()}:L);
+      return {...d, lessons};
+    });
+  }
+  function deleteLesson(id, opts={cascade:false}){
+    setData(d=>{
+      const lessons=(d.lessons||[]).filter(L=>L.id!==id);
+      const familyMembers=(d.familyMembers||[]).map(m=>{
+        if(!m.lessonIds) return m;
+        return {...m, lessonIds:(m.lessonIds||[]).filter(x=>x!==id)};
+      });
+
+      if(!opts?.cascade){
+        return {...d, lessons, familyMembers};
+      }
+
+      // cascade delete: lesson-scoped resources
+      const postsToDelete = new Set((d.posts||[]).filter(p=>p.lessonId===id).map(p=>p.id));
+      const posts = (d.posts||[]).filter(p=>p.lessonId!==id);
+      const comments = (d.comments||[]).filter(c=>!postsToDelete.has(c.postId));
+      const materials = (d.materials||[]).filter(m=>m.lessonId!==id);
+
+      // homework arrays may be named homeworks or tasks w/ lessonId
+      const homeworks = (d.homeworks||[]).filter(hw=>hw.lessonId!==id);
+      const tasks = (d.tasks||[]).filter(t=>t.lessonId!==id);
+
+      return {...d, lessons, familyMembers, posts, comments, materials, homeworks, tasks};
+    });
+    showToast(opts?.cascade ? '레슨+관련 데이터 삭제됨' : '레슨 삭제됨', 'info');
+  
+  function getLessonCascadeCounts(d, lessonId){
+    const posts = (d.posts||[]).filter(p=>p.lessonId===lessonId);
+    const postIds = new Set(posts.map(p=>p.id));
+    const comments = (d.comments||[]).filter(c=>postIds.has(c.postId));
+    const materials = (d.materials||[]).filter(m=>m.lessonId===lessonId);
+    const homeworks = (d.homeworks||[]).filter(hw=>hw.lessonId===lessonId);
+    const tasks = (d.tasks||[]).filter(t=>t.lessonId===lessonId);
+    return { posts:posts.length, comments:comments.length, materials:materials.length, homeworks:homeworks.length, tasks:tasks.length };
+  }
+  function setLessonActive(lessonId, active){
+    updateLesson(lessonId, { active: !!active });
+    showToast(active ? '레슨 복원됨' : '레슨 아카이브됨', 'info');
+  }
+
+}
+  function setLessonTeacher(lessonId, teacherId){
+    setData(d=>{
+      const prev = (d.lessons||[]).find(L=>L.id===lessonId);
+      const lessons=(d.lessons||[]).map(L=>L.id===lessonId?{...L,teacherId,updatedAt:Date.now()}:L);
+      let familyMembers=[...(d.familyMembers||[])];
+      if(prev?.teacherId){
+        familyMembers=familyMembers.map(m=>m.id===prev.teacherId?{...m, lessonIds:(m.lessonIds||[]).filter(x=>x!==lessonId)}:m);
+      }
+      if(teacherId){
+        familyMembers=familyMembers.map(m=>{
+          if(m.id!==teacherId) return m;
+          const ids=new Set(m.lessonIds||[]); ids.add(lessonId);
+          return {...m, lessonIds:[...ids]};
+        });
+      }
+      return {...d, lessons, familyMembers};
+    });
+  }
+  function setLessonStudents(lessonId, studentIds){
+    updateLesson(lessonId, {studentIds:[...new Set(studentIds)]});
+  }
+
   const currentUser=data.familyMembers.find(m=>m.id===data.settings.currentUserId)||data.familyMembers[0];
 
   return(
@@ -828,11 +1199,15 @@ function AppProvider({children}){
       addProject,deleteProject,
       addHabit,deleteHabit,toggleHabitLog,
       updateSettings,
+      login,logout,isAdmin,addFamilyMember,updateFamilyMember,deleteFamilyMember,upsertAuthUser,
       addAnnouncement,markAnnouncementSeen,
       updateHomework,addHomework,
+      addPost,updatePost,addComment,addMaterial,markPostSeen,
+      togglePinPost,togglePinMaterial,
       addExpense,deleteExpense,updateBudget,
       addNote,deleteNote,
       resetData,
+      addLesson,updateLesson,deleteLesson,setLessonTeacher,setLessonStudents,
     }}>
       {children}
       <ToastStack toasts={toasts}/>
@@ -1359,27 +1734,32 @@ function ScheduleSheet({open,onClose,date}){
       {result&&(
         <div style={{paddingTop:12}}>
           {/* Insights */}
-          <div style={{display:'flex',flexDirection:'column',gap:6,marginBottom:16}}>
-            {result.insights.map((ins,i)=>(
-              <div key={i} style={{display:'flex',alignItems:'center',gap:8,padding:'10px 14px',borderRadius:10,background:ins.type==='success'?'var(--slow)':ins.type==='warn'?'var(--warnlow)':'var(--b1)'}}>
-                <span style={{fontSize:14}}>{ins.type==='success'?'✅':ins.type==='warn'?'⚠️':'ℹ️'}</span>
-                <span style={{fontSize:13,color:'var(--t1)'}}>{ins.msg}</span>
-              </div>
-            ))}
+          <div style={{marginBottom:8}}>
+            <div style={{fontSize:13,fontWeight:700,color:'var(--t2)',marginBottom:8}}>인사이트</div>
+            <div style={{display:'flex',flexDirection:'column',gap:6,marginBottom:16}}>
+              {result.insights.map((ins,i)=>(
+                <div key={i} style={{display:'flex',alignItems:'center',gap:8,padding:'10px 14px',borderRadius:10,background:ins.type==='success'?'var(--slow)':ins.type==='warn'?'var(--warnlow)':'var(--b1)'}}>
+                  <span style={{fontSize:14}}>{ins.type==='success'?'✅':ins.type==='warn'?'⚠️':'ℹ️'}</span>
+                  <span style={{fontSize:13,color:'var(--t1)'}}>{ins.msg}</span>
+                </div>
+              ))}
+            </div>
           </div>
-
           {/* Diagnostics */}
-          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8,marginBottom:16}}>
-            {[
-              ['여유시간',`${result.diagnostics.freeMinutes}분`],
-              ['딥워크',`${result.diagnostics.deepWorkMin}분`],
-              ['배치',`${result.diagnostics.placedCount}개`],
-            ].map(([l,v])=>(
-              <div key={l} style={{background:'var(--s2)',borderRadius:10,padding:'10px',textAlign:'center'}}>
-                <div style={{fontSize:11,color:'var(--t3)'}}>{l}</div>
-                <div style={{fontSize:18,fontWeight:700,color:'var(--t1)',marginTop:2}}>{v}</div>
-              </div>
-            ))}
+          <div style={{marginBottom:16}}>
+            <div style={{fontSize:13,fontWeight:700,color:'var(--t2)',marginBottom:8}}>진단(고급)</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}}>
+              {[
+                ['여유시간',`${result.diagnostics.freeMinutes}분`],
+                ['딥워크',`${result.diagnostics.deepWorkMin}분`],
+                ['배치',`${result.diagnostics.placedCount}개`],
+              ].map(([l,v])=>(
+                <div key={l} style={{background:'var(--s2)',borderRadius:10,padding:'10px',textAlign:'center'}}>
+                  <div style={{fontSize:11,color:'var(--t3)'}}>{l}</div>
+                  <div style={{fontSize:18,fontWeight:700,color:'var(--t1)',marginTop:2}}>{v}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Proposed blocks */}
@@ -1625,6 +2005,473 @@ function Timeline({date,blocks,events,onAddEvent}){
 /* ═══════════════════════════════════════════
    TODAY PAGE
 ═══════════════════════════════════════════ */
+
+const LOGO_LIGHT='data:image/png;base64,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';
+const LOGO_DARK='data:image/png;base64,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';
+
+function LogoMark({login=false}){
+  const [isDark,setIsDark]=useState(()=>document.documentElement.getAttribute('data-theme')==='dark');
+  useEffect(()=>{
+    const obs=new MutationObserver(()=>setIsDark(document.documentElement.getAttribute('data-theme')==='dark'));
+    obs.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+    return()=>obs.disconnect();
+  },[]);
+  const src=isDark?LOGO_DARK:LOGO_LIGHT;
+  if(login) return <img src={src} alt="JF OS" style={{height:62,width:'auto',maxWidth:260,objectFit:'contain'}}/>;
+  return <img src={src} alt="JF OS" style={{height:26,width:'auto',objectFit:'contain'}}/>;
+}
+
+function LoginPage(){
+  const {data,login}=useApp();
+  const [username,setUsername]=useState('');
+  const [pw,setPw]=useState('');
+  const [remember,setRemember]=useState(false);
+
+  useEffect(()=>{
+    // convenience: if rememberLogin true, checkbox on
+    setRemember(!!data.settings.rememberLogin);
+  },[]);
+
+  return(
+    <div style={{height:'100dvh',display:'flex',flexDirection:'column',background:'var(--bg)',color:'var(--t1)'}}>
+      <div style={{height:'env(safe-area-inset-top,0px)'}}/>
+      <div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',padding:24}}>
+        <div style={{width:'100%',maxWidth:360}}>
+          <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:14,marginBottom:18}}>
+            <LogoMark login={true}/>
+            <div style={{fontSize:13,color:'var(--t2)',marginTop:6}}>가족 · 레슨 · 운영을 한 곳에서</div>
+          </div>
+
+          <div style={{border:'1px solid var(--b1)',borderRadius:16,padding:16,background:'var(--s1)'}}>
+            <div style={{fontSize:13,fontWeight:900,marginBottom:6}}>로그인</div>
+
+            <input value={username} onChange={e=>setUsername(e.target.value)} placeholder="아이디(본인 이름)"
+              style={{width:'100%',padding:'12px 12px',borderRadius:12,border:'1px solid var(--b1)',marginTop:8,background:'transparent',color:'var(--t1)'}}/>
+            <input value={pw} onChange={e=>setPw(e.target.value)} placeholder="비밀번호(전화번호)" type="password"
+              style={{width:'100%',padding:'12px 12px',borderRadius:12,border:'1px solid var(--b1)',marginTop:8,background:'transparent',color:'var(--t1)'}}/>
+
+            <label style={{display:'flex',alignItems:'center',gap:10,marginTop:10,fontSize:13,color:'var(--t2)'}}>
+              <input type="checkbox" checked={remember} onChange={e=>setRemember(e.target.checked)}/>
+              자동 로그인
+            </label>
+
+            <button className="press no-dim"
+              onClick={()=>login(username.trim(),pw.trim(),remember)}
+              style={{marginTop:12,width:'100%',padding:'12px 14px',borderRadius:14,border:'1px solid var(--b1)',background:'var(--a1low)',fontWeight:1000}}>
+              로그인
+            </button>
+
+            <div style={{marginTop:10,fontSize:12,color:'var(--t2)',lineHeight:1.5}}>
+              • 아이디: <b>본인 이름</b><br/>
+              • 비밀번호: <b>전화번호</b><br/>
+              • 관리자에게 계정 등록을 요청하세요.
+            </div>
+          </div>
+
+          <div style={{marginTop:14,fontSize:12,color:'var(--t2)',textAlign:'center'}}>
+            © JF OS
+          </div>
+        </div>
+      </div>
+      <div style={{height:'env(safe-area-inset-bottom,0px)'}}/>
+    </div>
+  );
+}
+
+function AdminPage(){
+  const {data,addFamilyMember,updateFamilyMember,deleteFamilyMember,
+         upsertAuthUser,isAdmin,showToast,
+         addLesson,updateLesson,deleteLesson,setLessonTeacher,setLessonStudents,setLessonActive}=useApp();
+  const me0=me(data);
+  const [adminTab,setAdminTab]=useState('members');
+
+  // ── Member form state ──────────────────────────────────────────
+  const [mName,setMName]=useState('');
+  const [mPhone,setMPhone]=useState('');
+  const [mRole,setMRole]=useState('child');
+  const [mIsMom,setMIsMom]=useState(false);
+  const [mAvatar,setMAvatar]=useState('🙂');
+  const [mColor,setMColor]=useState('#4F8EF7');
+  const [editMemberId,setEditMemberId]=useState(null);
+
+  // ── Lesson form state ──────────────────────────────────────────
+  const [lName,setLName]=useState('');
+  const [lSlug,setLSlug]=useState('');
+  const [lColor,setLColor]=useState('#A78BFA');
+  const [lSchedule,setLSchedule]=useState('');
+  const [lTeacher,setLTeacher]=useState('');
+  const [lStudents,setLStudents]=useState([]);
+  const [editLessonId,setEditLessonId]=useState(null);
+  const [showArchived,setShowArchived]=useState(false);
+
+  if(!isAdmin()) return(
+    <div style={{padding:24,textAlign:'center',color:'var(--t2)',fontSize:14}}>
+      관리자 권한이 없습니다.
+    </div>
+  );
+
+  const users=data.familyMembers||[];
+  const lessons=data.lessons||[];
+  const teachers=users.filter(u=>u.role==='teacher');
+  const children=users.filter(u=>u.role==='child');
+  const visibleLessons=lessons.filter(l=>showArchived?true:(l.active!==false));
+  const archivedCount=lessons.filter(l=>l.active===false).length;
+  const AVATARS=['👨','👩','👧','👦','🧒','👶','🎹','📖','🎸','⚽','🎨','🔬','👩‍🏫','👨‍🏫','🧑'];
+  const inp={padding:'12px',borderRadius:12,border:'1px solid var(--b1)',
+             background:'transparent',color:'var(--t1)',width:'100%',fontSize:14,boxSizing:'border-box'};
+
+  // ── Member helpers ────────────────────────────────────────────
+  function openEditMember(u){
+    setEditMemberId(u.id); setMName(u.name); setMRole(u.role);
+    setMAvatar(u.avatar||'🙂'); setMColor(u.color||'#4F8EF7');
+    setMIsMom(!!u.isMom); setMPhone('');
+  }
+  function clearMemberForm(){
+    setEditMemberId(null); setMName(''); setMPhone('');
+    setMRole('child'); setMAvatar('🙂'); setMColor('#4F8EF7'); setMIsMom(false);
+  }
+  function saveMember(){
+    if(!mName.trim()) return;
+    if(editMemberId){
+      const patch={name:mName.trim(),role:mRole,avatar:mAvatar,color:mColor};
+      if(mRole==='parent') patch.isMom=mIsMom;
+      updateFamilyMember(editMemberId,patch);
+      if(mPhone.trim()){
+        const au=(data.authUsers||[]).find(a=>a.userId===editMemberId);
+        upsertAuthUser({userId:editMemberId,username:mName.trim(),password:mPhone.trim(),isAdmin:!!au?.isAdmin});
+      }
+    } else {
+      if(!mPhone.trim()) return;
+      const id=uid();
+      const member={id,name:mName.trim(),role:mRole,avatar:mAvatar,color:mColor};
+      if(mRole==='parent'&&mIsMom) member.isMom=true;
+      addFamilyMember(member,mPhone.trim());
+    }
+    clearMemberForm();
+  }
+
+  // ── Lesson helpers ────────────────────────────────────────────
+  function suggestSlug(name){
+    const map={피아노:'piano',영어:'english',수학:'math',음악:'music',미술:'art',체육:'pe',과학:'science',국어:'korean',코딩:'coding',줄넘기:'jump',태권도:'taekwondo',발레:'ballet',수영:'swim'};
+    for(const [k,v] of Object.entries(map)) if(name.includes(k)) return v;
+    return name.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,8)||'lesson';
+  }
+  function makeSlugId(base){
+    const existing=new Set(lessons.map(l=>l.id));
+    const slug=base||suggestSlug(lName);
+    if(!existing.has(slug)) return slug;
+    for(let i=2;i<99;i++){ const s=`${slug}-${i}`; if(!existing.has(s)) return s; }
+    return slug+'-'+Date.now().toString(36).slice(-4);
+  }
+  function openEditLesson(l){
+    setEditLessonId(l.id); setLName(l.name||''); setLColor(l.color||'#A78BFA');
+    setLSchedule(l.schedule||''); setLTeacher(l.teacherId||'');
+    setLStudents(l.studentIds||[]); setLSlug('');
+  }
+  function clearLessonForm(){
+    setEditLessonId(null); setLName(''); setLColor('#A78BFA');
+    setLSchedule(''); setLTeacher(''); setLStudents([]); setLSlug('');
+  }
+  function saveLesson(){
+    if(!lName.trim()) return;
+    if(editLessonId){
+      updateLesson(editLessonId,{name:lName.trim(),color:lColor,schedule:lSchedule});
+      setLessonTeacher(editLessonId, lTeacher||null);
+      setLessonStudents(editLessonId, lStudents);
+    } else {
+      const id=makeSlugId(lSlug.trim());
+      addLesson({id,name:lName.trim(),color:lColor,schedule:lSchedule,
+                 teacherId:lTeacher||null,studentIds:lStudents});
+    }
+    clearLessonForm();
+  }
+  function handleDeleteLesson(l){
+    const posts=(data.posts||[]).filter(p=>p.lessonId===l.id).length;
+    const materials=(data.materials||[]).filter(m=>m.lessonId===l.id).length;
+    const homeworks=(data.homeworks||[]).filter(h=>h.lessonId===l.id).length;
+    const hasCascade=posts+materials+homeworks>0;
+    const preview=hasCascade?`\n\n관련 데이터: 게시글 ${posts}개, 자료 ${materials}개, 숙제 ${homeworks}개`:'';
+    if(!window.confirm(`"${l.name}" 레슨 삭제할까요?${preview}`)) return;
+    const cascade=hasCascade&&window.confirm(`관련 데이터(게시글/자료/숙제)도 함께 삭제할까요?\n취소 = 레슨만 삭제`);
+    deleteLesson(l.id, {cascade});
+  }
+
+  const roleLabel={parent:'부모',child:'아이',teacher:'선생님'};
+  const previewSlug=lName?makeSlugId(lSlug.trim()):'';
+
+  return(
+    <div style={{height:'100%',overflow:'auto',paddingBottom:80}}>
+      <div style={{padding:'16px 16px 0'}}>
+        <div style={{fontSize:21,fontWeight:1000,letterSpacing:-.4}}>🛡️ 관리자</div>
+        <div style={{fontSize:12,color:'var(--t2)',marginTop:3}}>회원 · 레슨 · 권한 관리</div>
+      </div>
+
+      {/* Tabs */}
+      <div style={{padding:'10px 16px',display:'flex',gap:8}}>
+        {[['members','👥 회원 관리'],['lessons','🎓 레슨 관리']].map(([k,l])=>(
+          <button key={k} onClick={()=>setAdminTab(k)} className="press no-dim"
+            style={{flex:1,padding:'10px 6px',borderRadius:12,border:'1px solid var(--b1)',
+              background:adminTab===k?'var(--a1low)':'transparent',
+              fontWeight:adminTab===k?900:500,fontSize:13,color:'var(--t1)'}}>
+            {l}
+          </button>
+        ))}
+      </div>
+
+      {/* ════ MEMBERS ════ */}
+      {adminTab==='members'&&(
+        <div style={{padding:'0 16px'}}>
+          {/* Form */}
+          <div style={{border:'1px solid var(--b1)',borderRadius:16,padding:16,background:'var(--s1)',marginBottom:12}}>
+            <div style={{fontSize:15,fontWeight:900,marginBottom:10}}>
+              {editMemberId?'✏️ 회원 수정':'➕ 회원 등록'}
+            </div>
+            {/* Avatar picker */}
+            <div style={{display:'flex',flexWrap:'wrap',gap:5,marginBottom:10}}>
+              {AVATARS.map(a=>(
+                <button key={a} onClick={()=>setMAvatar(a)}
+                  style={{width:34,height:34,borderRadius:17,fontSize:17,cursor:'pointer',
+                    border:`2px solid ${mAvatar===a?'var(--work)':'var(--b1)'}`,
+                    background:mAvatar===a?'var(--wlow)':'transparent'}}>
+                  {a}
+                </button>
+              ))}
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
+              <input value={mName} onChange={e=>setMName(e.target.value)} placeholder="이름 (=아이디)" style={inp}/>
+              <input value={mPhone} onChange={e=>setMPhone(e.target.value)}
+                placeholder={editMemberId?"새 비밀번호 (빈칸=유지)":"전화번호 (=비밀번호)"}
+                type="password" style={inp}/>
+              <select value={mRole} onChange={e=>setMRole(e.target.value)} style={{...inp}}>
+                <option value="parent">부모</option>
+                <option value="child">아이</option>
+                <option value="teacher">선생님</option>
+              </select>
+              <input value={mColor} onChange={e=>setMColor(e.target.value)} type="color"
+                style={{...inp,padding:'8px',height:46,cursor:'pointer'}}/>
+            </div>
+            {mRole==='parent'&&(
+              <label style={{display:'flex',alignItems:'center',gap:8,marginTop:8,fontSize:13,color:'var(--t2)'}}>
+                <input type="checkbox" checked={mIsMom} onChange={e=>setMIsMom(e.target.checked)}/>
+                엄마 계정 (가계부 탭 활성화)
+              </label>
+            )}
+            <div style={{display:'flex',gap:8,marginTop:12}}>
+              <button onClick={saveMember} className="press no-dim"
+                style={{flex:1,padding:'12px',borderRadius:12,border:'1px solid var(--b1)',background:'var(--a1low)',fontWeight:900}}>
+                {editMemberId?'저장':'등록'}
+              </button>
+              {editMemberId&&(
+                <button onClick={clearMemberForm} className="press no-dim"
+                  style={{padding:'12px 16px',borderRadius:12,border:'1px solid var(--b1)',fontWeight:700}}>취소</button>
+              )}
+            </div>
+          </div>
+
+          {/* Member list by role */}
+          {['parent','child','teacher'].map(r=>{
+            const grp=users.filter(u=>u.role===r);
+            if(!grp.length) return null;
+            return(
+              <div key={r} style={{marginBottom:12}}>
+                <div style={{fontSize:11,fontWeight:700,color:'var(--t3)',textTransform:'uppercase',letterSpacing:0.8,paddingBottom:5}}>
+                  {roleLabel[r]} ({grp.length})
+                </div>
+                {grp.map(u=>{
+                  const au=(data.authUsers||[]).find(x=>x.userId===u.id);
+                  const uLessons=lessons.filter(l=>r==='teacher'?(l.teacherId===u.id):(l.studentIds||[]).includes(u.id));
+                  return(
+                    <div key={u.id} style={{border:'1px solid var(--b1)',borderRadius:14,padding:12,background:'var(--s2)',marginBottom:8}}>
+                      <div style={{display:'flex',alignItems:'center',gap:10}}>
+                        <div style={{width:40,height:40,borderRadius:20,flexShrink:0,
+                          background:(u.color||'#4F8EF7')+'22',display:'flex',alignItems:'center',justifyContent:'center',fontSize:21}}>
+                          {u.avatar||'🙂'}
+                        </div>
+                        <div style={{flex:1,minWidth:0}}>
+                          <div style={{fontWeight:800,fontSize:14,display:'flex',alignItems:'center',gap:4,flexWrap:'wrap'}}>
+                            {u.name}
+                            {u.isMom&&<span style={{fontSize:10,color:'#EC4899',fontWeight:600}}>엄마</span>}
+                            {au?.isAdmin&&<span style={{fontSize:10,color:'var(--work)',fontWeight:600}}>관리자</span>}
+                          </div>
+                          <div style={{fontSize:11,color:'var(--t3)',marginTop:1}}>PW: {au?String(au.password):'—'}</div>
+                          {uLessons.length>0&&(
+                            <div style={{display:'flex',gap:3,flexWrap:'wrap',marginTop:4}}>
+                              {uLessons.map(l=>(
+                                <span key={l.id} style={{fontSize:10,padding:'2px 7px',borderRadius:8,
+                                  background:(l.color||'#A78BFA')+'22',color:l.color||'#A78BFA',fontWeight:600}}>
+                                  {l.name}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <div style={{display:'flex',flexDirection:'column',gap:5}}>
+                          <button onClick={()=>openEditMember(u)} className="press no-dim"
+                            style={{padding:'6px 10px',borderRadius:10,border:'1px solid var(--b1)',fontSize:11,fontWeight:700}}>수정</button>
+                          {u.id!==me0?.id&&(
+                            <button onClick={()=>{if(window.confirm(`${u.name} 삭제?`)) deleteFamilyMember(u.id);}}
+                              className="press no-dim"
+                              style={{padding:'6px 10px',borderRadius:10,border:'1px solid var(--b1)',fontSize:11,fontWeight:700,color:'var(--danger)'}}>삭제</button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+          <div style={{fontSize:11,color:'var(--t3)',lineHeight:1.6,paddingBottom:12}}>
+            • 아이디=이름, 비밀번호=전화번호 규칙으로 운영하세요.<br/>
+            • 본인 계정(현재 로그인)은 삭제할 수 없습니다.
+          </div>
+        </div>
+      )}
+
+      {/* ════ LESSONS ════ */}
+      {adminTab==='lessons'&&(
+        <div style={{padding:'0 16px'}}>
+          {/* Form */}
+          <div style={{border:'1px solid var(--b1)',borderRadius:16,padding:16,background:'var(--s1)',marginBottom:12}}>
+            <div style={{fontSize:15,fontWeight:900,marginBottom:10}}>
+              {editLessonId?'✏️ 레슨 수정':'➕ 레슨 등록'}
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:10}}>
+              <input value={lName} onChange={e=>setLName(e.target.value)} placeholder="레슨 이름 (예: 피아노)" style={inp}/>
+              <input value={lSchedule} onChange={e=>setLSchedule(e.target.value)} placeholder="일정 (예: 화/목 16:00)" style={inp}/>
+              <input value={lColor} onChange={e=>setLColor(e.target.value)} type="color"
+                style={{...inp,padding:'8px',height:46,cursor:'pointer'}}/>
+              <select value={lTeacher} onChange={e=>setLTeacher(e.target.value)} style={{...inp}}>
+                <option value="">선생님 미배정</option>
+                {teachers.map(t=>(<option key={t.id} value={t.id}>{t.avatar} {t.name}</option>))}
+              </select>
+              {!editLessonId&&(
+                <div style={{gridColumn:'1 / -1'}}>
+                  <input value={lSlug} onChange={e=>setLSlug(e.target.value.replace(/[^a-z0-9-]/g,''))}
+                    placeholder="ID 슬러그 (비워두면 자동)" style={inp}/>
+                  {lName&&(
+                    <div style={{fontSize:11,color:'var(--t3)',marginTop:4}}>
+                      생성될 ID: <b style={{color:'var(--work)'}}>{previewSlug}</b>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+            {/* Student chips */}
+            <div style={{marginBottom:10}}>
+              <div style={{fontSize:12,fontWeight:700,color:'var(--t2)',marginBottom:6}}>학생 배정</div>
+              {children.length===0?(
+                <div style={{fontSize:12,color:'var(--t3)'}}>아이 계정 없음 (회원 관리에서 추가)</div>
+              ):(
+                <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
+                  {children.map(c=>{
+                    const on=lStudents.includes(c.id);
+                    return(
+                      <button key={c.id} onClick={()=>setLStudents(p=>on?p.filter(x=>x!==c.id):[...p,c.id])}
+                        className="press no-dim"
+                        style={{display:'flex',alignItems:'center',gap:4,padding:'6px 10px',
+                          borderRadius:20,border:`1.5px solid ${on?(c.color||'#4F8EF7'):'var(--b1)'}`,
+                          background:on?(c.color||'#4F8EF7')+'18':'transparent',
+                          fontSize:12,fontWeight:on?800:400,color:on?(c.color||'#4F8EF7'):'var(--t1)'}}>
+                        {c.avatar} {c.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <div style={{display:'flex',gap:8}}>
+              <button onClick={saveLesson} className="press no-dim"
+                style={{flex:1,padding:'12px',borderRadius:12,border:'1px solid var(--b1)',background:'var(--a1low)',fontWeight:900}}>
+                {editLessonId?'저장':'레슨 생성'}
+              </button>
+              {editLessonId&&(
+                <button onClick={clearLessonForm} className="press no-dim"
+                  style={{padding:'12px 16px',borderRadius:12,border:'1px solid var(--b1)',fontWeight:700}}>취소</button>
+              )}
+            </div>
+          </div>
+
+          {/* Archive toggle */}
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
+            <div style={{fontSize:12,fontWeight:700,color:'var(--t2)'}}>
+              전체 레슨 ({visibleLessons.length}/{lessons.length})
+            </div>
+            {archivedCount>0&&(
+              <button onClick={()=>setShowArchived(v=>!v)} className="press no-dim"
+                style={{padding:'5px 10px',borderRadius:10,border:'1px solid var(--b1)',
+                  fontSize:11,fontWeight:700,background:showArchived?'var(--warnlow)':'transparent'}}>
+                {showArchived?`아카이브 숨김`:`아카이브 포함 (${archivedCount})`}
+              </button>
+            )}
+          </div>
+
+          {visibleLessons.length===0&&(
+            <div style={{textAlign:'center',padding:24,fontSize:13,color:'var(--t3)'}}>
+              레슨이 없어요. 위에서 추가해보세요!
+            </div>
+          )}
+          {visibleLessons.map(l=>{
+            const teacher=users.find(u=>u.id===l.teacherId);
+            const studentList=(l.studentIds||[]).map(sid=>users.find(u=>u.id===sid)).filter(Boolean);
+            const hwCount=(data.homeworks||[]).filter(hw=>hw.lessonId===l.id).length;
+            const postCount=(data.posts||[]).filter(p=>p.lessonId===l.id).length;
+            const isArchived=l.active===false;
+            return(
+              <div key={l.id} style={{border:'1px solid var(--b1)',borderRadius:14,padding:12,
+                background:isArchived?'transparent':'var(--s2)',marginBottom:8,
+                borderLeft:`4px solid ${isArchived?'var(--b2)':l.color||'#A78BFA'}`,
+                opacity:isArchived?0.6:1}}>
+                <div style={{display:'flex',gap:8,alignItems:'flex-start'}}>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontWeight:800,fontSize:14,display:'flex',alignItems:'center',gap:6}}>
+                      {l.name}
+                      <span style={{fontSize:10,color:'var(--t3)',fontWeight:400}}>#{l.id}</span>
+                      {isArchived&&<span style={{fontSize:10,color:'var(--t3)',fontWeight:600,padding:'1px 6px',borderRadius:6,border:'1px solid var(--b1)'}}>아카이브</span>}
+                    </div>
+                    {l.schedule&&<div style={{fontSize:12,color:'var(--t2)',marginTop:2}}>🕐 {l.schedule}</div>}
+                    <div style={{fontSize:12,color:'var(--t2)',marginTop:2}}>
+                      👩‍🏫 {teacher?`${teacher.avatar} ${teacher.name}`:'선생님 미배정'}
+                    </div>
+                    {studentList.length>0&&(
+                      <div style={{display:'flex',gap:3,flexWrap:'wrap',marginTop:4}}>
+                        {studentList.map(s=>(
+                          <span key={s.id} style={{fontSize:10,padding:'2px 7px',borderRadius:9,
+                            background:(s.color||'#A78BFA')+'20',color:s.color||'#A78BFA',fontWeight:600}}>
+                            {s.avatar} {s.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div style={{fontSize:11,color:'var(--t3)',marginTop:4}}>숙제 {hwCount} · 게시글 {postCount}</div>
+                  </div>
+                  <div style={{display:'flex',flexDirection:'column',gap:5,flexShrink:0}}>
+                    <button onClick={()=>openEditLesson(l)} className="press no-dim"
+                      style={{padding:'6px 10px',borderRadius:10,border:'1px solid var(--b1)',fontSize:11,fontWeight:700}}>수정</button>
+                    <button onClick={()=>setLessonActive(l.id, isArchived)} className="press no-dim"
+                      style={{padding:'6px 10px',borderRadius:10,border:'1px solid var(--b1)',fontSize:11,fontWeight:700}}>
+                      {isArchived?'복원':'아카이브'}
+                    </button>
+                    <button onClick={()=>handleDeleteLesson(l)} className="press no-dim"
+                      style={{padding:'6px 10px',borderRadius:10,border:'1px solid var(--b1)',fontSize:11,fontWeight:700,color:'var(--danger)'}}>삭제</button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          <div style={{fontSize:11,color:'var(--t3)',lineHeight:1.7,paddingBottom:12,marginTop:4}}>
+            💡 선생님 지정 시 해당 계정에 접근 권한 자동 부여<br/>
+            💡 아카이브: 운영 화면에서 숨김 (데이터 보존)
+          </div>
+        </div>
+      )}
+
+      <div style={{height:'env(safe-area-inset-bottom,0px)'}}/>
+    </div>
+  );
+}
+
+
 function TodayPage(){
   const {data,currentUser,showToast}=useApp();
   const today=todayStr();
@@ -1761,6 +2608,7 @@ function TodayPage(){
         </div>
       )}
 
+      <div><div style={{fontSize:13,fontWeight:700,color:'var(--t2)',marginBottom:8}}>더보기(업무/개인/완료)</div><div>
       {/* Work tasks by project */}
       {Object.keys(projMap).length>0&&(
         <div style={sectionStyle}>
@@ -1804,6 +2652,8 @@ function TodayPage(){
           {doneTodayTasks.map(t=><TaskRow key={t.id} task={t} onTap={setDetailTask} compact/>)}
         </div>
       )}
+
+      </div></div>
 
       {/* Sheets */}
       <TaskDetailSheet task={detailTask} open={!!detailTask} onClose={()=>setDetailTask(null)}/>
@@ -2718,6 +3568,7 @@ function SettingsPage(){
     <div className="scroll" style={{flex:1,padding:'16px 16px 80px'}}>
       <div style={{fontSize:22,fontWeight:900,color:'var(--t1)',marginBottom:20}}>설정</div>
 
+      <div><div style={{fontSize:13,fontWeight:700,color:'var(--t2)',marginBottom:8}}>통계/진단(접기)</div><div>
       {/* Stats dashboard */}
       <div style={sectionTitle}>📊 통계</div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:10,marginBottom:8}}>
@@ -2734,25 +3585,35 @@ function SettingsPage(){
         ))}
       </div>
 
+      </div></div>
+
       {/* Theme */}
       <div style={sectionTitle}>🎨 테마</div>
-      <div style={{display:'flex',gap:8}}>
-        {[['dark','🌙 다크'],['light','☀️ 라이트']].map(([v,l])=>(
-          <button key={v} onClick={()=>updateSettings({theme:v})} style={{flex:1,padding:'12px',borderRadius:12,border:`2px solid ${s.theme===v?'var(--work)':'var(--b2)'}`,background:s.theme===v?'var(--wlow)':'var(--s2)',color:s.theme===v?'var(--work)':'var(--t2)',fontWeight:700,fontSize:14,cursor:'pointer'}}>{l}</button>
-        ))}
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px',borderRadius:14,border:'1px solid var(--b1)',background:'var(--s1)'}}>
+        <div>
+          <div style={{fontWeight:900,fontSize:13}}>라이트 / 다크</div>
+          <div style={{fontSize:12,color:'var(--t2)',marginTop:4}}>현재: {s.theme==='dark'?'다크':'라이트'}</div>
+        </div>
+        <button
+          className="press no-dim"
+          role="switch"
+          aria-checked={s.theme==='dark'}
+          onClick={()=>updateSettings({theme: s.theme==='dark'?'light':'dark'})}
+          style={{
+            width:56,height:32,borderRadius:999,border:'1px solid var(--b1)',
+            background: s.theme==='dark' ? 'var(--work)' : 'var(--s2)',
+            position:'relative',padding:0,cursor:'pointer'
+          }}
+        >
+          <span style={{
+            position:'absolute',top:3,left: s.theme==='dark'? 28 : 3,
+            width:26,height:26,borderRadius:999,background:'#fff',
+            transition:'left 160ms var(--ease), background 160ms var(--ease)'
+          }}/>
+        </button>
       </div>
 
-      {/* Current user (role switch) */}
-      <div style={sectionTitle}>👤 사용자 전환</div>
-      <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
-        {data.familyMembers.map(m=>(
-          <button key={m.id} onClick={()=>updateSettings({currentUserId:m.id})} style={{padding:'8px 14px',borderRadius:10,border:`2px solid ${s.currentUserId===m.id?m.color:'var(--b2)'}`,background:s.currentUserId===m.id?m.color+'22':'var(--s2)',color:s.currentUserId===m.id?m.color:'var(--t2)',fontWeight:600,fontSize:13,cursor:'pointer'}}>
-            {m.avatar} {m.name}
-          </button>
-        ))}
-      </div>
-
-      {/* Work settings */}
+{/* Work settings */}
       <div style={sectionTitle}>⏰ 업무 시간</div>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
         <div><label style={labelStyle}>시작</label><input type="time" value={s.workdayStart} onChange={e=>updateSettings({workdayStart:e.target.value})} style={fieldStyle}/></div>
@@ -2849,22 +3710,778 @@ function FAB({onShortPress,onLongPress}){
 }
 
 /* ═══════════════════════════════════════════
+   
+/* ═══════════════════════════════════════════
+   TEACHER / CHILD PAGES (v8)
+═══════════════════════════════════════════ */
+function Panel({children,style={}}){
+  return(
+    <div style={{
+      background:'var(--s1)',border:'1px solid var(--b1)',borderRadius:16,
+      padding:14,boxShadow:'var(--card-shadow)',...style
+    }}>{children}</div>
+  );
+}
+function HRow({left,right}){
+  return(
+    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10}}>
+      <div style={{fontSize:16,fontWeight:800}}>{left}</div>
+      {right}
+    </div>
+  );
+}
+function MiniChip({text,color='var(--b2)'}){
+  return <span style={{fontSize:12,fontWeight:800,padding:'6px 10px',borderRadius:999,border:`1px solid var(--b1)`,background:color}}>{text}</span>;
+}
+
+function TeacherDashboardPage(){
+  const {data,showToast}=useApp();
+  const u=me(data);
+  const lids=myLessonIds(data);
+  const lessons=data.lessons.filter(L=>lids.includes(L.id));
+  const homeworks=visibleHomeworks(data).filter(hw=>lids.includes(hw.lessonId));
+  const posts=visiblePosts(data).filter(p=>p.scopeType==='lesson');
+  const unanswered=posts.filter(p=>{
+    const cs=(data.comments||[]).filter(c=>c.postId===p.id);
+    if(!cs.length) return false;
+    const last=cs[cs.length-1];
+    return last.authorId!==u.id; // last message not by teacher
+  }).slice(0,5);
+  return(
+    <div className="scroll" style={{padding:16,display:'flex',flexDirection:'column',gap:12}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+        <div style={{fontSize:24,fontWeight:900}}>대시보드</div>
+        <div style={{fontSize:13,color:'var(--t2)'}}>{u.avatar} {u.name}</div>
+      </div>
+
+      <Panel>
+        <HRow left="오늘 레슨" right={<MiniChip text={`${lessons.length}개`} color="var(--purplow)"/>}/>
+        <div style={{marginTop:10,display:'flex',flexDirection:'column',gap:8}}>
+          {lessons.map(L=>(
+            <div key={L.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'10px 12px',border:'1px solid var(--b1)',borderRadius:14}}>
+              <div>
+                <div style={{fontWeight:800}}>{L.name}</div>
+                <div style={{fontSize:12,color:'var(--t2)'}}>{L.schedule} · 학생 {L.studentIds.length}</div>
+              </div>
+              <span style={{fontSize:12,fontWeight:800,color:'var(--t2)'}}>lesson</span>
+            </div>
+          ))}
+          {!lessons.length && <div style={{fontSize:13,color:'var(--t2)'}}>연결된 레슨이 없습니다.</div>}
+        </div>
+      </Panel>
+
+      <Panel>
+        <HRow left="미체크 숙제" right={<MiniChip text={`${homeworks.filter(h=>h.progress<100).length}개`} color="var(--warnlow)"/>}/>
+        <div style={{marginTop:10,display:'flex',flexDirection:'column',gap:8}}>
+          {homeworks.filter(h=>h.progress<100).slice(0,5).map(hw=>(
+            <div key={hw.id} style={{padding:'10px 12px',border:'1px solid var(--b1)',borderRadius:14}}>
+              <div style={{display:'flex',justifyContent:'space-between',gap:10}}>
+                <div style={{fontWeight:800}}>{hw.title}</div>
+                <div style={{fontSize:12,color:'var(--t2)'}}>{hw.progress||0}%</div>
+              </div>
+              <div style={{fontSize:12,color:'var(--t2)'}}>lesson {hw.lessonId} · due {hw.dueDate}</div>
+            </div>
+          ))}
+          {!homeworks.length && <div style={{fontSize:13,color:'var(--t2)'}}>숙제가 없습니다.</div>}
+        </div>
+      </Panel>
+
+      <Panel>
+        <HRow left="미답 질문" right={<MiniChip text={`${unanswered.length}개`} color="var(--a1low)"/>}/>
+        <div style={{marginTop:10,display:'flex',flexDirection:'column',gap:8}}>
+          {unanswered.map(p=>(
+            <div key={p.id} style={{padding:'10px 12px',border:'1px solid var(--b1)',borderRadius:14}}>
+              <div style={{fontWeight:800}}>{p.title}</div>
+              <div style={{fontSize:12,color:'var(--t2)'}}>lesson {p.lessonId}{p.type==='homework'&&p.dueDate?` · 마감 ${p.dueDate}`:''} · 댓글 {(data.comments||[]).filter(c=>c.postId===p.id).length}</div>
+            </div>
+          ))}
+          {!unanswered.length && <div style={{fontSize:13,color:'var(--t2)'}}>모든 질문에 답변 완료 🎉</div>}
+        </div>
+      </Panel>
+    </div>
+  );
+}
+
+function LessonsPage(){
+  const {data}=useApp();
+  const lids=myLessonIds(data);
+  const lessons=data.lessons.filter(L=>lids.includes(L.id));
+  const posts=visiblePosts(data);
+  const homeworks=visibleHomeworks(data);
+  return(
+    <div className="scroll" style={{padding:16,display:'flex',flexDirection:'column',gap:12}}>
+      <div style={{fontSize:24,fontWeight:900}}>레슨</div>
+      {lessons.map(L=>{
+        const pCnt=posts.filter(p=>p.lessonId===L.id).length;
+        const hCnt=homeworks.filter(h=>h.lessonId===L.id).length;
+        return(
+          <Panel key={L.id}>
+            <HRow left={L.name} right={<MiniChip text={L.schedule} color="var(--lessonlow)"/>}/>
+            <div style={{marginTop:8,fontSize:13,color:'var(--t2)'}}>학생 {L.studentIds.length} · 게시글 {pCnt} · 숙제 {hCnt}</div>
+          </Panel>
+        );
+      })}
+      {!lessons.length && <Panel><div style={{fontSize:13,color:'var(--t2)'}}>연결된 레슨이 없습니다.</div></Panel>}
+    </div>
+  );
+}
+
+function BoardPage({mode='teacher'}){
+  const {data,addPost,addComment,markPostSeen,togglePinPost}=useApp();
+  const role=myRole(data);
+  const lids=myLessonIds(data);
+  const lessons=data.lessons.filter(L=>lids.includes(L.id));
+  const [lessonId,setLessonId]=useState(lessons[0]?.id||'');
+  const [type,setType]=useState('all');
+  const [q,setQ]=useState('');
+  const [pinOnly,setPinOnly]=useState(false); // pinned only
+  const [seenFilter,setSeenFilter]=useState('all'); // all | unread | read
+  const [pinUnreadOnly,setPinUnreadOnly]=useState(false); // pinned + unread only
+  const [urgentOnly,setUrgentOnly]=useState(false); // homework: due today/overdue only
+  const [openPost,setOpenPost]=useState(null);
+  const [showNew,setShowNew]=useState(false);
+
+  const posts=useMemo(()=>{
+    let arr=visiblePosts(data).filter(p=>p.scopeType==='lesson');
+    if(lessonId) arr=arr.filter(p=>p.lessonId===lessonId);
+    if(type!=='all') arr=arr.filter(p=>p.type===type);
+    if(q.trim()){
+      const qq=q.trim().toLowerCase();
+      arr=arr.filter(p=>(p.title||'').toLowerCase().includes(qq)||(p.body||'').toLowerCase().includes(qq)||(p.tags||[]).join(' ').toLowerCase().includes(qq));
+    }
+    arr=arr.sort((a,b)=>(!!b.pinned)-(!!a.pinned) || (b.createdAt-a.createdAt));
+
+    const uid0=data.settings.currentUserId;
+    if(seenFilter==='unread') arr=arr.filter(p=>!(p.seenBy||[]).includes(uid0));
+    if(seenFilter==='read')   arr=arr.filter(p=>(p.seenBy||[]).includes(uid0));
+    if(pinOnly) arr=arr.filter(p=>!!p.pinned);
+
+    // v8.5: pinned + unread combo
+    if(pinUnreadOnly) arr=arr.filter(p=>!!p.pinned && !(p.seenBy||[]).includes(uid0));
+
+    // v8.5: homework urgent filter (today/overdue)
+    if(urgentOnly){
+      const td=todayStr();
+      arr=arr.filter(p=>{
+        if(p.type!=='homework') return false;
+        if(!p.dueDate) return false;
+        return daysBetween(td, p.dueDate) <= 0; // today or overdue
+      });
+    }
+
+return arr;
+  },[data,lessonId,type,q,seenFilter,pinOnly,pinUnreadOnly,urgentOnly]);
+
+  function canWrite(){
+    return role==='teacher' && lessonId && canAccessLesson(data,lessonId);
+  }
+
+  return(
+    <div className="scroll" style={{padding:16,display:'flex',flexDirection:'column',gap:12}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+        <div style={{fontSize:24,fontWeight:900}}>{role==='teacher'?'게시판':'레슨 게시판'}</div>
+        {canWrite() && <button className="press no-dim" onClick={()=>setShowNew(true)} style={{fontSize:13,fontWeight:900,padding:'8px 12px',borderRadius:12,border:'1px solid var(--b1)',background:'var(--wmid)'}}>글쓰기</button>}
+      </div>
+
+      <Panel style={{display:'flex',flexDirection:'column',gap:10}}>
+        <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+          <select value={lessonId} onChange={e=>setLessonId(e.target.value)} style={{flex:1,minWidth:150,padding:'10px 12px',borderRadius:12,border:'1px solid var(--b1)'}}>
+            {lessons.map(L=><option key={L.id} value={L.id}>{L.name}</option>)}
+          </select>
+          <select value={type} onChange={e=>setType(e.target.value)} style={{padding:'10px 12px',borderRadius:12,border:'1px solid var(--b1)'}}>
+            <option value="all">전체</option>
+            <option value="announcement">공지</option>
+            <option value="homework">숙제</option>
+            <option value="material">자료</option>
+            <option value="discussion">질문</option>
+          </select>
+        </div>
+        
+      <div style={{display:'flex',gap:8,marginTop:8,flexWrap:'wrap'}}>
+        <button className="press no-dim" onClick={()=>{setSeenFilter('all'); setPinUnreadOnly(false);}}
+          style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b1)',background:seenFilter==='all'?'var(--s2)':'transparent',fontWeight:900,fontSize:12}}>전체</button>
+        <button className="press no-dim" onClick={()=>{setSeenFilter('unread');}}
+          style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b1)',background:seenFilter==='unread'?'var(--warnlow)':'transparent',fontWeight:900,fontSize:12}}>미확인</button>
+        <button className="press no-dim" onClick={()=>{setSeenFilter('read'); setPinUnreadOnly(false);}}
+          style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b1)',background:seenFilter==='read'?'var(--oklow)':'transparent',fontWeight:900,fontSize:12}}>확인</button>
+
+        <button className="press no-dim" onClick={()=>setPinOnly(v=>!v)}
+          style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b1)',background:pinOnly?'var(--purplow)':'transparent',fontWeight:900,fontSize:12}}>핀만</button>
+
+        <button className="press no-dim" onClick={()=>{setPinUnreadOnly(v=>!v); setSeenFilter('unread'); setPinOnly(false);}}
+          style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b1)',background:pinUnreadOnly?'var(--dangerlow)':'transparent',fontWeight:900,fontSize:12}}>핀된 미확인만</button>
+
+        <button className="press no-dim" onClick={()=>{ if(type!=='homework'){ showToast('숙제 탭에서만 사용','warn'); return; } setUrgentOnly(v=>!v);}}
+          style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b1)',background:urgentOnly?'var(--warnlow)':'transparent',fontWeight:900,fontSize:12,opacity:type==='homework'?1:0.55}}>오늘/지연만</button>
+      </div>
+<input value={q} onChange={e=>setQ(e.target.value)} placeholder="검색 (제목/본문/태그)" style={{padding:'12px 12px',borderRadius:12,border:'1px solid var(--b1)'}}/>
+      </Panel>
+
+      <div style={{display:'flex',flexDirection:'column',gap:10}}>
+        {posts.map(p=>{
+          const cs=(data.comments||[]).filter(c=>c.postId===p.id);
+          const unread = !(p.seenBy||[]).includes(data.settings.currentUserId);
+          const dmeta = (p.type==='homework' && p.dueDate) ? ddayMeta(todayStr(), p.dueDate) : null;
+          return(
+            <Panel key={p.id} style={{padding:12}}>
+              <button className="press no-dim" onClick={()=>{markPostSeen(p.id); setOpenPost(p);}} style={{width:'100%',textAlign:'left'}}>
+                <div style={{display:'flex',justifyContent:'space-between',gap:10}}>
+                  <div style={{display:'flex',gap:8,alignItems:'center',minWidth:0}}>
+                    <MiniChip text={p.type} color={p.type==='announcement'?'var(--warnlow)':p.type==='homework'?'var(--a1low)':p.type==='material'?'var(--purplow)':'var(--b1)'}/>
+                    <div style={{fontWeight:900,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{p.title}</div>
+                    {unread && <span style={{width:8,height:8,borderRadius:99,background:'var(--a1c)'}}/>}
+                    {dmeta && <MiniChip text={dmeta.label} color={dmeta.tone==='danger'?'var(--dlow)':dmeta.tone==='warn'?'var(--warnlow)':'var(--b1)'} />}
+                  </div>
+                  <div style={{fontSize:12,color:'var(--t2)'}}>{(p.type==='homework'?(()=>{const s=homeworkSummaryForPost(data,p.id);return `${s.done}/${s.total}✅`;})():null)} {cs.length}💬
+                  <button className="press no-dim" onClick={(e)=>{e.stopPropagation();togglePinPost(p.id);}}
+                    title="핀" style={{marginLeft:8,padding:'4px 8px',borderRadius:999,border:'1px solid var(--b1)',fontWeight:900,fontSize:12,background:p.pinned?'var(--purplow)':'transparent'}}>
+                    📌
+                  </button>
+                </div>
+                </div>
+                <div style={{marginTop:6,fontSize:12,color:'var(--t2)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{p.body}</div>
+              </button>
+            </Panel>
+          );
+        })}
+        {!posts.length && <Panel><div style={{fontSize:13,color:'var(--t2)'}}>게시글이 없습니다.</div></Panel>}
+      </div>
+
+      <PostDetailSheet open={!!openPost} post={openPost} onClose={()=>setOpenPost(null)} onSend={(body)=>{
+        if(!openPost) return;
+        addComment({postId:openPost.id,authorId:data.settings.currentUserId,body});
+      }} data={data}/>
+
+      <AddPostSheet open={showNew} onClose={()=>setShowNew(false)} lessonId={lessonId} onSubmit={(payload)=>{
+        const authorId=data.settings.currentUserId;
+        addPost({scopeType:'lesson',lessonId,authorId,...payload});
+        setShowNew(false);
+      }}/>
+    </div>
+  );
+}
+
+function PostDetailSheet({open,post,onClose,onSend,data}){
+  const [msg,setMsg]=useState('');
+  useEffect(()=>{ if(open) setMsg(''); },[open]);
+  if(!open||!post) return null;
+  const comments=(data.comments||[]).filter(c=>c.postId===post.id).sort((a,b)=>a.createdAt-b.createdAt);
+  const getName=(id)=>data.familyMembers.find(m=>m.id===id)?.name||id;
+  const getAvatar=(id)=>data.familyMembers.find(m=>m.id===id)?.avatar||'🙂';
+  return(
+    <Sheet open={open} onClose={onClose} title={`${post.title}`} height="85vh">
+      <div style={{display:'flex',flexDirection:'column',gap:12}}>
+        <Panel style={{boxShadow:'none'}}>
+          <div style={{fontSize:12,color:'var(--t2)'}}>lesson {post.lessonId} · {post.type}</div>
+          {post.type==='homework' && post.dueDate ? (()=>{const dm=ddayMeta(todayStr(), post.dueDate); return dm ? <div style={{marginTop:6,display:'flex',gap:8,alignItems:'center'}}><MiniChip text={`마감 ${post.dueDate}`} color='var(--b1)'/><MiniChip text={dm.label} color={dm.tone==='danger'?'var(--dlow)':dm.tone==='warn'?'var(--warnlow)':'var(--b1)'} /></div> : null;})() : null}
+
+          <div style={{marginTop:6,whiteSpace:'pre-wrap',lineHeight:1.45}}>{post.body}
+      {post.type==='homework' ? (
+        <div style={{marginTop:10,padding:10,borderRadius:12,border:'1px solid var(--b1)',background:'var(--a1low)'}}>
+          {(()=>{ const s=homeworkSummaryForPost(data, post.id);
+            return <div style={{fontSize:13,fontWeight:900}}>숙제 진행률: {s.done}/{s.total} 완료</div>;
+          })()}
+          <div style={{marginTop:6,fontSize:12,color:'var(--t2)'}}>
+            학생이 진행률을 체크하면 이 숫자가 자동으로 갱신됩니다.
+          </div>
+        </div>
+      ) : null}
+</div>
+          {post.tags?.length? <div style={{marginTop:10,display:'flex',gap:6,flexWrap:'wrap'}}>{post.tags.map((t,i)=><MiniChip key={i} text={t} color="var(--b1)"/> )}</div>:null}
+        </Panel>
+
+        {post.type==='homework' ? (
+        <div style={{marginTop:10,marginBottom:10,padding:10,borderRadius:12,border:'1px solid var(--b1)',background:'var(--a1low)'}}>
+          {(()=>{ 
+            const s=homeworkSummaryForPost(data, post.id);
+            const lesson=data.lessons.find(L=>L.id===post.lessonId);
+            const students=(lesson?.studentIds||[]).map(id=>data.familyMembers.find(m=>m.id===id)).filter(Boolean);
+            const hw=(data.homeworks||[]).filter(x=>x.sourcePostId===post.id);
+            const byUser=new Map(hw.map(x=>[x.assigneeId,x]));
+            return (
+              <div>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                  <div style={{fontSize:13,fontWeight:900}}>숙제 요약</div>
+                  <div style={{fontSize:13,fontWeight:900}}>{s.done}/{s.total} 완료</div>
+                </div>
+                <div style={{marginTop:8,display:'flex',flexWrap:'wrap',gap:6}}>
+                  {students.map(st=>{
+                    const h=byUser.get(st.id);
+                    const p=Number(h?.progress||0);
+                    const done=p>=100 || h?.status==='done';
+                    return (
+                      <span key={st.id} style={{display:'inline-flex',alignItems:'center',gap:6,padding:'6px 10px',borderRadius:999,border:'1px solid var(--b1)',fontSize:12,background:done?'var(--oklow)':'transparent'}}>
+                        <span>{st.avatar||'🙂'}</span>
+                        <b style={{fontWeight:900}}>{st.name}</b>
+                        <span style={{fontWeight:900,color:done?'var(--ok)':'var(--t2)'}}>{done?'완료':`${p}%`}</span>
+                      </span>
+                    );
+                  })}
+                </div>
+                <div style={{marginTop:8,fontSize:12,color:'var(--t2)'}}>
+                  선생님은 이 요약을 보고 바로 댓글로 피드백을 남기면 됩니다.
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      ) : null}
+
+      <div style={{fontSize:13,fontWeight:900}}>스레드</div>
+        <div style={{display:'flex',flexDirection:'column',gap:8}}>
+          {comments.map(c=>(
+            <div key={c.id} style={{display:'flex',gap:10,alignItems:'flex-start'}}>
+              <div style={{width:32,height:32,borderRadius:999,display:'flex',alignItems:'center',justifyContent:'center',border:'1px solid var(--b1)',background:'var(--s2)'}}>{getAvatar(c.authorId)}</div>
+              <div style={{flex:1}}>
+                <div style={{fontSize:12,color:'var(--t2)'}}>{getName(c.authorId)}</div>
+                <div style={{whiteSpace:'pre-wrap'}}>{c.body}</div>
+              </div>
+            </div>
+          ))}
+          {!comments.length && <div style={{fontSize:13,color:'var(--t2)'}}>첫 댓글을 남겨보세요.</div>}
+        </div>
+
+        <Panel style={{boxShadow:'none'}}>
+          <textarea value={msg} onChange={e=>setMsg(e.target.value)} placeholder="댓글(메시지) 입력…" style={{width:'100%',minHeight:80,padding:'10px 12px',borderRadius:12,border:'1px solid var(--b1)'}}/>
+          <div style={{marginTop:10,display:'flex',justifyContent:'flex-end'}}>
+            <button className="press no-dim" onClick={()=>{ if(msg.trim()){ onSend(msg.trim()); setMsg(''); }}} style={{padding:'10px 14px',borderRadius:12,border:'1px solid var(--b1)',background:'var(--wmid)',fontWeight:900}}>보내기</button>
+          </div>
+        </Panel>
+      </div>
+    </Sheet>
+  );
+}
+
+function AddPostSheet({open,onClose,lessonId,onSubmit}){
+  const [type,setType]=useState('discussion');
+  const [title,setTitle]=useState('');
+  const [body,setBody]=useState('');
+  const [tags,setTags]=useState('');
+  const [dueDate,setDueDate]=useState('');
+  useEffect(()=>{
+    if(open){
+      setType('discussion');setTitle('');setBody('');setTags('');
+      setDueDate(addDays(todayStr(),3));
+    }
+  },[open]);
+  if(!open) return null;
+  return(
+    <Sheet open={open} onClose={onClose} title="새 글 작성" height="82vh">
+      <div style={{display:'flex',flexDirection:'column',gap:10}}>
+        <Panel style={{boxShadow:'none'}}>
+          <div style={{fontSize:12,color:'var(--t2)'}}>lesson {lessonId}</div>
+
+          <div style={{marginTop:10,display:'flex',gap:8}}>
+            <select value={type} onChange={e=>setType(e.target.value)} style={{flex:1,padding:'10px 12px',borderRadius:12,border:'1px solid var(--b1)'}}>
+              <option value="announcement">공지</option>
+              <option value="homework">숙제</option>
+              <option value="material">자료</option>
+              <option value="discussion">질문</option>
+            </select>
+            <input value={tags} onChange={e=>setTags(e.target.value)} placeholder="태그(,로 구분)" style={{flex:1,padding:'10px 12px',borderRadius:12,border:'1px solid var(--b1)'}}/>
+          </div>
+
+          {/* 숙제 마감일 */}
+          {type==='homework' ? (
+            <div style={{marginTop:8,display:'flex',gap:8,alignItems:'center'}}>
+              <div style={{fontSize:12,color:'var(--t2)',width:64}}>마감</div>
+              <input type="date" value={dueDate} onChange={e=>setDueDate(e.target.value)}
+                style={{flex:1,padding:'10px 12px',borderRadius:12,border:'1px solid var(--b1)'}}/>
+              <span style={{fontSize:12,color:'var(--t2)'}}>기본 3일 후</span>
+            </div>
+          ) : null}
+
+          <input value={title} onChange={e=>setTitle(e.target.value)} placeholder="제목" style={{marginTop:8,padding:'12px 12px',borderRadius:12,border:'1px solid var(--b1)',width:'100%'}}/>
+          <textarea value={body} onChange={e=>setBody(e.target.value)} placeholder="내용" style={{marginTop:8,padding:'12px 12px',borderRadius:12,border:'1px solid var(--b1)',width:'100%',minHeight:160}}/>
+
+          <div style={{marginTop:10,display:'flex',justifyContent:'flex-end',gap:8}}>
+            <button className="press no-dim" onClick={onClose} style={{padding:'10px 14px',borderRadius:12,border:'1px solid var(--b1)',fontWeight:900}}>취소</button>
+            <button className="press no-dim" onClick={()=>{
+              if(title.trim()&&body.trim()){
+                const payload={type,title:title.trim(),body:body.trim(),tags:normTags(tags)};
+                if(type==='homework') payload.dueDate=dueDate||addDays(todayStr(),3);
+                onSubmit(payload);
+              }
+            }} style={{padding:'10px 14px',borderRadius:12,border:'1px solid var(--b1)',background:'var(--wmid)',fontWeight:900}}>등록</button>
+          </div>
+        </Panel>
+      </div>
+    </Sheet>
+  );
+}
+
+
+function FilesPage(){
+  const {data,addMaterial,togglePinMaterial}=useApp();
+  const lids=myLessonIds(data);
+  const lessons=data.lessons.filter(L=>lids.includes(L.id));
+  const [lessonId,setLessonId]=useState(lessons[0]?.id||'');
+  const [q,setQ]=useState('');
+  const [typeFilter,setTypeFilter]=useState('all'); // all|link|file
+  const [pinOnly,setPinOnly]=useState(false); // pinned only
+  const [showAdd,setShowAdd]=useState(false);
+
+  const mats=useMemo(()=>{
+    let arr=visibleMaterials(data).filter(m=>m.scopeType==='lesson');
+    if(lessonId) arr=arr.filter(m=>m.lessonId===lessonId);
+    if(typeFilter!=='all') arr=arr.filter(m=>m.type===typeFilter);
+    if(pinOnly) arr=arr.filter(m=>!!m.pinned);
+    if(q.trim()){
+      const qq=q.trim().toLowerCase();
+      arr=arr.filter(m=>{const hay=[m.title,m.url,m.fileName,m.mime,(m.tags||[]).join(' '),m.type].filter(Boolean).join(' ').toLowerCase();return hay.includes(qq);});
+    }
+    return arr.sort((a,b)=>(!!b.pinned)-(!!a.pinned) || (b.createdAt-a.createdAt));
+  },[data,lessonId,q,typeFilter,pinOnly]);
+
+  return(
+    <div className="scroll" style={{padding:16,display:'flex',flexDirection:'column',gap:12}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+        <div style={{fontSize:24,fontWeight:900}}>자료</div>
+        <button className="press no-dim" onClick={()=>setShowAdd(true)} style={{fontSize:13,fontWeight:900,padding:'8px 12px',borderRadius:12,border:'1px solid var(--b1)',background:'var(--purplow)'}}>추가</button>
+      </div>
+
+      <Panel style={{display:'flex',flexDirection:'column',gap:10}}>
+        <select value={lessonId} onChange={e=>setLessonId(e.target.value)} style={{padding:'10px 12px',borderRadius:12,border:'1px solid var(--b1)'}}>
+          {lessons.map(L=><option key={L.id} value={L.id}>{L.name}</option>)}
+        </select>
+        <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+          <button className="press no-dim" onClick={()=>setTypeFilter('all')}
+            style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b1)',background:typeFilter==='all'?'var(--s2)':'transparent',fontWeight:900,fontSize:12}}>전체</button>
+          <button className="press no-dim" onClick={()=>setTypeFilter('link')}
+            style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b1)',background:typeFilter==='link'?'var(--purplow)':'transparent',fontWeight:900,fontSize:12}}>링크</button>
+          <button className="press no-dim" onClick={()=>setTypeFilter('file')}
+            style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b1)',background:typeFilter==='file'?'var(--wmid)':'transparent',fontWeight:900,fontSize:12}}>파일</button>
+          <button className="press no-dim" onClick={()=>setPinOnly(v=>!v)}
+            style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b1)',background:pinOnly?'var(--purplow)':'transparent',fontWeight:900,fontSize:12}}>핀만</button>
+        </div>
+
+        <input value={q} onChange={e=>setQ(e.target.value)} placeholder="검색 (제목/태그/URL/파일명/mime)" style={{padding:'12px 12px',borderRadius:12,border:'1px solid var(--b1)'}}/>
+      </Panel>
+
+      {mats.map(m=>(
+        <Panel key={m.id} style={{padding:12}}>
+          <div style={{display:'flex',justifyContent:'space-between',gap:10,alignItems:'center'}}>
+            <div style={{fontWeight:900,flex:1,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{m.title}</div>
+            <div style={{display:'flex',gap:8,alignItems:'center'}}>
+              <MiniChip text={m.type} color="var(--lessonlow)"/>
+              <button className="press no-dim" onClick={()=>togglePinMaterial(m.id)} title="핀" style={{padding:'4px 8px',borderRadius:999,border:'1px solid var(--b1)',fontWeight:900,fontSize:12,background:m.pinned?'var(--purplow)':'transparent'}}>📌</button>
+            </div>
+          </div>
+          {m.type==='link' ? (
+  <a href={m.url} target="_blank" style={{display:'block',marginTop:6,fontSize:12,color:'var(--t2)',textDecoration:'underline',wordBreak:'break-all'}}>{m.url}</a>
+) : (
+  <div style={{marginTop:8}}>
+    <div style={{fontSize:12,color:'var(--t2)'}}>
+      파일: <b>{m.fileName||'file'}</b> ({m.size?`${Math.round(m.size/1024)}KB`:''})
+    </div>
+    {String(m.mime||'').startsWith('image/') ? (
+      <img src={m.dataUrl} alt={m.title}
+           style={{marginTop:8,width:'100%',borderRadius:12,border:'1px solid var(--b1)'}}/>
+    ) : null}
+    <a href={m.dataUrl} download={m.fileName||'download'}
+       style={{display:'inline-block',marginTop:8,fontSize:13,fontWeight:900,padding:'8px 12px',borderRadius:12,border:'1px solid var(--b1)',background:'var(--s2)'}}>
+      다운로드
+    </a>
+  </div>
+)}
+          {m.tags?.length? <div style={{marginTop:8,display:'flex',gap:6,flexWrap:'wrap'}}>{m.tags.map((t,i)=><MiniChip key={i} text={t} color="var(--b1)"/> )}</div>:null}
+        </Panel>
+      ))}
+      {!mats.length && <Panel><div style={{fontSize:13,color:'var(--t2)'}}>자료가 없습니다.</div></Panel>}
+
+      <AddMaterialSheet open={showAdd} onClose={()=>setShowAdd(false)} lessonId={lessonId} onSubmit={(payload)=>{
+        addMaterial({scopeType:'lesson',lessonId,uploaderId:data.settings.currentUserId,pinned:false,...payload});
+        setShowAdd(false);
+      }}/>
+    </div>
+  );
+}
+
+function AddMaterialSheet({open,onClose,lessonId,onSubmit}){
+  const [title,setTitle]=useState('');
+  const [url,setUrl]=useState('');
+  const [tags,setTags]=useState('');
+  const [fileInfo,setFileInfo]=useState(null); // {name,mime,size,dataUrl}
+  const [mode,setMode]=useState('link'); // link | file
+
+  useEffect(()=>{
+    if(open){
+      setTitle(''); setUrl(''); setTags('');
+      setFileInfo(null);
+      setMode('link');
+    }
+  },[open]);
+
+  async function onPickFile(f){
+    if(!f) { setFileInfo(null); return; }
+    const MAX = 2 * 1024 * 1024; // 2MB
+    if(f.size > MAX){
+      showToast('파일이 너무 큽니다(2MB 이하 권장)','warn');
+      setFileInfo(null);
+      return;
+    }
+    const dataUrl = await readFileAsDataURL(f);
+    setFileInfo({ name:f.name, mime:f.type||'application/octet-stream', size:f.size, dataUrl });
+  }
+
+  if(!open) return null;
+  return(
+    <Sheet open={open} onClose={onClose} title="자료 추가" height="75vh">
+      <Panel style={{boxShadow:'none'}}>
+        <div style={{fontSize:12,color:'var(--t2)'}}>lesson {lessonId}</div>
+
+        <div style={{marginTop:10,display:'flex',gap:8}}>
+          <button className="press no-dim" onClick={()=>setMode('link')}
+            style={{flex:1,padding:'10px 12px',borderRadius:12,border:'1px solid var(--b1)',background:mode==='link'?'var(--purplow)':'transparent',fontWeight:900}}>
+            링크
+          </button>
+          <button className="press no-dim" onClick={()=>setMode('file')}
+            style={{flex:1,padding:'10px 12px',borderRadius:12,border:'1px solid var(--b1)',background:mode==='file'?'var(--purplow)':'transparent',fontWeight:900}}>
+            파일
+          </button>
+        </div>
+
+        <input value={title} onChange={e=>setTitle(e.target.value)} placeholder="제목"
+          style={{marginTop:10,padding:'12px 12px',borderRadius:12,border:'1px solid var(--b1)',width:'100%'}}/>
+
+        {mode==='link' ? (
+          <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="URL"
+            style={{marginTop:8,padding:'12px 12px',borderRadius:12,border:'1px solid var(--b1)',width:'100%'}}/>
+        ) : (
+          <div style={{marginTop:8}}>
+            <input type="file" accept="image/*,application/pdf"
+              onChange={e=>onPickFile(e.target.files?.[0]||null)}
+              style={{width:'100%'}}/>
+            {fileInfo ? (
+              <div style={{marginTop:8,fontSize:12,color:'var(--t2)'}}>
+                선택됨: <b>{fileInfo.name}</b> ({Math.round(fileInfo.size/1024)}KB)
+              </div>
+            ) : (
+              <div style={{marginTop:8,fontSize:12,color:'var(--t2)'}}>
+                이미지/PDF(2MB 이하 권장)
+              </div>
+            )}
+          </div>
+        )}
+
+        <input value={tags} onChange={e=>setTags(e.target.value)} placeholder="태그(,로 구분)"
+          style={{marginTop:8,padding:'12px 12px',borderRadius:12,border:'1px solid var(--b1)',width:'100%'}}/>
+
+        <div style={{marginTop:10,display:'flex',justifyContent:'flex-end',gap:8}}>
+          <button className="press no-dim" onClick={onClose}
+            style={{padding:'10px 14px',borderRadius:12,border:'1px solid var(--b1)',fontWeight:900}}>취소</button>
+
+          <button className="press no-dim" onClick={()=>{
+              if(!title.trim()) return;
+              if(mode==='link'){
+                if(!url.trim()) return;
+                onSubmit({type:'link',title:title.trim(),url:url.trim(),tags:normTags(tags)});
+              }else{
+                if(!fileInfo?.dataUrl) return;
+                onSubmit({type:'file',title:title.trim(),fileName:fileInfo.name,mime:fileInfo.mime,size:fileInfo.size,dataUrl:fileInfo.dataUrl,tags:normTags(tags)});
+              }
+            }}
+            style={{padding:'10px 14px',borderRadius:12,border:'1px solid var(--b1)',background:'var(--purplow)',fontWeight:900}}>
+            저장
+          </button>
+        </div>
+      </Panel>
+    </Sheet>
+  );
+}
+
+
+
+function TeacherHomeworkPage(){
+  const {data,updateHomework}=useApp();
+  const lids=myLessonIds(data);
+  const lessons=data.lessons.filter(L=>lids.includes(L.id));
+  const [lessonId,setLessonId]=useState(lessons[0]?.id||'');
+  const [urgentOnly,setUrgentOnly]=useState(false); // today/overdue only
+  const hws=useMemo(()=>{
+    let arr=visibleHomeworks(data).filter(hw=>hw.lessonId===lessonId);
+    if(urgentOnly){
+      const td=todayStr();
+      arr=arr.filter(hw=>hw.dueDate && daysBetween(td, hw.dueDate) <= 0);
+    }
+    return arr;
+  },[data,lessonId,urgentOnly]);
+  const lesson=lessons.find(L=>L.id===lessonId);
+  const students=(lesson?.studentIds||[]).map(id=>data.familyMembers.find(m=>m.id===id)).filter(Boolean);
+  function avgProgress(uid){
+    const arr=hws.filter(h=>h.assigneeId===uid);
+    if(!arr.length) return 0;
+    return Math.round(arr.reduce((s,x)=>s+(x.progress||0),0)/arr.length);
+  }
+  return(
+    <div className="scroll" style={{padding:16,display:'flex',flexDirection:'column',gap:12}}>
+      <div style={{fontSize:24,fontWeight:900}}>숙제</div>
+      <Panel style={{display:'flex',flexDirection:'column',gap:10}}>
+        <select value={lessonId} onChange={e=>setLessonId(e.target.value)} style={{padding:'10px 12px',borderRadius:12,border:'1px solid var(--b1)'}}>
+          {lessons.map(L=><option key={L.id} value={L.id}>{L.name}</option>)}
+        </select>
+        <div style={{display:'flex',gap:8,marginTop:8,flexWrap:'wrap'}}>
+          <button className="press no-dim" onClick={()=>setUrgentOnly(v=>!v)}
+            style={{padding:'8px 10px',borderRadius:999,border:'1px solid var(--b1)',background:urgentOnly?'var(--warnlow)':'transparent',fontWeight:900,fontSize:12}}>
+            오늘/지연만
+          </button>
+          <div style={{fontSize:12,color:'var(--t2)',alignSelf:'center'}}>마감 임박 과제만 표시</div>
+        </div>
+      </Panel>
+
+      <Panel>
+        <HRow left="학생 진행률" right={<MiniChip text={`${students.length}명`} color="var(--lessonlow)"/>}/>
+        <div style={{marginTop:10,display:'flex',flexDirection:'column',gap:8}}>
+          {students.map(s=>(
+            <div key={s.id} style={{padding:'10px 12px',border:'1px solid var(--b1)',borderRadius:14}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <div style={{fontWeight:900}}>{s.avatar} {s.name}</div>
+                <div style={{fontSize:12,color:'var(--t2)'}}>{avgProgress(s.id)}%</div>
+              </div>
+              <div style={{height:8,borderRadius:999,background:'var(--s2)',marginTop:8,overflow:'hidden'}}>
+                <div style={{width:`${avgProgress(s.id)}%`,height:'100%',background:'var(--lesson)'}}/>
+              </div>
+            </div>
+          ))}
+          {!students.length && <div style={{fontSize:13,color:'var(--t2)'}}>학생이 없습니다.</div>}
+        </div>
+      </Panel>
+
+      <Panel>
+        <HRow left="숙제 목록" right={<MiniChip text={`${hws.length}개`} color="var(--warnlow)"/>}/>
+        <div style={{marginTop:10,display:'flex',flexDirection:'column',gap:8}}>
+          {hws.map(hw=>(
+            <div key={hw.id} style={{padding:'10px 12px',border:'1px solid var(--b1)',borderRadius:14}}>
+              <div style={{display:'flex',justifyContent:'space-between',gap:10}}>
+                <div style={{fontWeight:900}}>{hw.title}</div>
+                <div style={{fontSize:12,color:'var(--t2)'}}>{hw.progress||0}%</div>
+              </div>
+              <div style={{fontSize:12,color:'var(--t2)'}}>학생 {(data.familyMembers.find(m=>m.id===hw.assigneeId)?.name)||hw.assigneeId} · due {hw.dueDate}</div>
+              <div style={{marginTop:10,display:'flex',gap:8,flexWrap:'wrap'}}>
+                {[0,25,50,75,100].map(p=>(
+                  <button key={p} className="press no-dim" onClick={()=>updateHomework(hw.id,{progress:p,status:p>=100?'done':(p>0?'doing':'todo')})}
+                    style={{padding:'8px 10px',borderRadius:12,border:'1px solid var(--b1)',background:(hw.progress===p)?'var(--wmid)':'transparent',fontWeight:900,fontSize:12}}>
+                    {p}%
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+          {!hws.length && <div style={{fontSize:13,color:'var(--t2)'}}>숙제가 없습니다.</div>}
+        </div>
+      </Panel>
+    </div>
+  );
+}
+
+function ChecklistPage(){
+  const {data,updateHomework,toggleDone}=useApp();
+  const u=me(data);
+  const today=todayStr();
+  const myHws=visibleHomeworks(data).filter(h=>h.assigneeId===u.id).sort((a,b)=>a.dueDate.localeCompare(b.dueDate));
+  const myTasks=(data.tasks||[]).filter(t=>!t.deletedAt && t.assigneeId===u.id && (t.domain==='school'||t.domain==='personal'||t.domain==='lesson')).sort((a,b)=>(a.dueDate||'9999-12-31').localeCompare(b.dueDate||'9999-12-31'));
+  return(
+    <div className="scroll" style={{padding:16,display:'flex',flexDirection:'column',gap:12}}>
+      <div style={{fontSize:24,fontWeight:900}}>체크리스트</div>
+
+      <Panel>
+        <HRow left="레슨 숙제" right={<MiniChip text={`${myHws.length}개`} color="var(--lessonlow)"/>}/>
+        <div style={{marginTop:10,display:'flex',flexDirection:'column',gap:8}}>
+          {myHws.map(hw=>(
+            <div key={hw.id} style={{padding:'10px 12px',border:'1px solid var(--b1)',borderRadius:14}}>
+              <div style={{display:'flex',justifyContent:'space-between'}}>
+                <div style={{fontWeight:900}}>{hw.title}</div>
+                <div style={{fontSize:12,color:'var(--t2)'}}>{hw.progress||0}%</div>
+              </div>
+              <div style={{fontSize:12,color:'var(--t2)'}}>due {hw.dueDate}</div>
+              <div style={{marginTop:10,display:'flex',gap:8,flexWrap:'wrap'}}>
+                {[0,25,50,75,100].map(p=>(
+                  <button key={p} className="press no-dim" onClick={()=>updateHomework(hw.id,{progress:p,status:p>=100?'done':(p>0?'doing':'todo')})}
+                    style={{padding:'8px 10px',borderRadius:12,border:'1px solid var(--b1)',background:(hw.progress===p)?'var(--lessonlow)':'transparent',fontWeight:900,fontSize:12}}>
+                    {p}%
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+          {!myHws.length && <div style={{fontSize:13,color:'var(--t2)'}}>숙제가 없습니다.</div>}
+        </div>
+      </Panel>
+
+      <Panel>
+        <HRow left="학교/개인 할 일" right={<MiniChip text={`${myTasks.length}개`} color="var(--schoollow)"/>}/>
+        <div style={{marginTop:10,display:'flex',flexDirection:'column',gap:8}}>
+          {myTasks.map(t=>(
+            <div key={t.id} style={{padding:'10px 12px',border:'1px solid var(--b1)',borderRadius:14,display:'flex',justifyContent:'space-between',gap:10}}>
+              <div>
+                <div style={{fontWeight:900}}>{t.title}</div>
+                <div style={{fontSize:12,color:'var(--t2)'}}>{t.domain} · {(t.dueDate||'')} </div>
+              </div>
+              <button className="press no-dim" onClick={()=>toggleDone(t.id)} style={{padding:'8px 10px',borderRadius:12,border:'1px solid var(--b1)',fontWeight:900,fontSize:12}}>
+                {t.status==='done'?'완료':'체크'}
+              </button>
+            </div>
+          ))}
+          {!myTasks.length && <div style={{fontSize:13,color:'var(--t2)'}}>할 일이 없습니다.</div>}
+        </div>
+      </Panel>
+    </div>
+  );
+}
+
+function LessonBoardChildPage(){
+  return <BoardPage mode="child"/>;
+}
+
+/* ═══════════════════════════════════════════
    TAB BAR
 ═══════════════════════════════════════════ */
-const TAB_CONFIG=[
-  {id:'today',icon:'☀️',label:'Today'},
-  {id:'plan',icon:'📅',label:'Plan'},
-  {id:'month',icon:'🗓',label:'Month'},
-  {id:'signal',icon:'⚡',label:'Signal'},
-  {id:'inbox',icon:'📥',label:'Inbox'},
-  {id:'family',icon:'👨‍👩‍👧',label:'Family'},
-  {id:'budget',icon:'💰',label:'가계부'},
-  {id:'habits',icon:'🌱',label:'습관'},
-  {id:'notes',icon:'📝',label:'노트'},
-  {id:'settings',icon:'⚙️',label:'설정'},
-];
+function getTabConfig(data){
+  const u=me(data);
+  const role=u?.role||'parent';
+  const isMom=!!u?.isMom;
+  const au=(data.authUsers||[]).find(x=>x.userId===u?.id);
+  const isAdminUser=!!au?.isAdmin;
+  if(role==='teacher'){
+    return [
+      {id:'tdash',icon:'🎛️',label:'대시보드'},
+      {id:'lessons',icon:'🎼',label:'레슨'},
+      {id:'board',icon:'🧵',label:'게시판'},
+      {id:'thw',icon:'✅',label:'숙제'},
+      {id:'files',icon:'📎',label:'자료'},
+       ...(isAdminUser?[{id:'admin',icon:'🛡️',label:'관리자'}]:[]),
+    {id:'settings',icon:'⚙️',label:'설정'},
+    ];
+  }
+  if(role==='child'){
+    return [
+      {id:'today',icon:'☀️',label:'Today'},
+      {id:'checklist',icon:'✅',label:'체크'},
+      {id:'month',icon:'🗓',label:'캘린더'},
+      {id:'habits',icon:'🌱',label:'습관'},
+      {id:'lboard',icon:'📌',label:'레슨'},
+      {id:'settings',icon:'⚙️',label:'설정'},
+    ];
+  }
+  // parent
+  const base=[
+    {id:'today',icon:'☀️',label:'Today'},
+    {id:'family',icon:'👨‍👩‍👧',label:'Family'},
+    {id:'month',icon:'🗓',label:'Month'},
+    {id:'signal',icon:'⚡',label:'Signal'},
+    {id:'inbox',icon:'📥',label:'Inbox'},
+  ];
+  const tail=[
+    ...(isMom?[{id:'budget',icon:'💰',label:'가계부'}]:[]),
+    {id:'habits',icon:'🌱',label:'습관'},
+    {id:'notes',icon:'📝',label:'노트'},
+    ...(isAdminUser?[{id:'admin',icon:'🛡️',label:'관리자'}]:[]),
+    {id:'settings',icon:'⚙️',label:'설정'},
+  ];
+  return [...base,...tail];
+}
 
-function TabBar({active,onChange}){
+function TabBar({active,onChange,tabs}){
   return(
     <div style={{
       display:'flex',overflowX:'auto',background:'var(--s1)',
@@ -2872,7 +4489,7 @@ function TabBar({active,onChange}){
       scrollbarWidth:'none',WebkitOverflowScrolling:'touch',
       position:'fixed',bottom:0,left:0,right:0,zIndex:50,
     }}>
-      {TAB_CONFIG.map(t=>{
+      {tabs.map(t=>{
         const inboxCount=t.id==='inbox'?0:0;
         return(
           <button key={t.id} onClick={()=>onChange(t.id)} style={{
@@ -2914,26 +4531,15 @@ function App(){
   );
 }
 
-function ThemeToggle(){
-  const {data,updateSettings}=useApp();
-  const isDark=data.settings.theme==='dark';
-  return(
-    <div className="theme-toggle-wrap">
-      <span className="theme-toggle-label">{isDark?'🌙':'☀️'}</span>
-      <div
-        className={`theme-toggle-track${isDark?' dark-on':''}`}
-        onClick={()=>updateSettings({theme:isDark?'light':'dark'})}
-        role="switch"
-        aria-checked={isDark}
-      >
-        <div className="theme-toggle-thumb">{isDark?'🌙':'☀️'}</div>
-      </div>
-    </div>
-  );
-}
-
 function AppInner({tab,setTab,showAddTask,setShowAddTask,fabShort,fabLong}){
   const {data,addTask,showToast}=useApp();
+  const tabs=getTabConfig(data);
+  if(!data.settings.currentUserId) return <LoginPage/>;
+
+  useEffect(()=>{
+    if(!tabs.some(t=>t.id===tab)) setTab(tabs[0]?.id||'today');
+  },[data.settings.currentUserId]);
+
 
   function handleFabLong(){
     const title=prompt('오늘 할 일 추가:');
@@ -2946,9 +4552,8 @@ function AppInner({tab,setTab,showAddTask,setShowAddTask,fabShort,fabLong}){
   return(
     <div style={{display:'flex',flexDirection:'column',height:'100dvh',background:'var(--bg)',color:'var(--t1)',overflow:'hidden'}}>
       <div style={{height:'env(safe-area-inset-top,0px)',background:'var(--s1)'}}/>
-      {/* 상단 토글 바 */}
-      <div style={{display:'flex',alignItems:'center',justifyContent:'flex-end',padding:'6px 16px 4px',background:'var(--s1)',borderBottom:'1px solid var(--b1)',flexShrink:0}}>
-        <ThemeToggle/>
+      <div style={{background:'var(--s1)',borderBottom:'1px solid var(--b1)',padding:'7px 16px',display:'flex',alignItems:'center',flexShrink:0}}>
+        <LogoMark/>
       </div>
       <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden',paddingBottom:'calc(64px + env(safe-area-inset-bottom,0px))'}}>
         {tab==='today'&&<TodayPage/>}
@@ -2960,15 +4565,120 @@ function AppInner({tab,setTab,showAddTask,setShowAddTask,fabShort,fabLong}){
         {tab==='budget'&&<BudgetPage/>}
         {tab==='habits'&&<HabitsPage/>}
         {tab==='notes'&&<NotesPage/>}
+        {tab==='admin'&&<AdminPage/>}
         {tab==='settings'&&<SettingsPage/>}
-      </div>
-      <TabBar active={tab} onChange={setTab}/>
-      <FAB onShortPress={()=>setTab('inbox')} onLongPress={handleFabLong}/>
+
+        {tab==='tdash'&&<TeacherDashboardPage/>}
+        {tab==='lessons'&&<LessonsPage/>}
+        {tab==='board'&&<BoardPage/>}
+        {tab==='thw'&&<TeacherHomeworkPage/>}
+        {tab==='files'&&<FilesPage/>}
+
+        {tab==='checklist'&&<ChecklistPage/>}
+        {tab==='lboard'&&<LessonBoardChildPage/>}
+</div>
+      <TabBar active={tab} onChange={setTab} tabs={tabs}/>
+      <FAB onShortPress={()=>{ const r=myRole(data); if(r==='teacher') setTab('board'); else setTab('inbox'); }} onLongPress={handleFabLong}/>
     </div>
   );
 }
 
+
+
+function PageHeader({title, chips=[], action=null, subtitle=null}){
+  return (
+    <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:12,marginBottom:14}}>
+      <div style={{minWidth:0}}>
+        <div style={{fontSize:22,fontWeight:900,color:'var(--t1)'}}>{title}</div>
+        {subtitle ? (
+          <div style={{fontSize:13,color:'var(--t2)',marginTop:3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
+            {subtitle}
+          </div>
+        ) : null}
+        {chips.length>0 ? (
+          <div style={{display:'flex',gap:6,flexWrap:'wrap',marginTop:10}}>
+            {chips.map((c,idx)=>(
+              <span key={idx}
+                style={{
+                  height:28,display:'inline-flex',alignItems:'center',
+                  padding:'0 10px',borderRadius:999,border:'1px solid var(--b1)',
+                  fontSize:12,fontWeight:900,background:c.active?'var(--s2)':'transparent',color:'var(--t2)'
+                }}>
+                {c.label}
+              </span>
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      {action ? (
+        <button
+          style={{
+            height:36, padding:'0 12px', borderRadius:12,
+            border:'1px solid var(--b1)',
+            background: action.primary ? 'var(--work)' : 'var(--s2)',
+            color: action.primary ? '#fff' : 'var(--t2)',
+            fontSize:12, fontWeight:900, whiteSpace:'nowrap'
+          }}
+          onClick={action.onClick}>
+          {action.label}
+        </button>
+      ) : <div style={{width:36}}/>}
+    </div>
+  );
+}
+
+function CompactHome({children,max=3}){
+  const [open,setOpen]=useState(false);
+  const items = React.Children.toArray(children);
+  const top = items.slice(0,max);
+  const rest = items.slice(max);
+
+  return (
+    <div style={{display:'flex',flexDirection:'column',gap:12}}>
+      {top}
+      {rest.length>0 && (
+        <div>
+          <button onClick={()=>setOpen(!open)}
+            style={{fontSize:13,fontWeight:900,color:'var(--t2)',marginBottom:6}}>
+            {open?'접기':'더보기'}
+          </button>
+          {open && (
+            <div style={{display:'flex',flexDirection:'column',gap:12}}>
+              {rest}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* Auto-apply CompactHome to Today container heuristically */
+window.addEventListener('load',()=>{
+  const today = document.querySelector('[data-screen="today"]');
+  if(!today) return;
+  const cards = today.querySelectorAll('.panel,.card');
+  if(cards.length>3){
+    for(let i=3;i<cards.length;i++){
+      cards[i].style.display='none';
+    }
+    const btn=document.createElement('button');
+    btn.textContent='더보기';
+    btn.style.margin='10px';
+    btn.onclick=()=>{
+      cards.forEach(c=>c.style.display='block');
+      btn.remove();
+    };
+    today.appendChild(btn);
+  }
+});
+
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
+
+<!-- v9.1 PATCH: CompactHome + PageHeader -->
+
+
 </body>
 </html>
