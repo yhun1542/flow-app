@@ -8,6 +8,23 @@
 <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<!-- Firebase SDK (compat UMD) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+  window._fbConfig = {
+    apiKey: "AIzaSyD5q4a48x_u0HGfXhkuUyYOTvLpyMjEvxI",
+    authDomain: "flow-family-os.firebaseapp.com",
+    databaseURL: "https://flow-family-os-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "flow-family-os",
+    storageBucket: "flow-family-os.firebasestorage.app",
+    messagingSenderId: "884289550514",
+    appId: "1:884289550514:web:2e90e1e7f295dee73bf1ab"
+  };
+  if (!firebase.apps.length) firebase.initializeApp(window._fbConfig);
+  window._fbDb = firebase.database();
+  window._fbReady = true;
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 @font-face {
@@ -809,7 +826,16 @@ function loadData(){
   return {...SEED, lessons:(SEED.lessons||[]).map(L=>({...L, active: L.active!==false}))};
 }
 function saveData(data){
+  // localStorage (로컬 캐시)
   try{localStorage.setItem(STORE_KEY,JSON.stringify(data));}catch(e){}
+  // Firebase Realtime Database (실시간 동기화)
+  if(window._fbReady && window._fbDb){
+    try{
+      // settings.currentUserId 등 민감 정보 제외하고 저장
+      const toSave={...data, settings:{...data.settings, currentUserId:undefined, sessionUserId:undefined}};
+      window._fbDb.ref('flowdata').set(toSave);
+    }catch(e){console.warn('Firebase save error',e);}
+  }
 }
 
 /* ═══════════════════════════════════════════
@@ -838,10 +864,52 @@ function AppProvider({children}){
     try{localStorage.setItem(STORE_KEY+'_ts', Date.now().toString());}catch(e){}
   },[data]);
 
-  // 실시간 업데이트: storage 이벤트 (다른 탭) + 폴링 (1초)
+  // Firebase 초기 데이터 마이그레이션: Firebase가 비어있으면 현재 데이터 업로드
   useEffect(()=>{
+    if(!window._fbReady || !window._fbDb) return;
+    window._fbDb.ref('flowdata').once('value').then(snap=>{
+      if(!snap.val()){
+        // Firebase가 비어있으면 현재 데이터 업로드
+        const toSave={...data, settings:{...data.settings, currentUserId:undefined, sessionUserId:undefined}};
+        window._fbDb.ref('flowdata').set(toSave);
+      }
+    });
+  },[]);
+
+  // 실시간 업데이트: Firebase onValue + storage 이벤트 (같은 기기 다른 탭)
+  useEffect(()=>{
+    let fbUnsub=null;
+    // Firebase 실시간 리스너
+    if(window._fbReady && window._fbDb){
+      const fbRef=window._fbDb.ref('flowdata');
+      fbUnsub=fbRef.on('value',(snapshot)=>{
+        const remote=snapshot.val();
+        if(!remote) return;
+        const remoteJson=JSON.stringify(remote);
+        if(remoteJson===lastSavedRef.current) return;
+        // 원격 데이터와 SEED 병합
+        const merged={
+          ...SEED,...remote,
+          settings:{...SEED.settings,...(remote.settings||{})},
+          familyMembers:remote.familyMembers||SEED.familyMembers,
+          lessons:(remote.lessons||SEED.lessons).map(L=>({...L,active:L.active!==false})),
+          announcements:remote.announcements||SEED.announcements,
+          homeworks:remote.homeworks||SEED.homeworks,
+          expenses:remote.expenses||SEED.expenses,
+          budget:remote.budget||SEED.budget,
+          notes:remote.notes||SEED.notes,
+        };
+        const mergedJson=JSON.stringify(merged);
+        if(mergedJson===lastSavedRef.current) return;
+        lastSavedRef.current=mergedJson;
+        // localStorage도 업데이트
+        try{localStorage.setItem(STORE_KEY,JSON.stringify(merged));}catch(e){}
+        setData(d=>({...merged,settings:{...merged.settings,currentUserId:d.settings.currentUserId,sessionUserId:d.settings.sessionUserId,rememberLogin:d.settings.rememberLogin}}));
+      });
+    }
+    // 같은 기기 다른 탭 동기화 (storage 이벤트)
     let lastTs=localStorage.getItem(STORE_KEY+'_ts')||'0';
-    function checkUpdate(){
+    function checkLocalUpdate(){
       const ts=localStorage.getItem(STORE_KEY+'_ts')||'0';
       if(ts!==lastTs){
         lastTs=ts;
@@ -849,20 +917,14 @@ function AppProvider({children}){
         const freshJson=JSON.stringify(fresh);
         if(freshJson!==lastSavedRef.current){
           lastSavedRef.current=freshJson;
-          setData(d=>{
-            // 현재 로그인 사용자 정보는 유지
-            return {...fresh, settings:{...fresh.settings, currentUserId:d.settings.currentUserId, sessionUserId:d.settings.sessionUserId, rememberLogin:d.settings.rememberLogin}};
-          });
+          setData(d=>({...fresh,settings:{...fresh.settings,currentUserId:d.settings.currentUserId,sessionUserId:d.settings.sessionUserId,rememberLogin:d.settings.rememberLogin}}));
         }
       }
     }
-    // storage 이벤트 (다른 탭/창)
-    window.addEventListener('storage', checkUpdate);
-    // 폴링 (같은 탭 내 다른 사용자)
-    const timer=setInterval(checkUpdate, 2000);
+    window.addEventListener('storage',checkLocalUpdate);
     return ()=>{
-      window.removeEventListener('storage', checkUpdate);
-      clearInterval(timer);
+      if(fbUnsub && window._fbDb) window._fbDb.ref('flowdata').off('value',fbUnsub);
+      window.removeEventListener('storage',checkLocalUpdate);
     };
   },[]);
 
