@@ -668,50 +668,12 @@ const d5=addDays(today,5);
 const d7=addDays(today,7);
 
 const SEED={
-  tasks:[
-    {id:'t1',title:'투자자 미팅 덱 완성',domain:'work',type:'deepwork',priority:1,status:'todo',dueDate:today,deadlineDate:today,durationMin:90,energy:'high',projectId:'p1',notes:'',createdAt:Date.now()},
-    {id:'t2',title:'계약서 법무 검토 요청',domain:'work',type:'call',priority:1,status:'todo',dueDate:today,deadlineDate:tomorrow,durationMin:30,energy:'med',projectId:'p1',notes:'선행: t1',createdAt:Date.now()},
-    {id:'t3',title:'Q1 매출 분석 보고서',domain:'work',type:'deepwork',priority:2,status:'todo',dueDate:tomorrow,deadlineDate:d3,durationMin:120,energy:'high',projectId:'p2',notes:'',createdAt:Date.now()},
-    {id:'t4',title:'팀 주간 회의 준비',domain:'work',type:'admin',priority:2,status:'todo',dueDate:today,deadlineDate:today,durationMin:30,energy:'med',projectId:null,notes:'',createdAt:Date.now()},
-    {id:'t5',title:'신규 파트너사 제안서 작성',domain:'work',type:'deepwork',priority:2,status:'todo',dueDate:d3,deadlineDate:d5,durationMin:90,energy:'high',projectId:'p2',notes:'',createdAt:Date.now()},
-    {id:'t6',title:'운동 - 러닝 5km',domain:'personal',type:'errand',priority:3,status:'todo',dueDate:today,durationMin:45,energy:'high',projectId:null,notes:'',createdAt:Date.now()},
-    {id:'t7',title:'독서 - 제로 투 원 2챕터',domain:'personal',type:'admin',priority:3,status:'todo',dueDate:today,durationMin:30,energy:'low',projectId:null,notes:'',createdAt:Date.now()},
-    {id:'t8',title:'세금계산서 발행 확인',domain:'work',type:'admin',priority:1,status:'done',dueDate:today,durationMin:20,energy:'low',projectId:null,notes:'',createdAt:Date.now()},
-    {id:'t9',title:'클라이언트 A 콜백',domain:'work',type:'call',priority:2,status:'todo',dueDate:tomorrow,durationMin:30,energy:'med',projectId:'p1',notes:'',createdAt:Date.now()},
-    {id:'t10',title:'사무실 비품 구매',domain:'work',type:'errand',priority:3,status:'todo',dueDate:d2,durationMin:60,energy:'low',projectId:null,notes:'',createdAt:Date.now()},
-    // Inbox items
-    {id:'t11',title:'다음 분기 마케팅 전략 검토',domain:'inbox',type:'deepwork',priority:2,status:'todo',dueDate:null,durationMin:90,energy:'high',projectId:null,notes:'',createdAt:Date.now()},
-    {id:'t12',title:'HR 채용 공고 업로드',domain:'inbox',type:'admin',priority:3,status:'todo',dueDate:null,durationMin:30,energy:'low',projectId:null,notes:'',createdAt:Date.now()},
-    {id:'t13',title:'투자자 미팅 후속 이메일',domain:'inbox',type:'call',priority:1,status:'todo',dueDate:null,durationMin:20,energy:'med',projectId:null,notes:'',createdAt:Date.now()},
-  ],
-  timeBlocks:[
-    {id:'b1',date:today,startTime:'09:00',endTime:'09:30',title:'팀 스탠드업',domain:'work',linkedTaskId:null,createdAt:Date.now(),updatedAt:Date.now()},
-    {id:'b2',date:today,startTime:'14:00',endTime:'15:30',title:'투자자 미팅 덱 완성',domain:'work',linkedTaskId:'t1',createdAt:Date.now(),updatedAt:Date.now()},
-  ],
-  events:[
-    {id:'e1',title:'투자자 미팅',startDateTime:`${today}T15:00`,endDateTime:`${today}T16:00`,type:'meeting',createdAt:Date.now()},
-    {id:'e2',title:'팀 런치',startDateTime:`${today}T12:00`,endDateTime:`${today}T13:00`,type:'lunch',createdAt:Date.now()},
-    {id:'e3',title:'분기 리뷰',startDateTime:`${d3}T10:00`,endDateTime:`${d3}T12:00`,type:'meeting',createdAt:Date.now()},
-    {id:'e4',title:'피아노 레슨',startDateTime:`${d2}T16:00`,endDateTime:`${d2}T17:00`,type:'lesson',createdAt:Date.now()},
-  ],
-  projects:[
-    {id:'p1',name:'Series A 투자유치',color:'#4F8EF7',createdAt:Date.now()},
-    {id:'p2',name:'Q1 성장 전략',color:'#A78BFA',createdAt:Date.now()},
-    {id:'p3',name:'팀 빌딩',color:'#34D399',createdAt:Date.now()},
-  ],
-  habits:[
-    {id:'h1',name:'운동',icon:'🏃',frequency:'daily',createdAt:Date.now()},
-    {id:'h2',name:'독서 30분',icon:'📚',frequency:'daily',createdAt:Date.now()},
-    {id:'h3',name:'물 2L',icon:'💧',frequency:'daily',createdAt:Date.now()},
-    {id:'h4',name:'명상',icon:'🧘',frequency:'daily',createdAt:Date.now()},
-  ],
-  habitLogs:[
-    {key:`h1::${today}`,habitId:'h1',date:today,createdAt:Date.now()},
-    {key:`h2::${addDays(today,-1)}`,habitId:'h2',date:addDays(today,-1),createdAt:Date.now()},
-    {key:`h3::${today}`,habitId:'h3',date:today,createdAt:Date.now()},
-    {key:`h3::${addDays(today,-1)}`,habitId:'h3',date:addDays(today,-1),createdAt:Date.now()},
-    {key:`h3::${addDays(today,-2)}`,habitId:'h3',date:addDays(today,-2),createdAt:Date.now()},
-  ],
+  tasks:[],
+  timeBlocks:[],
+  events:[],
+  projects:[],
+  habits:[],
+  habitLogs:[],
   // Family OS data
   familyMembers:[
     {id:'u1',name:'아빠',role:'parent',avatar:'👨',color:'#4F8EF7'},
@@ -731,50 +693,15 @@ const SEED={
     {userId:'u6',username:'피아노 선생님',password:'01067890123',isAdmin:false},
     {userId:'u7',username:'영어 선생님',password:'01078901234',isAdmin:false},
   ],
-  lessons:[
-    {id:'l1',name:'피아노',teacherId:'u6',studentIds:['u3','u4'],color:'#A78BFA',schedule:'화/목 16:00'},
-    {id:'l2',name:'영어',teacherId:'u7',studentIds:['u3','u4','u5'],color:'#34D399',schedule:'월/수/금 17:00'},
-  ],
-  announcements:[
-    {id:'a1',title:'이번 주 피아노 수업 시간 변경',body:'금요일 → 토요일 오전 10시로 변경됩니다.',authorId:'u6',audience:'lesson',lessonId:'l1',priority:'high',seenBy:['u1','u2'],createdAt:Date.now()-86400000},
-    {id:'a2',title:'가족 여행 일정 확인',body:'3월 15일 제주도 출발입니다. 짐 미리 준비해주세요!',authorId:'u1',audience:'family',priority:'normal',seenBy:['u2'],createdAt:Date.now()-3600000},
-    {id:'a3',title:'영어 숙제 제출 마감',body:'이번 주 금요일까지 단어 100개 외워오세요.',authorId:'u7',audience:'lesson',lessonId:'l2',priority:'high',seenBy:[],createdAt:Date.now()-7200000},
-  ],
-  homeworks:[
-    {id:'hw1',title:'바흐 인벤션 3번 연습',lessonId:'l1',assigneeId:'u3',status:'doing',progress:50,dueDate:d3,notes:'1~16마디 손분리',createdAt:Date.now()},
-    {id:'hw2',title:'바흐 인벤션 3번 연습',lessonId:'l1',assigneeId:'u4',status:'todo',progress:0,dueDate:d3,notes:'',createdAt:Date.now()},
-    {id:'hw3',title:'영어 단어 100개 암기',lessonId:'l2',assigneeId:'u3',status:'done',progress:100,dueDate:tomorrow,notes:'',createdAt:Date.now()},
-    {id:'hw4',title:'영어 단어 100개 암기',lessonId:'l2',assigneeId:'u4',status:'doing',progress:60,dueDate:tomorrow,notes:'',createdAt:Date.now()},
-    {id:'hw5',title:'영어 단어 100개 암기',lessonId:'l2',assigneeId:'u5',status:'todo',progress:10,dueDate:tomorrow,notes:'',createdAt:Date.now()},
-  ],
-  posts:[
-    {id:'p1',scopeType:'lesson',lessonId:'l1',type:'announcement',title:'피아노 공지',body:'이번 주 숙제 안내: 바흐 1~16마디 손분리 연습',tags:['공지','숙제'],authorId:'u6',createdAt:Date.now()-3600000,updatedAt:Date.now()-3600000,seenBy:['u1','u2']},
-    {id:'p2',scopeType:'lesson',lessonId:'l1',type:'discussion',title:'연습 질문',body:'손가락 번호가 자꾸 꼬여요. 어떤 순서로 연습하면 좋을까요?',tags:['질문'],authorId:'u3',createdAt:Date.now()-2400000,updatedAt:Date.now()-2400000,seenBy:['u6']},
-    {id:'p3',scopeType:'lesson',lessonId:'l2',type:'material',title:'단어 암기 팁',body:'이번 주 단어 100개 암기 방법: 하루 20개씩 5일.',tags:['자료'],authorId:'u7',createdAt:Date.now()-7200000,updatedAt:Date.now()-7200000,seenBy:[]},
-  ],
-  comments:[
-    {id:'c1',postId:'p2',authorId:'u3',body:'2-3-4가 자꾸 꼬여요',createdAt:Date.now()-2200000},
-    {id:'c2',postId:'p2',authorId:'u6',body:'속도를 낮추고 3번 반복해보세요. 2-3-4는 먼저 손분리로 안정시키는 게 좋아요.',createdAt:Date.now()-2000000},
-  ],
-  materials:[
-    {id:'m1',scopeType:'lesson',lessonId:'l1',type:'link',title:'바흐 인벤션 연습 영상',url:'https://www.youtube.com/',tags:['영상','연습'],uploaderId:'u6',createdAt:Date.now()-7200000},
-    {id:'m2',scopeType:'lesson',lessonId:'l2',type:'link',title:'단어 암기 카드 템플릿',url:'https://docs.google.com/',tags:['링크'],uploaderId:'u7',createdAt:Date.now()-5200000},
-  ],
-  expenses:[
-    {id:'ex1',amount:85000,category:'식비',note:'마트 장보기',date:today,createdAt:Date.now()},
-    {id:'ex2',amount:320000,category:'교육비',note:'피아노 레슨비',date:addDays(today,-2),createdAt:Date.now()},
-    {id:'ex3',amount:45000,category:'교통',note:'주유',date:addDays(today,-1),createdAt:Date.now()},
-    {id:'ex4',amount:150000,category:'생활비',note:'전기세',date:addDays(today,-3),createdAt:Date.now()},
-    {id:'ex5',amount:280000,category:'교육비',note:'영어 학원비',date:addDays(today,-5),createdAt:Date.now()},
-    {id:'ex6',amount:62000,category:'식비',note:'외식',date:addDays(today,-1),createdAt:Date.now()},
-    {id:'ex7',amount:35000,category:'취미',note:'책 구매',date:addDays(today,-4),createdAt:Date.now()},
-  ],
-  budget:{month:today.slice(0,7),total:2000000},
-  notes:[
-    {id:'n1',title:'피아노 연습법 정리',body:'바흐 인벤션 연습 시 손분리 → 합주 순서로 진행. 메트로놈 60bpm부터 시작.',tags:['피아노','레슨'],lessonId:'l1',authorId:'u6',type:'note',createdAt:Date.now()-86400000},
-    {id:'n2',title:'영어 단어 암기 전략',body:'에빙하우스 망각곡선 활용. 당일 → 1일 → 3일 → 7일 복습 사이클.',tags:['영어','학습법'],lessonId:'l2',authorId:'u7',type:'note',createdAt:Date.now()-172800000},
-    {id:'n3',title:'가족 여행 준비 체크리스트',body:'- 여권 확인\n- 숙소 예약\n- 렌터카 예약\n- 짐 싸기',tags:['여행','가족'],authorId:'u1',type:'note',createdAt:Date.now()-259200000},
-  ],
+  lessons:[],
+  announcements:[],
+  homeworks:[],
+  posts:[],
+  comments:[],
+  materials:[],
+  expenses:[],
+  budget:{month:today.slice(0,7),total:0},
+  notes:[],
   settings:{
     workdayStart:'09:00',workdayEnd:'18:00',
     lunchStart:'12:00',lunchEnd:'13:00',
