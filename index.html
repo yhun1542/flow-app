@@ -2548,7 +2548,7 @@ function TodayPage(){
   const [collapseWork,setCollapseWork]=useState(false);
   const [collapsePersonal,setCollapsePersonal]=useState(false);
   const [collapseTimeline,setCollapseTimeline]=useState(true); // 기본 접기
-  const [collapseDone,setCollapseDone]=useState(false);
+  const [collapseDone,setCollapseDone]=useState(true);
 
   const tasks=data.tasks.filter(t=>!t.deletedAt);
   const todayTasks=tasks.filter(t=>t.dueDate===today&&t.status!=='done');
@@ -2654,9 +2654,12 @@ function TodayPage(){
           <div style={{height:10,background:'var(--s3)',borderRadius:8,overflow:'hidden'}}>
             <div style={{height:'100%',width:`${pct}%`,background:pct===100?'var(--success)':pct>=50?'var(--work)':'var(--warn)',borderRadius:8,transition:'width 0.5s cubic-bezier(0.4,0,0.2,1)'}}/>
           </div>
-          <div style={{display:'flex',justifyContent:'space-between',marginTop:10}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:10}}>
             <span style={{fontSize:12,color:'var(--success)',fontWeight:600}}>✓ 완료 {doneCount}개</span>
-            <span style={{fontSize:12,color:'var(--t3)'}}>전체 {totalToday}개</span>
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              <span style={{fontSize:12,color:'var(--t3)'}}>전체 {totalToday}개</span>
+              {doneCount>0&&<button onClick={()=>setCollapseDone(v=>!v)} style={{fontSize:11,fontWeight:700,color:collapseDone?'var(--work)':'var(--t2)',background:collapseDone?'var(--wlow)':'var(--s3)',border:'none',borderRadius:8,padding:'3px 8px',cursor:'pointer'}}>{collapseDone?'완료 보기':'완료 숨기기'}</button>}
+            </div>
           </div>
         </div>
       </div>
@@ -3611,7 +3614,7 @@ function HabitsPage(){
                     width:32,height:32,borderRadius:16,border:`2px solid ${done?'var(--success)':'var(--s3)'}`,
                     background:done?'var(--success)':'transparent',
                     display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',
-                    outline:isToday?`2px solid var(--work)`:none,outlineOffset:1,
+                    outline:isToday?`2px solid var(--work)`:'none',outlineOffset:1,
                   }}>
                     {done&&<span style={{color:'#fff',fontSize:12,fontWeight:800}}>✓</span>}
                   </button>
