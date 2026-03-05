@@ -193,16 +193,82 @@ select{-webkit-appearance:none;appearance:none}
 /* Theme transition */
 :root{transition:background 0.3s ease,color 0.3s ease}
 
-/* v9.0 readability + accordion */
+/* ═══════════════════════════════════════════
+   v11.0 DESIGN SYSTEM UPGRADE
+═══════════════════════════════════════════ */
+:root {
+  --fs-title: 24px;
+  --fs-section: 13px;
+  --fs-card-title: 15px;
+  --fs-body: 15px;
+  --fs-meta: 12px;
+  --fs-badge: 11px;
+  --lh-body: 1.6;
+  --radius-card: 16px;
+  --radius-row: 12px;
+  --radius-badge: 8px;
+  --spacing-section: 20px;
+}
+body { font-size: var(--fs-body) !important; line-height: var(--lh-body); }
 
-  :root { --fs-body: 18px; --fs-meta: 14px; }
-  body { font-size: var(--fs-body) !important; line-height: 1.5; }
-  details.acc { border:1px solid var(--b1); border-radius:16px; padding:10px 12px; background:var(--s1); }
-  details.acc > summary { list-style:none; cursor:pointer; font-weight:900; font-size:13px; color:var(--t2); display:flex; align-items:center; justify-content:space-between; }
-  details.acc > summary::-webkit-details-marker { display:none; }
-  details.acc > summary:after { content:'▾'; font-size:14px; color:var(--t2); }
-  details.acc[open] > summary:after { content:'▴'; }
-  details.acc .acc-body { margin-top:10px; }
+/* ── 섹션 헤더 ── */
+.sec-hdr { display:flex; align-items:center; justify-content:space-between; padding:0 2px; margin-bottom:10px; }
+.sec-hdr-left { display:flex; align-items:center; gap:8px; }
+.sec-hdr-icon { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+.sec-hdr-label { font-size:var(--fs-section); font-weight:800; color:var(--t1); letter-spacing:0.3px; }
+.sec-hdr-count { font-size:11px; font-weight:700; color:var(--t2); background:var(--s3); border-radius:20px; padding:2px 8px; min-width:22px; text-align:center; }
+.sec-hdr-add { font-size:13px; font-weight:700; color:var(--work); background:var(--wlow); border:none; border-radius:8px; padding:5px 12px; cursor:pointer; }
+.sec-hdr-add:active { opacity:0.7; }
+
+/* ── 카드 컨테이너 ── */
+.task-card { background:var(--s1); border-radius:var(--radius-card); border:1px solid var(--b1); box-shadow:var(--card-shadow); overflow:hidden; }
+
+/* ── TaskRow 업그레이드 ── */
+.task-row { display:flex; align-items:center; gap:12px; padding:14px 16px; position:relative; cursor:pointer; transition:background 0.1s; }
+.task-row:active { background:var(--s2); }
+.task-row + .task-row { border-top:1px solid var(--b1); }
+.task-row-check { width:24px; height:24px; border-radius:12px; flex-shrink:0; border:2px solid; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.15s; }
+.task-row-title { font-size:var(--fs-card-title); font-weight:600; color:var(--t1); line-height:1.4; word-break:break-word; }
+.task-row-title.done { text-decoration:line-through; color:var(--t3); font-weight:400; }
+.task-row-meta { display:flex; align-items:center; gap:6px; margin-top:4px; flex-wrap:wrap; }
+.meta-chip { font-size:var(--fs-badge); font-weight:600; border-radius:var(--radius-badge); padding:2px 7px; display:inline-flex; align-items:center; gap:3px; }
+.prio-badge { font-size:var(--fs-badge); font-weight:800; border-radius:var(--radius-badge); padding:3px 8px; flex-shrink:0; }
+
+/* ── Focus 카드 ── */
+.focus-card-item { display:flex; align-items:center; gap:14px; padding:15px 16px; cursor:pointer; transition:background 0.1s; }
+.focus-card-item:active { background:var(--s2); }
+.focus-card-item + .focus-card-item { border-top:1px solid var(--b1); }
+.focus-num { width:30px; height:30px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px; font-weight:900; }
+
+/* ── AI 패널 ── */
+.ai-panel { background:linear-gradient(135deg,var(--wlow),var(--purplow)); border-radius:var(--radius-card); border:1px solid var(--wmid); padding:16px; margin-bottom:var(--spacing-section); }
+.ai-panel-title { font-size:13px; font-weight:800; color:var(--work); margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.ai-panel-content { font-size:14px; color:var(--t1); line-height:1.6; }
+.ai-btn { background:var(--work); color:#fff; border:none; border-radius:10px; padding:8px 16px; font-size:13px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+.ai-btn:active { opacity:0.8; }
+.ai-btn.secondary { background:var(--s2); color:var(--t1); border:1px solid var(--b2); }
+
+/* ── 탭 아이템 ── */
+.tab-item { display:flex; flex-direction:column; align-items:center; gap:3px; padding:8px 0 4px; flex:1; cursor:pointer; border:none; background:none; transition:opacity 0.1s; }
+.tab-icon { font-size:22px; line-height:1; }
+.tab-label { font-size:10px; font-weight:700; letter-spacing:0.3px; }
+
+/* ── 빈 상태 ── */
+.empty-state { padding:24px 16px; text-align:center; color:var(--t3); font-size:13px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+.empty-state-icon { font-size:28px; opacity:0.5; }
+
+/* ── 지연 카드 ── */
+.overdue-card { background:var(--dlow); border-radius:14px; padding:14px 16px; border:1px solid rgba(220,38,38,0.2); margin-bottom:16px; }
+.overdue-item { display:flex; align-items:center; gap:10px; padding:5px 0; cursor:pointer; }
+.overdue-item + .overdue-item { border-top:1px solid rgba(220,38,38,0.1); }
+
+/* ── 아코디언 ── */
+details.acc { border:1px solid var(--b1); border-radius:var(--radius-card); padding:10px 14px; background:var(--s1); margin-bottom:10px; }
+details.acc > summary { list-style:none; cursor:pointer; font-weight:800; font-size:13px; color:var(--t2); display:flex; align-items:center; justify-content:space-between; }
+details.acc > summary::-webkit-details-marker { display:none; }
+details.acc > summary:after { content:'▾'; font-size:14px; color:var(--t2); }
+details.acc[open] > summary:after { content:'▴'; }
+details.acc .acc-body { margin-top:10px; }
 </style>
 </head>
 <body>
@@ -624,6 +690,59 @@ function scheduleDayV3({date,tasks,events,existingBlocks,settings}){
 }
 
 /* ═══════════════════════════════════════════
+   AI UTILITY - GPT/Claude API 연동
+═══════════════════════════════════════════ */
+const AI_CONFIG = {
+  openai: {
+    get key(){ return localStorage.getItem('flow_openai_key')||''; },
+    model: 'gpt-4o-mini',
+    url: 'https://api.openai.com/v1/chat/completions',
+  },
+  claude: {
+    get key(){ return localStorage.getItem('flow_claude_key')||''; },
+    model: 'claude-3-haiku-20240307',
+    url: 'https://api.anthropic.com/v1/messages',
+  }
+};
+async function callAI(prompt, provider='openai', systemPrompt='당신은 가족 생산성 앱 FLOW의 AI 어시스턴트입니다. 한국어로 간결하게 답변하세요.'){
+  try{
+    if(provider==='claude'){
+      const res=await fetch(AI_CONFIG.claude.url,{
+        method:'POST',
+        headers:{'x-api-key':AI_CONFIG.claude.key,'anthropic-version':'2023-06-01','Content-Type':'application/json'},
+        body:JSON.stringify({model:AI_CONFIG.claude.model,max_tokens:1000,system:systemPrompt,messages:[{role:'user',content:prompt}]})
+      });
+      const d=await res.json();
+      if(d.content&&d.content[0]) return d.content[0].text;
+      throw new Error(JSON.stringify(d));
+    } else {
+      const res=await fetch(AI_CONFIG.openai.url,{
+        method:'POST',
+        headers:{'Authorization':'Bearer '+AI_CONFIG.openai.key,'Content-Type':'application/json'},
+        body:JSON.stringify({model:AI_CONFIG.openai.model,messages:[{role:'system',content:systemPrompt},{role:'user',content:prompt}],max_completion_tokens:1000})
+      });
+      const d=await res.json();
+      if(d.choices&&d.choices[0]) return d.choices[0].message.content;
+      throw new Error(JSON.stringify(d));
+    }
+  }catch(e){
+    console.warn('AI call failed:',e);
+    throw e;
+  }
+}
+/* ═══════════════════════════════════════════
+   DDAY META UTILITY (BoardPage에서 사용)
+═══════════════════════════════════════════ */
+function ddayMeta(today, targetDate){
+  if(!targetDate) return null;
+  const diff = daysBetween(today, targetDate);
+  if(diff < 0) return { label: `D+${Math.abs(diff)} 지연`, tone: 'danger' };
+  if(diff === 0) return { label: 'D-Day', tone: 'danger' };
+  if(diff === 1) return { label: 'D-1', tone: 'warn' };
+  if(diff <= 3) return { label: `D-${diff}`, tone: 'warn' };
+  return { label: `D-${diff}`, tone: 'normal' };
+}
+/* ═══════════════════════════════════════════
    BUDGET AI INSIGHTS (heuristic)
 ═══════════════════════════════════════════ */
 function computeBudgetInsights(expenses,budget,month){
@@ -717,7 +836,7 @@ const SEED={
 /* ═══════════════════════════════════════════
    LOCAL STORAGE
 ═══════════════════════════════════════════ */
-const STORE_KEY='flow_v10_auth'; // v10: 목업 데이터 제거 - 기존 캐시 무효화
+const STORE_KEY='flow_v11_bugfix'; // v10: 목업 데이터 제거 - 기존 캐시 무효화
 const SESSION_KEY='flow_session_user';
 function getSessionUserId(){
   try{
@@ -752,14 +871,19 @@ function loadData(){
   }catch(e){}
   return {...SEED, lessons:(SEED.lessons||[]).map(L=>({...L, active: L.active!==false}))};
 }
+function sanitizeForPersist(d){
+  const s={...(d.settings||{})};
+  delete s.currentUserId;
+  delete s.sessionUserId;
+  return{...d,settings:s};
+}
 function saveData(data){
+  const toSave=sanitizeForPersist(data);
   // localStorage (로컬 캐시)
-  try{localStorage.setItem(STORE_KEY,JSON.stringify(data));}catch(e){}
+  try{localStorage.setItem(STORE_KEY,JSON.stringify(toSave));}catch(e){}
   // Firebase Realtime Database (실시간 동기화)
   if(window._fbReady && window._fbDb){
     try{
-      // settings.currentUserId 등 민감 정보 제외하고 저장
-      const toSave={...data, settings:{...data.settings, currentUserId:undefined, sessionUserId:undefined}};
       window._fbDb.ref('flowdata').set(toSave);
     }catch(e){console.warn('Firebase save error',e);}
   }
@@ -783,9 +907,10 @@ function AppProvider({children}){
   const lastSavedRef=useRef(null);
 
   useEffect(()=>{
-    const json=JSON.stringify(data);
-    if(lastSavedRef.current===json) return; // 변경없으면 저장 안 함
-    lastSavedRef.current=json;
+    const persistObj=sanitizeForPersist(data);
+    const persistJson=JSON.stringify(persistObj);
+    if(lastSavedRef.current===persistJson) return; // 변경없으면 저장 안 함
+    lastSavedRef.current=persistJson;
     saveData(data);
     // 다른 탭/창에 실시간 동기화 신호
     try{localStorage.setItem(STORE_KEY+'_ts', Date.now().toString());}catch(e){}
@@ -1274,7 +1399,7 @@ function addExpense(exp){
       addExpense,deleteExpense,updateBudget,
       addNote,deleteNote,
       resetData,
-      addLesson,updateLesson,deleteLesson,setLessonTeacher,setLessonStudents,
+      addLesson,updateLesson,deleteLesson,setLessonTeacher,setLessonStudents,setLessonActive,
     }}>
       {children}
       <ToastStack toasts={toasts}/>
@@ -1418,46 +1543,34 @@ function TaskRow({task,onTap,showDate=false,showProject=false,compact=false}){
       right1Color='var(--work)'
     >
       <div
-        className="row-in press"
+        className="row-in task-row"
         onClick={()=>onTap&&onTap(task)}
-        style={{
-          display:'flex',alignItems:'center',gap:10,
-          padding:compact?'8px 12px':'12px 14px',
-          opacity:done?0.45:1,
-          position:'relative',
-        }}
+        style={{padding:compact?'10px 14px':'14px 16px',opacity:done?0.5:1}}
       >
         {/* Checkbox */}
         <button
           onClick={e=>{e.stopPropagation();toggleDone(task.id);}}
-          style={{
-            width:22,height:22,borderRadius:11,flexShrink:0,
-            border:`2px solid ${done?'var(--success)':domColor}`,
-            background:done?'var(--success)':'transparent',
-            display:'flex',alignItems:'center',justifyContent:'center',
-            cursor:'pointer',
-          }}
+          className="task-row-check"
+          style={{borderColor:done?'var(--success)':domColor,background:done?'var(--success)':'transparent'}}
         >
-          {done&&<span style={{color:'#fff',fontSize:12,fontWeight:800}}>✓</span>}
+          {done&&<span style={{color:'#fff',fontSize:13,fontWeight:900}}>✓</span>}
         </button>
 
         {/* Content */}
         <div style={{flex:1,minWidth:0}}>
-          <div style={{display:'flex',alignItems:'center',gap:6,flexWrap:'wrap'}}>
-            <span style={{fontSize:compact?13:14,fontWeight:done?400:600,color:'var(--t1)',textDecoration:done?'line-through':'none',wordBreak:'break-all'}}>{task.title}</span>
-            {task.priority===1&&<span style={{fontSize:10,fontWeight:700,color:'var(--a1c)',background:'var(--a1low)',borderRadius:4,padding:'1px 5px'}}>긴급</span>}
-          </div>
-          <div style={{display:'flex',alignItems:'center',gap:6,marginTop:2,flexWrap:'wrap'}}>
+          <span className={`task-row-title${done?' done':''}`} style={{fontSize:compact?13:15,display:'block'}}>{task.title}</span>
+          <div className="task-row-meta">
             {task.energy&&<EnergyDot level={task.energy}/>}
-            {task.durationMin>0&&<span style={{fontSize:11,color:'var(--t3)'}}>{task.durationMin}분</span>}
-            {showDate&&task.dueDate&&<span style={{fontSize:11,color:task.dueDate<todayStr()&&!done?'var(--danger)':'var(--t3)'}}>{relativeDay(task.dueDate)}</span>}
-            {proj&&<span style={{fontSize:10,fontWeight:600,color:proj.color,background:proj.color+'22',borderRadius:4,padding:'1px 5px'}}>{proj.name}</span>}
-            {task.type==='deepwork'&&<span style={{fontSize:10,color:'var(--purple)'}}>🧠</span>}
-            {task.type==='call'&&<span style={{fontSize:10,color:'var(--warn)'}}>📞</span>}
+            {task.durationMin>0&&<span className="meta-chip" style={{background:'var(--s2)',color:'var(--t2)'}}>{task.durationMin}분</span>}
+            {showDate&&task.dueDate&&<span className="meta-chip" style={{background:task.dueDate<todayStr()&&!done?'var(--dlow)':'var(--s2)',color:task.dueDate<todayStr()&&!done?'var(--danger)':'var(--t3)'}}>{relativeDay(task.dueDate)}</span>}
+            {proj&&<span className="meta-chip" style={{background:proj.color+'22',color:proj.color}}>{proj.name}</span>}
+            {task.type==='deepwork'&&<span className="meta-chip" style={{background:'var(--purplow)',color:'var(--purple)'}}>🧠 딥워크</span>}
+            {task.type==='call'&&<span className="meta-chip" style={{background:'var(--warnlow)',color:'var(--warn)'}}>📞 통화</span>}
+            {task.type==='meeting'&&<span className="meta-chip" style={{background:'var(--wlow)',color:'var(--work)'}}>🤝 회의</span>}
           </div>
         </div>
         {/* Priority badge */}
-        <span style={{fontSize:10,fontWeight:700,color:task.priority===1?'var(--a1c)':task.priority===2?'var(--warn)':'var(--t3)',flexShrink:0}}>{prioLabel}</span>
+        {task.priority<=2&&<span className="prio-badge" style={{background:task.priority===1?'var(--a1low)':'var(--warnlow)',color:task.priority===1?'var(--a1c)':'var(--warn)'}}>{prioLabel}</span>}
       </div>
     </SwipeRow>
   );
@@ -1518,6 +1631,8 @@ function TaskDetailSheet({task,open,onClose}){
   const [priority,setPriority]=useState(3);
   const [domain,setDomain]=useState('work');
   const [type,setType]=useState('todo');
+  const [durationMin,setDurationMin]=useState(30);
+  const [energy,setEnergy]=useState('med');
   const [projectId,setProjectId]=useState(null);
   const [notes,setNotes]=useState('');
 
@@ -1616,19 +1731,37 @@ function AddTaskSheet({open,onClose,defaultDomain='work',defaultDueDate=null}){
   const [priority,setPriority]=useState(3);
   const [dueDate,setDueDate]=useState(defaultDueDate||todayStr());
   const [type,setType]=useState('todo');
+  const [durationMin,setDurationMin]=useState(30);
+  const [energy,setEnergy]=useState('med');
   const [projectId,setProjectId]=useState('');
+  const [aiLoading,setAiLoading]=useState(false);
   const inputRef=useRef(null);
 
   useEffect(()=>{
     if(open){
       setTitle('');setDomain(defaultDomain);setPriority(3);setDueDate(defaultDueDate||todayStr());
-      setType('todo');setProjectId('');
+      setType('todo');setProjectId('');setDurationMin(30);setEnergy('med');
       setTimeout(()=>inputRef.current?.focus(),200);
     }
   },[open]);
 
 
 
+  async function aiClassify(){
+    if(!title.trim()||aiLoading) return;
+    setAiLoading(true);
+    try{
+      const res=await callAI(`태스크를 분류해주세요: "${title}"\n\n다음 JSON 형식으로만 답변하세요:\n{"type":"todo|deepwork|call|meeting|review|admin","durationMin":30,"priority":1|2|3,"domain":"work|personal","energy":"low|med|high"}\n\n규칙: deepwork=집중필요, call=전화/통화, meeting=회의, review=검토/확인, admin=행정/서류, todo=일반`);
+      const parsed=JSON.parse(res.trim().replace(/```json|```/g,'').trim());
+      if(parsed.type) setType(parsed.type);
+      if(parsed.durationMin) setDurationMin(parsed.durationMin);
+      if(parsed.priority) setPriority(parsed.priority);
+      if(parsed.domain) setDomain(parsed.domain);
+      if(parsed.energy) setEnergy(parsed.energy);
+      showToast('🤖 AI 분류 완료','success');
+    }catch(e){showToast('AI 분류 실패','error');}
+    setAiLoading(false);
+  }
   function submit(){
     if(!title.trim())return;
     addTask({title:title.trim(),domain,priority,dueDate,type,durationMin,energy,projectId:projectId||null});
@@ -1643,7 +1776,12 @@ function AddTaskSheet({open,onClose,defaultDomain='work',defaultDueDate=null}){
   return(
     <Sheet open={open} onClose={onClose} title="새 태스크" height="85vh">
       <div style={{paddingTop:12}}>
-        <input ref={inputRef} value={title} onChange={e=>setTitle(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()} style={{...fieldStyle,fontSize:16,fontWeight:600}} placeholder="무엇을 해야 하나요?"/>
+        <div style={{position:'relative'}}>
+          <input ref={inputRef} value={title} onChange={e=>setTitle(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()} style={{...fieldStyle,fontSize:16,fontWeight:600,paddingRight:80}} placeholder="무엇을 해야 하나요?"/>
+          <button onClick={aiClassify} disabled={!title.trim()||aiLoading} style={{position:'absolute',right:8,top:'50%',transform:'translateY(-50%)',background:aiLoading?'var(--s3)':'linear-gradient(135deg,#7C3AED,#4F8EF7)',color:'#fff',border:'none',borderRadius:8,padding:'5px 10px',fontSize:11,fontWeight:700,cursor:'pointer',opacity:(!title.trim()||aiLoading)?0.5:1}}>
+            {aiLoading?'..':'🤖 AI'}
+          </button>
+        </div>
 
 
         <label style={labelStyle}>도메인</label>
@@ -1687,6 +1825,20 @@ function AddTaskSheet({open,onClose,defaultDomain='work',defaultDueDate=null}){
           </>
         )}
 
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginTop:14}}>
+          <div>
+            <label style={labelStyle}>소요시간(분)</label>
+            <input type="number" value={durationMin} onChange={e=>setDurationMin(Number(e.target.value)||30)} min={5} max={480} step={5} style={fieldStyle}/>
+          </div>
+          <div>
+            <label style={labelStyle}>에너지</label>
+            <div style={{display:'flex',gap:6,marginTop:6}}>
+              {[['low','🟢 낮음'],['med','🟡 보통'],['high','🔴 높음']].map(([v,l])=>(
+                <button key={v} onClick={()=>setEnergy(v)} style={{...btnStyle,flex:1,padding:'8px 4px',fontSize:11,background:energy===v?'var(--wlow)':'var(--s2)',color:energy===v?'var(--work)':'var(--t2)',border:`1.5px solid ${energy===v?'var(--work)':'var(--b2)'}`}}>{l}</button>
+              ))}
+            </div>
+          </div>
+        </div>
         <button onClick={submit} style={{...btnStyle,background:'var(--work)',color:'#fff',width:'100%',marginTop:20,padding:'14px 0',fontSize:15}}>추가하기</button>
       </div>
     </Sheet>
@@ -2541,6 +2693,21 @@ function TodayPage(){
   const [showFocusAll,setShowFocusAll]=useState(false);
   const [selectedFocus,setSelectedFocus]=useState(null); // null = 자동
   const [tempFocus,setTempFocus]=useState([]);
+  // AI 브리핑
+  const [aiBriefing,setAiBriefing]=useState('');
+  const [aiBriefingLoading,setAiBriefingLoading]=useState(false);
+  async function generateAIBriefing(){
+    if(aiBriefingLoading) return;
+    setAiBriefingLoading(true);
+    try{
+      const taskList=todayTasks.slice(0,10).map(t=>`- ${t.title} (${t.domain}, ${t.type||'todo'})`).join('\n');
+      const overdueList=overdue.slice(0,5).map(t=>`- ${t.title} (${relativeDay(t.dueDate)})`).join('\n');
+      const prompt=`오늘 날짜: ${today}\n\n오늘 할 일 ${todayTasks.length}개:\n${taskList||'없음'}\n\n지연 ${overdue.length}개:\n${overdueList||'없음'}\n\n위 정보를 바탕으로 오늘의 업무 브리핑을 2-3문장으로 작성해주세요. 핵심 우선순위와 주의사항을 포함하세요.`;
+      const result=await callAI(prompt,'openai','당신은 생산성 코치입니다. 간결하고 실용적인 조언을 한국어로 제공하세요.');
+      setAiBriefing(result);
+    }catch(e){setAiBriefing('AI 브리핑을 불러올 수 없습니다.');}
+    setAiBriefingLoading(false);
+  }
   // 모듈 접기 상태
   const [collapseWork,setCollapseWork]=useState(false);
   const [collapsePersonal,setCollapsePersonal]=useState(false);
@@ -2605,13 +2772,16 @@ function TodayPage(){
   }
 
   const secHdr=(icon,label,count,collapsed,onToggle,onAdd)=>(
-    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:collapsed?0:10}}>
-      <button onClick={onToggle} style={{display:'flex',alignItems:'center',gap:6,background:'none',border:'none',cursor:'pointer',padding:0}}>
-        <span style={{fontSize:11,fontWeight:700,color:'var(--t2)',letterSpacing:0.8,textTransform:'uppercase'}}>{icon} {label}</span>
-        {count>0&&<span style={{fontSize:10,background:'var(--s3)',color:'var(--t2)',borderRadius:8,padding:'1px 6px',fontWeight:700}}>{count}</span>}
+    <div className="sec-hdr">
+      <button onClick={onToggle} className="sec-hdr-left" style={{background:'none',border:'none',cursor:'pointer',padding:0}}>
+        <div className="sec-hdr-icon" style={{background:label==='업무'?'var(--wlow)':label==='개인'?'var(--plow)':label==='완료'?'var(--slow)':'var(--s3)'}}>
+          <span>{icon}</span>
+        </div>
+        <span className="sec-hdr-label">{label}</span>
+        <span className="sec-hdr-count">{count}</span>
         <span style={{fontSize:10,color:'var(--t3)',marginLeft:2}}>{collapsed?'▶':'▼'}</span>
       </button>
-      {onAdd&&!collapsed&&<button onClick={onAdd} style={{fontSize:12,color:'var(--work)',background:'none',border:'none',cursor:'pointer',fontWeight:600,padding:'2px 6px'}}>+ 추가</button>}
+      {onAdd&&<button onClick={onAdd} className="sec-hdr-add">+ 추가</button>}
     </div>
   );
 
@@ -2662,17 +2832,39 @@ function TodayPage(){
       </div>
 
       <div style={{padding:'0 16px'}}>
+        {/* ── AI 브리핑 패널 ── */}
+        {(aiBriefing||aiBriefingLoading)&&(
+          <div className="ai-panel" style={{marginBottom:16}}>
+            <div className="ai-panel-title">
+              <span>🤖</span>
+              <span>AI 오늘의 브리핑</span>
+              <button onClick={()=>setAiBriefing('')} style={{marginLeft:'auto',background:'none',border:'none',color:'var(--t3)',cursor:'pointer',fontSize:16,padding:0}}>×</button>
+            </div>
+            <div className="ai-panel-content">
+              {aiBriefingLoading?<span className="pulse">분석 중...</span>:aiBriefing}
+            </div>
+          </div>
+        )}
+        {!aiBriefing&&!aiBriefingLoading&&(
+          <button onClick={generateAIBriefing} className="ai-btn secondary" style={{width:'100%',justifyContent:'center',marginBottom:16,padding:'10px'}}>
+            🤖 AI 오늘의 브리핑 생성
+          </button>
+        )}
         {/* ── 지연 태스크 ── */}
         {overdue.length>0&&(
-          <div style={{marginBottom:16,background:'var(--dlow)',borderRadius:14,padding:'12px 14px',border:'1px solid rgba(220,38,38,0.2)'}}>
-            <div style={{fontSize:12,fontWeight:700,color:'var(--danger)',marginBottom:8}}>⚠️ 지연 {overdue.length}개</div>
+          <div className="overdue-card">
+            <div style={{fontSize:12,fontWeight:800,color:'var(--danger)',marginBottom:8,display:'flex',alignItems:'center',gap:6}}>
+              <span>⚠️</span>
+              <span>지연 {overdue.length}개</span>
+            </div>
             {overdue.slice(0,3).map(t=>(
-              <div key={t.id} style={{fontSize:13,color:'var(--t1)',padding:'4px 0',cursor:'pointer',display:'flex',alignItems:'center',gap:8}} onClick={()=>setDetailTask(t)}>
-                <span style={{width:4,height:4,borderRadius:2,background:'var(--danger)',flexShrink:0,display:'inline-block'}}/>
-                <span style={{flex:1}}>{t.title}</span>
-                <span style={{fontSize:11,color:'var(--danger)',flexShrink:0}}>({relativeDay(t.dueDate)})</span>
+              <div key={t.id} className="overdue-item" onClick={()=>setDetailTask(t)}>
+                <span style={{width:5,height:5,borderRadius:2.5,background:'var(--danger)',flexShrink:0,display:'inline-block'}}/>
+                <span style={{flex:1,fontSize:13,color:'var(--t1)',fontWeight:500}}>{t.title}</span>
+                <span style={{fontSize:11,color:'var(--danger)',flexShrink:0,fontWeight:700}}>{relativeDay(t.dueDate)}</span>
               </div>
             ))}
+            {overdue.length>3&&<div style={{fontSize:11,color:'var(--danger)',marginTop:6,textAlign:'center',opacity:0.7}}>+{overdue.length-3}개 더</div>}
           </div>
         )}
 
@@ -2688,18 +2880,19 @@ function TodayPage(){
           <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
             {focus3.length===0&&<div style={{padding:'20px',textAlign:'center',color:'var(--t3)',fontSize:13}}>오늘 할 일이 없습니다</div>}
             {focus3.map((t,i)=>(
-              <div key={t.id} className="press" onClick={()=>setDetailTask(t)} style={{display:'flex',alignItems:'center',gap:12,padding:'13px 16px',borderBottom:i<focus3.length-1?'1px solid var(--b1)':'none',cursor:'pointer'}}>
-                <div style={{width:26,height:26,borderRadius:8,background:i===0?'var(--a1c)':i===1?'var(--warn)':'var(--s3)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
-                  <span style={{fontSize:13,fontWeight:900,color:i<2?'#fff':'var(--t2)'}}>{i+1}</span>
+              <div key={t.id} className="focus-card-item press" onClick={()=>setDetailTask(t)}>
+                <div className="focus-num" style={{background:i===0?'var(--a1c)':i===1?'var(--warn)':'var(--s3)',color:i<2?'#fff':'var(--t2)'}}>
+                  {i+1}
                 </div>
                 <div style={{flex:1,minWidth:0}}>
-                  <div style={{fontSize:14,fontWeight:700,color:'var(--t1)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{t.title}</div>
-                  <div style={{display:'flex',gap:6,marginTop:3,alignItems:'center'}}>
-                    <span style={{fontSize:11,color:'var(--t3)',background:'var(--s2)',borderRadius:5,padding:'1px 6px'}}>{t.type||'할일'}</span>
-                    {t.projectId&&data.projects.find(p=>p.id===t.projectId)&&<span style={{fontSize:11,color:'var(--work)'}}>{data.projects.find(p=>p.id===t.projectId).name}</span>}
+                  <div style={{fontSize:15,fontWeight:700,color:'var(--t1)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{t.title}</div>
+                  <div style={{display:'flex',gap:6,marginTop:4,alignItems:'center',flexWrap:'wrap'}}>
+                    <span className="meta-chip" style={{background:'var(--s2)',color:'var(--t3)'}}>{t.type==='deepwork'?'🧠 딥워크':t.type==='call'?'📞 통화':t.type==='meeting'?'🤝 회의':t.type||'할일'}</span>
+                    {t.durationMin>0&&<span className="meta-chip" style={{background:'var(--s2)',color:'var(--t3)'}}>{t.durationMin}분</span>}
+                    {t.projectId&&data.projects.find(p=>p.id===t.projectId)&&<span className="meta-chip" style={{background:'var(--wlow)',color:'var(--work)'}}>{data.projects.find(p=>p.id===t.projectId).name}</span>}
                   </div>
                 </div>
-                <span style={{fontSize:11,fontWeight:800,color:t.priority===1?'var(--a1c)':t.priority===2?'var(--warn)':'var(--t3)',flexShrink:0,background:t.priority===1?'var(--a1low)':t.priority===2?'var(--warnlow)':'var(--s2)',borderRadius:6,padding:'3px 7px'}}>
+                <span className="prio-badge" style={{background:t.priority===1?'var(--a1low)':t.priority===2?'var(--warnlow)':'var(--s2)',color:t.priority===1?'var(--a1c)':t.priority===2?'var(--warn)':'var(--t3)'}}>
                   {t.priority===1?'A1':t.priority===2?'B1':'C1'}
                 </span>
               </div>
@@ -2707,9 +2900,8 @@ function TodayPage(){
           </div>
         </div>
 
-        {/* ── 업무 ── */}
-        {(Object.keys(projMap).length>0||workTasks.length>0)&&(
-          <div style={{marginBottom:20}}>
+        {/* ── 업무 ── (항상 표시) */}
+        <div style={{marginBottom:20}}>
             {secHdr('💼','업무',workTasks.length,collapseWork,()=>setCollapseWork(v=>!v),()=>setShowAddTask(true))}
             {!collapseWork&&(
               <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
@@ -2725,7 +2917,13 @@ function TodayPage(){
                     </div>
                   );
                 })}
-                {workTasks.length===0&&<div style={{padding:'16px',textAlign:'center',color:'var(--t3)',fontSize:13}}>업무 할 일이 없습니다</div>}
+                {workTasks.length===0&&(
+                  <div className="empty-state">
+                    <span className="empty-state-icon">💼</span>
+                    <span>오늘 업무 할 일이 없습니다</span>
+                    <button onClick={()=>setShowAddTask(true)} style={{fontSize:12,color:'var(--work)',background:'var(--wlow)',border:'none',borderRadius:8,padding:'6px 14px',fontWeight:700,cursor:'pointer',marginTop:4}}>+ 업무 추가</button>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -2737,7 +2935,13 @@ function TodayPage(){
             {secHdr('🌿','개인',personalTasks.length,collapsePersonal,()=>setCollapsePersonal(v=>!v),()=>setShowAddTask(true))}
             {!collapsePersonal&&(
               <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
-                {personalTasks.length===0&&<div style={{padding:'16px',textAlign:'center',color:'var(--t3)',fontSize:13}}>개인 할 일이 없습니다</div>}
+                {personalTasks.length===0&&(
+                  <div className="empty-state">
+                    <span className="empty-state-icon">🌿</span>
+                    <span>오늘 개인 할 일이 없습니다</span>
+                    <button onClick={()=>setShowAddTask(true)} style={{fontSize:12,color:'var(--personal)',background:'var(--plow)',border:'none',borderRadius:8,padding:'6px 14px',fontWeight:700,cursor:'pointer',marginTop:4}}>+ 개인 추가</button>
+                  </div>
+                )}
                 {personalTasks.map(t=><TaskRow key={t.id} task={t} onTap={setDetailTask}/>)}
               </div>
             )}
@@ -3727,6 +3931,25 @@ function SettingsPage(){
   const [projName,setProjName]=useState('');
   const [projColor,setProjColor]=useState('#4F8EF7');
   const [showReset,setShowReset]=useState(false);
+  const [aiTestResult,setAiTestResult]=useState('');
+  const [aiTesting,setAiTesting]=useState(false);
+  const [openaiKey,setOpenaiKeyState]=useState(()=>localStorage.getItem('flow_openai_key')||'');
+  const [claudeKey,setClaudeKeyState]=useState(()=>localStorage.getItem('flow_claude_key')||'');
+  function saveOpenaiKey(v){setOpenaiKeyState(v);localStorage.setItem('flow_openai_key',v);}
+  function saveClaudeKey(v){setClaudeKeyState(v);localStorage.setItem('flow_claude_key',v);}
+  async function testAI(){
+    setAiTesting(true);setAiTestResult('');
+    try{
+      const result=await callAI('안녕! FLOW 앱 AI 연결 테스트입니다. "연결 성공!"이라고만 답해주세요.','openai');
+      setAiTestResult('✅ GPT 연결 성공: '+result.trim().slice(0,60));
+    }catch(e){
+      try{
+        const result2=await callAI('안녕! FLOW 앱 AI 연결 테스트입니다. "연결 성공!"이라고만 답해주세요.','claude');
+        setAiTestResult('✅ Claude 연결 성공: '+result2.trim().slice(0,60));
+      }catch(e2){setAiTestResult('❌ AI 연결 실패 - API 키를 확인하세요');}
+    }
+    setAiTesting(false);
+  }
 
   const fieldStyle={background:'var(--s2)',border:'1px solid var(--b2)',borderRadius:10,padding:'10px 14px',color:'var(--t1)',fontSize:14,width:'100%',marginTop:6};
   const labelStyle={fontSize:12,fontWeight:600,color:'var(--t2)',marginTop:14,display:'block'};
@@ -3801,6 +4024,55 @@ function SettingsPage(){
         <div><label style={labelStyle}>점심 종료</label><input type="time" value={s.lunchEnd} onChange={e=>updateSettings({lunchEnd:e.target.value})} style={fieldStyle}/></div>
       </div>
 
+      {/* ── AI 어시스턴트 설정 ── */}
+      <div style={sectionTitle}>🤖 AI 어시스턴트</div>
+      <div style={{background:'var(--s1)',borderRadius:16,border:'1px solid var(--b1)',overflow:'hidden',boxShadow:'var(--card-shadow)',marginBottom:8}}>
+        <div style={{padding:'14px 16px',borderBottom:'1px solid var(--b1)'}}>
+          <div style={{fontSize:14,fontWeight:700,color:'var(--t1)',marginBottom:4}}>API 키 설정</div>
+          <div style={{fontSize:12,color:'var(--t2)',marginBottom:12,lineHeight:1.5}}>태스크 자동 분류, AI 브리핑, 스마트 제안 기능에 사용됩니다.</div>
+          <div style={{marginBottom:10}}>
+            <div style={{fontSize:12,fontWeight:600,color:'var(--t2)',marginBottom:4}}>OpenAI API 키 (GPT-4o)</div>
+            <input
+              type="password"
+              value={openaiKey}
+              onChange={e=>saveOpenaiKey(e.target.value)}
+              placeholder="sk-..."
+              style={{width:'100%',background:'var(--s2)',border:'1px solid var(--b2)',borderRadius:8,padding:'9px 12px',fontSize:13,color:'var(--t1)'}}
+            />
+          </div>
+          <div style={{marginBottom:12}}>
+            <div style={{fontSize:12,fontWeight:600,color:'var(--t2)',marginBottom:4}}>Anthropic API 키 (Claude)</div>
+            <input
+              type="password"
+              value={claudeKey}
+              onChange={e=>saveClaudeKey(e.target.value)}
+              placeholder="sk-ant-..."
+              style={{width:'100%',background:'var(--s2)',border:'1px solid var(--b2)',borderRadius:8,padding:'9px 12px',fontSize:13,color:'var(--t1)'}}
+            />
+          </div>
+          <button onClick={testAI} disabled={aiTesting} style={{background:aiTesting?'var(--s3)':'linear-gradient(135deg,#7C3AED,#4F8EF7)',color:aiTesting?'var(--t2)':'#fff',border:'none',borderRadius:10,padding:'9px 18px',fontSize:13,fontWeight:700,cursor:'pointer',display:'flex',alignItems:'center',gap:6}}>
+            {aiTesting?'🔄 테스트 중...':'🤖 AI 연결 테스트'}
+          </button>
+          {aiTestResult&&<div style={{marginTop:10,fontSize:13,color:aiTestResult.startsWith('✅')?'var(--success)':'var(--danger)',fontWeight:600,padding:'8px 12px',background:aiTestResult.startsWith('✅')?'var(--slow)':'var(--dlow)',borderRadius:8}}>{aiTestResult}</div>}
+        </div>
+        <div style={{padding:'14px 16px'}}>
+          <div style={{fontSize:12,fontWeight:700,color:'var(--t2)',marginBottom:10,letterSpacing:0.5,textTransform:'uppercase'}}>AI 기능 목록</div>
+          {[
+            {icon:'🤖',title:'태스크 자동 분류',desc:'받은함에서 AI가 유형/시간/우선순위 자동 분류'},
+            {icon:'📋',title:'오늘의 AI 브리핑',desc:'Today 탭에서 오늘 할 일 요약 및 코칭 생성'},
+            {icon:'✨',title:'스마트 태스크 추가',desc:'새 태스크 입력 시 AI가 속성 자동 분류'},
+          ].map((item,i)=>(
+            <div key={i} style={{display:'flex',gap:12,padding:'10px 0',borderTop:i>0?'1px solid var(--b1)':'none',alignItems:'flex-start'}}>
+              <span style={{fontSize:20,flexShrink:0,marginTop:1}}>{item.icon}</span>
+              <div style={{flex:1}}>
+                <div style={{fontSize:14,fontWeight:700,color:'var(--t1)'}}>{item.title}</div>
+                <div style={{fontSize:12,color:'var(--t2)',marginTop:2,lineHeight:1.4}}>{item.desc}</div>
+              </div>
+              <span style={{fontSize:11,fontWeight:700,color:'var(--success)',background:'var(--slow)',borderRadius:6,padding:'3px 8px',flexShrink:0}}>활성</span>
+            </div>
+          ))}
+        </div>
+      </div>
       {/* Deep work windows */}
       <div style={sectionTitle}>🧠 딥워크 윈도우</div>
       {(s.deepWorkWindows||[]).map((w,i)=>(
@@ -3841,7 +4113,7 @@ function SettingsPage(){
         </div>
       )}
 
-      <div style={{textAlign:'center',marginTop:32,color:'var(--t3)',fontSize:12}}>FLOW v7 · localStorage 자동 저장</div>
+      <div style={{textAlign:'center',marginTop:32,color:'var(--t3)',fontSize:12}}>FLOW v11 · AI 통합 업그레이드 · 버그 수정 완료</div>
     </div>
   );
 }
@@ -4663,24 +4935,27 @@ function getTabConfig(data){
 function TabBar({active,onChange,tabs}){
   return(
     <div style={{
-      display:'flex',overflowX:'auto',background:'var(--s1)',
+      display:'flex',overflowX:'auto',background:'var(--tabbar-bg)',
       borderTop:'1px solid var(--b1)',padding:'6px 8px 8px',
       scrollbarWidth:'none',WebkitOverflowScrolling:'touch',
       position:'fixed',bottom:0,left:0,right:0,zIndex:50,
+      backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
+      paddingBottom:'calc(8px + env(safe-area-inset-bottom,0px))',
     }}>
       {tabs.map(t=>{
-        const inboxCount=t.id==='inbox'?0:0;
+        const isActive=active===t.id;
         return(
           <button key={t.id} onClick={()=>onChange(t.id)} style={{
-            display:'flex',flexDirection:'column',alignItems:'center',gap:2,
-            padding:'6px 12px',borderRadius:12,border:'none',
-            background:active===t.id?'var(--wlow)':'transparent',
-            color:active===t.id?'var(--work)':'var(--t3)',
+            display:'flex',flexDirection:'column',alignItems:'center',gap:3,
+            padding:'6px 12px 4px',borderRadius:12,border:'none',
+            background:isActive?'var(--wlow)':'transparent',
+            color:isActive?'var(--work)':'var(--t3)',
             cursor:'pointer',flexShrink:0,minWidth:52,
-            transition:'all 0.15s',
+            transition:'all 0.15s',position:'relative',
           }}>
-            <span style={{fontSize:18}}>{t.icon}</span>
-            <span style={{fontSize:9,fontWeight:active===t.id?700:400,whiteSpace:'nowrap'}}>{t.label}</span>
+            <span style={{fontSize:20,lineHeight:1}}>{t.icon}</span>
+            <span style={{fontSize:10,fontWeight:isActive?800:500,whiteSpace:'nowrap',letterSpacing:0.2}}>{t.label}</span>
+            {isActive&&<span style={{position:'absolute',bottom:0,left:'50%',transform:'translateX(-50%)',width:20,height:3,borderRadius:2,background:'var(--work)'}}/>}
           </button>
         );
       })}
