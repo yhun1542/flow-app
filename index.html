@@ -2425,6 +2425,7 @@ function Timeline({date,blocks,events,onAddEvent}){
         + 일정 추가
       </button>
     </div>
+    </div>
   );
 }
 
@@ -2518,6 +2519,8 @@ function LoginPage(){
         </div>
       </div>
       <div style={{height:'env(safe-area-inset-bottom,0px)'}}/>
+    </div>
+    </div>
     </div>
   );
 }
@@ -2913,6 +2916,7 @@ function AdminPage(){
       )}
 
       <div style={{height:'env(safe-area-inset-bottom,0px)'}}/>
+    </div>
     </div>
   );
 }
@@ -3545,6 +3549,7 @@ function MonthPage(){
       <AddEventSheet open={showAddEvent} onClose={()=>setShowAddEvent(false)} defaultDate={selectedDate}/>
       <AddTaskSheet open={showAddTask} onClose={()=>setShowAddTask(false)} defaultDomain="work" defaultDueDate={selectedDate}/>
     </div>
+    </div>
   );
 }
 
@@ -3916,6 +3921,9 @@ function FamilyPage(){
         </div>
         <button onClick={submitAnn} style={{width:'100%',padding:'12px',borderRadius:12,border:'none',background:'var(--work)',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer'}}>등록</button>
       </Modal>
+        </div>
+      </div>
+    </div>
     </div>
   );
 }
@@ -4042,6 +4050,7 @@ function BudgetPage(){
           <button onClick={submitExpense} style={{width:'100%',padding:'14px',borderRadius:12,border:'none',background:'var(--budget)',color:'#fff',fontWeight:700,fontSize:15,cursor:'pointer'}}>기록하기</button>
         </div>
       </Sheet>
+    </div>
     </div>
   );
 }
@@ -5120,6 +5129,7 @@ function TeacherHomeworkPage(){
         </div>
       </Panel>
     </div>
+    </div>
   );
 }
 
@@ -5351,6 +5361,7 @@ function AppInner({tab,setTab,showAddTask,setShowAddTask,fabShort,fabLong}){
         defaultDueDate={tab==='today'||tab==='family'?todayStr():null}
       />
     </div>
+    </div>
   );
 }
 
@@ -5395,6 +5406,7 @@ function PageHeader({title, chips=[], action=null, subtitle=null}){
           {action.label}
         </button>
       ) : <div style={{width:36}}/>}
+    </div>
     </div>
   );
 }
