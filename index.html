@@ -2,11 +2,8 @@
 <html lang="ko" data-theme="light">
 <head>
 <meta charset="UTF-8">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>FLOW v19 — 가족 생산성 앱</title>
+<title>FLOW — Family OS</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -197,7 +194,7 @@ select{-webkit-appearance:none;appearance:none}
 :root{transition:background 0.3s ease,color 0.3s ease}
 
 /* ═══════════════════════════════════════════
-   v19.0 CARD MODULE DESIGN SYSTEM
+   v11.0 DESIGN SYSTEM UPGRADE
 ═══════════════════════════════════════════ */
 :root {
   --fs-title: 24px;
@@ -266,230 +263,6 @@ body { font-size: var(--fs-body) !important; line-height: var(--lh-body); }
 .overdue-item + .overdue-item { border-top:1px solid rgba(220,38,38,0.1); }
 
 /* ── 아코디언 ── */
-/* ═══════════════════════════════════════════
-   v19 CARD MODULE DESIGN SYSTEM
-═══════════════════════════════════════════ */
-/* ── 모듈 카드 (섹션 단위 컨테이너) ── */
-.mod-card {
-  background: var(--s1);
-  border-radius: 20px;
-  border: 1px solid var(--b1);
-  box-shadow: var(--card-shadow);
-  overflow: hidden;
-  margin-bottom: 14px;
-}
-.mod-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px 12px;
-  border-bottom: 1px solid var(--b1);
-}
-.mod-card-header-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.mod-card-icon {
-  width: 34px; height: 34px;
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
-}
-.mod-card-title {
-  font-size: 14px; font-weight: 800;
-  color: var(--t1); letter-spacing: -0.2px;
-}
-.mod-card-subtitle {
-  font-size: 11px; color: var(--t2); margin-top: 1px;
-}
-.mod-card-badge {
-  font-size: 11px; font-weight: 700;
-  background: var(--s3); color: var(--t2);
-  border-radius: 20px; padding: 3px 9px;
-}
-.mod-card-action {
-  font-size: 12px; font-weight: 700;
-  color: var(--work); background: var(--wlow);
-  border: none; border-radius: 8px;
-  padding: 5px 12px; cursor: pointer;
-}
-.mod-card-action:active { opacity: 0.7; }
-.mod-card-body { padding: 0; }
-.mod-card-body.padded { padding: 14px 16px; }
-.mod-card-footer {
-  padding: 10px 16px;
-  border-top: 1px solid var(--b1);
-  display: flex; align-items: center; justify-content: center;
-}
-.mod-card-footer-btn {
-  font-size: 12px; font-weight: 700; color: var(--t2);
-  background: none; border: none; cursor: pointer;
-  display: flex; align-items: center; gap: 4px;
-}
-/* ── 통계 그리드 카드 ── */
-.stat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--b1);
-}
-.stat-grid-2 { grid-template-columns: repeat(2, 1fr); }
-.stat-grid-4 { grid-template-columns: repeat(4, 1fr); }
-.stat-cell {
-  background: var(--s1);
-  padding: 14px 12px;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 4px;
-}
-.stat-cell-value {
-  font-size: 22px; font-weight: 900;
-  letter-spacing: -1px; color: var(--t1);
-}
-.stat-cell-label {
-  font-size: 10px; font-weight: 600;
-  color: var(--t2); text-align: center;
-}
-/* ── 진행률 바 카드 ── */
-.progress-bar-wrap {
-  height: 8px; background: var(--s3);
-  border-radius: 6px; overflow: hidden;
-}
-.progress-bar-fill {
-  height: 100%; border-radius: 6px;
-  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
-}
-/* ── 수평 스크롤 칩 행 ── */
-.chip-scroll {
-  display: flex; gap: 8px;
-  overflow-x: auto; padding: 12px 16px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.chip-scroll::-webkit-scrollbar { display: none; }
-.chip-btn {
-  flex-shrink: 0; padding: 7px 14px;
-  border-radius: 20px; border: 1.5px solid var(--b2);
-  background: transparent; font-size: 12px; font-weight: 700;
-  color: var(--t2); cursor: pointer; white-space: nowrap;
-  transition: all 0.15s;
-}
-.chip-btn.active {
-  background: var(--work); color: #fff;
-  border-color: var(--work);
-}
-/* ── 리스트 아이템 (카드 내부) ── */
-.list-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 13px 16px; cursor: pointer;
-  transition: background 0.1s;
-}
-.list-item:active { background: var(--s2); }
-.list-item + .list-item { border-top: 1px solid var(--b1); }
-.list-item-icon {
-  width: 36px; height: 36px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
-}
-.list-item-content { flex: 1; min-width: 0; }
-.list-item-title {
-  font-size: 14px; font-weight: 600; color: var(--t1);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.list-item-meta { font-size: 11px; color: var(--t2); margin-top: 2px; }
-.list-item-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-/* ── 빠른 액션 버튼 그리드 ── */
-.quick-actions {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 10px; padding: 14px 16px;
-}
-.quick-action-btn {
-  display: flex; flex-direction: column;
-  align-items: center; gap: 6px;
-  padding: 12px 4px; border-radius: 14px;
-  border: 1px solid var(--b1); background: var(--s2);
-  cursor: pointer; transition: all 0.15s;
-}
-.quick-action-btn:active { transform: scale(0.95); }
-.quick-action-icon { font-size: 20px; }
-.quick-action-label { font-size: 10px; font-weight: 700; color: var(--t2); }
-/* ── 가족 멤버 아바타 카드 ── */
-.member-card {
-  display: flex; flex-direction: column;
-  align-items: center; gap: 8px;
-  padding: 16px 12px; border-radius: 16px;
-  background: var(--s2); border: 1px solid var(--b1);
-  cursor: pointer; transition: all 0.15s; flex-shrink: 0;
-  min-width: 80px;
-}
-.member-card:active { transform: scale(0.96); }
-.member-avatar {
-  width: 48px; height: 48px; border-radius: 24px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px; border: 2px solid var(--b2);
-}
-.member-name { font-size: 12px; font-weight: 700; color: var(--t1); }
-.member-progress { font-size: 10px; color: var(--t2); }
-/* ── 날짜 네비게이터 ── */
-.date-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 16px;
-}
-.date-nav-btn {
-  width: 34px; height: 34px; border-radius: 10px;
-  background: var(--s2); border: none; cursor: pointer;
-  color: var(--t1); font-size: 16px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-}
-.date-nav-btn:active { opacity: 0.6; }
-.date-nav-label {
-  font-size: 16px; font-weight: 900; color: var(--t1);
-  letter-spacing: -0.3px;
-}
-/* ── 인라인 배지 ── */
-.badge-dot {
-  width: 8px; height: 8px; border-radius: 4px;
-  display: inline-block; flex-shrink: 0;
-}
-/* ── 페이지 헤더 v19 ── */
-.page-hdr-v19 {
-  padding: 16px 16px 8px;
-  display: flex; align-items: flex-start;
-  justify-content: space-between;
-}
-.page-hdr-v19-left {}
-.page-hdr-v19-title {
-  font-size: 22px; font-weight: 1000;
-  letter-spacing: -0.5px; color: var(--t1);
-}
-.page-hdr-v19-sub {
-  font-size: 12px; color: var(--t2); margin-top: 3px;
-}
-/* ── 섹션 구분자 ── */
-.section-label {
-  font-size: 11px; font-weight: 800;
-  color: var(--t3); letter-spacing: 0.8px;
-  text-transform: uppercase;
-  padding: 0 4px; margin-bottom: 8px; margin-top: 4px;
-}
-/* ── 빈 상태 (카드 내부) ── */
-.card-empty {
-  padding: 28px 16px; text-align: center;
-  color: var(--t3); font-size: 13px;
-}
-.card-empty-icon { font-size: 32px; margin-bottom: 8px; opacity: 0.4; }
-/* ── 토글 스위치 ── */
-.toggle-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 13px 16px;
-}
-.toggle-row + .toggle-row { border-top: 1px solid var(--b1); }
-.toggle-label { font-size: 14px; font-weight: 600; color: var(--t1); }
-.toggle-sub { font-size: 11px; color: var(--t2); margin-top: 2px; }
-/* ── 모바일 터치 최적화 ── */
-button, [role="button"] { touch-action: manipulation; }
-input, textarea, select { font-size: 16px !important; }
-
 details.acc { border:1px solid var(--b1); border-radius:var(--radius-card); padding:10px 14px; background:var(--s1); margin-bottom:10px; }
 details.acc > summary { list-style:none; cursor:pointer; font-weight:800; font-size:13px; color:var(--t2); display:flex; align-items:center; justify-content:space-between; }
 details.acc > summary::-webkit-details-marker { display:none; }
@@ -2522,8 +2295,6 @@ function LoginPage(){
       </div>
       <div style={{height:'env(safe-area-inset-bottom,0px)'}}/>
     </div>
-    </div>
-    </div>
   );
 }
 
@@ -2650,11 +2421,9 @@ function AdminPage(){
 
   return(
     <div style={{height:'100%',overflow:'auto',paddingBottom:80}}>
-      <div className="page-hdr-v19">
-        <div className="page-hdr-v19-left">
-          <div className="page-hdr-v19-title">🛡️ 관리자</div>
-          <div className="page-hdr-v19-sub">회원 · 레슨 · 권한 관리</div>
-        </div>
+      <div style={{padding:'16px 16px 0'}}>
+        <div style={{fontSize:21,fontWeight:1000,letterSpacing:-.4}}>🛡️ 관리자</div>
+        <div style={{fontSize:12,color:'var(--t2)',marginTop:3}}>회원 · 레슨 · 권한 관리</div>
       </div>
 
       {/* Tabs */}
@@ -2919,7 +2688,6 @@ function AdminPage(){
 
       <div style={{height:'env(safe-area-inset-bottom,0px)'}}/>
     </div>
-    </div>
   );
 }
 
@@ -3016,19 +2784,17 @@ function TodayPage(){
     });
   }
 
-  // ── v19 카드형 섹션 헤더 헬퍼 ──
-  const modHdr=(icon,iconBg,title,sub,count,collapsed,onToggle,onAdd)=>(
-    <div className="mod-card-header" onClick={onToggle} style={{cursor:'pointer'}}>
-      <div className="mod-card-header-left">
-        <div className="mod-card-icon" style={{background:iconBg}}>{icon}</div>
-        <div>
-          <div className="mod-card-title">{title}</div>
-          {sub&&<div className="mod-card-subtitle">{sub}</div>}
+  const secHdr=(icon,label,count,collapsed,onToggle,onAdd)=>(
+    <div className="sec-hdr">
+      <button onClick={onToggle} className="sec-hdr-left" style={{background:'none',border:'none',cursor:'pointer',padding:0}}>
+        <div className="sec-hdr-icon" style={{background:label==='업무'?'var(--wlow)':label==='개인'?'var(--plow)':label==='완료'?'var(--slow)':'var(--s3)'}}>
+          <span>{icon}</span>
         </div>
-        {count>0&&<span className="mod-card-badge">{count}</span>}
-        <span style={{fontSize:10,color:'var(--t3)'}}>{collapsed?'▶':'▼'}</span>
-      </div>
-      {onAdd&&<button onClick={e=>{e.stopPropagation();onAdd();}} className="mod-card-action">+ 추가</button>}
+        <span className="sec-hdr-label">{label}</span>
+        <span className="sec-hdr-count">{count}</span>
+        <span style={{fontSize:10,color:'var(--t3)',marginLeft:2}}>{collapsed?'▶':'▼'}</span>
+      </button>
+      {onAdd&&<button onClick={onAdd} className="sec-hdr-add">+ 추가</button>}
     </div>
   );
 
@@ -3052,122 +2818,79 @@ function TodayPage(){
           <button onClick={()=>setShowTriage(true)} style={{padding:'7px 10px',borderRadius:10,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:11,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap'}}>⚡ 우선순위</button>
           <button onClick={()=>setShowSchedule(true)} style={{padding:'7px 10px',borderRadius:10,border:'none',background:'var(--work)',color:'#fff',fontSize:11,fontWeight:700,cursor:'pointer',whiteSpace:'nowrap'}}>🗓 자동배치</button>
         </div>
-        {/* ── v19 진행률 모듈 카드 ── */}
-        <div className="mod-card" style={{marginBottom:14}}>
-          <div style={{padding:'14px 16px 10px'}}>
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
-              <div>
-                <div style={{fontSize:13,fontWeight:800,color:'var(--t1)',letterSpacing:-0.2}}>오늘 진행률</div>
-                <div style={{fontSize:11,color:'var(--t2)',marginTop:2}}>
-                  {pct===100?'🎉 모두 완료!':pct>=50?`잘 하고 있어요 · ${totalToday-doneCount}개 남음`:`${totalToday-doneCount}개 남음`}
-                </div>
-              </div>
-              <div style={{textAlign:'right'}}>
-                <span style={{fontSize:28,fontWeight:900,color:pct===100?'var(--success)':pct>=50?'var(--work)':'var(--warn)',letterSpacing:-1.5}}>{pct}</span>
-                <span style={{fontSize:13,fontWeight:600,color:'var(--t2)'}}>%</span>
+        {/* 진행률 바 - 개선된 UI */}
+        <div style={{marginBottom:20,padding:'16px 18px',background:'var(--s1)',borderRadius:16,border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
+            <div>
+              <span style={{fontSize:14,fontWeight:700,color:'var(--t1)'}}>오늘 진행률</span>
+              <div style={{fontSize:12,color:'var(--t3)',marginTop:2}}>
+                {pct===100?'🎉 모두 완료!':pct>=50?`잘 하고 있어요 · ${totalToday-doneCount}개 남음`:`${totalToday-doneCount}개 남음`}
               </div>
             </div>
-            <div className="progress-bar-wrap">
-              <div className="progress-bar-fill" style={{width:`${pct}%`,background:pct===100?'var(--success)':pct>=50?'var(--work)':'var(--warn)'}}/>
+            <div style={{textAlign:'right'}}>
+              <span style={{fontSize:22,fontWeight:900,color:pct===100?'var(--success)':pct>=50?'var(--work)':'var(--warn)',letterSpacing:-1}}>{pct}<span style={{fontSize:13,fontWeight:600}}>%</span></span>
             </div>
           </div>
-          <div className="stat-grid" style={{borderTop:'1px solid var(--b1)'}}>
-            <div className="stat-cell">
-              <span className="stat-cell-value" style={{color:'var(--success)',fontSize:18}}>{doneCount}</span>
-              <span className="stat-cell-label">완료</span>
-            </div>
-            <div className="stat-cell">
-              <span className="stat-cell-value" style={{color:'var(--work)',fontSize:18}}>{totalToday-doneCount}</span>
-              <span className="stat-cell-label">남은 일</span>
-            </div>
-            <div className="stat-cell">
-              <span className="stat-cell-value" style={{color:'var(--danger)',fontSize:18}}>{overdue.length}</span>
-              <span className="stat-cell-label">지연</span>
+          <div style={{height:10,background:'var(--s3)',borderRadius:8,overflow:'hidden'}}>
+            <div style={{height:'100%',width:`${pct}%`,background:pct===100?'var(--success)':pct>=50?'var(--work)':'var(--warn)',borderRadius:8,transition:'width 0.5s cubic-bezier(0.4,0,0.2,1)'}}/>
+          </div>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:10}}>
+            <span style={{fontSize:12,color:'var(--success)',fontWeight:600}}>✓ 완료 {doneCount}개</span>
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              <span style={{fontSize:12,color:'var(--t3)'}}>전체 {totalToday}개</span>
+              {doneCount>0&&<button onClick={()=>setCollapseDone(v=>!v)} style={{fontSize:11,fontWeight:700,color:collapseDone?'var(--work)':'var(--t2)',background:collapseDone?'var(--wlow)':'var(--s3)',border:'none',borderRadius:8,padding:'3px 8px',cursor:'pointer'}}>{collapseDone?'완료 보기':'완료 숨기기'}</button>}
             </div>
           </div>
-          {doneCount>0&&(
-            <div className="mod-card-footer">
-              <button onClick={()=>setCollapseDone(v=>!v)} className="mod-card-footer-btn">
-                {collapseDone?'✓ 완료 항목 보기 ▼':'완료 항목 숨기기 ▲'}
-              </button>
-            </div>
-          )}
         </div>
-      </div>
       </div>
 
       <div style={{padding:'0 16px'}}>
-        {/* ── v19 AI 브리핑 모듈 카드 ── */}
+        {/* ── AI 브리핑 패널 ── */}
         {(aiBriefing||aiBriefingLoading)&&(
-          <div className="mod-card" style={{marginBottom:14,background:'linear-gradient(135deg,var(--wlow),var(--purplow))'}}>
-            <div className="mod-card-header" style={{borderBottom:'1px solid var(--wmid)'}}>
-              <div className="mod-card-header-left">
-                <div className="mod-card-icon" style={{background:'var(--wmid)'}}>🤖</div>
-                <div>
-                  <div className="mod-card-title" style={{color:'var(--work)'}}>AI 오늘의 브리핑</div>
-                  <div className="mod-card-subtitle">AI가 분석한 오늘의 우선순위</div>
-                </div>
-              </div>
-              <button onClick={()=>setAiBriefing('')} style={{background:'none',border:'none',color:'var(--t3)',cursor:'pointer',fontSize:18,padding:'4px'}}>×</button>
+          <div className="ai-panel" style={{marginBottom:16}}>
+            <div className="ai-panel-title">
+              <span>🤖</span>
+              <span>AI 오늘의 브리핑</span>
+              <button onClick={()=>setAiBriefing('')} style={{marginLeft:'auto',background:'none',border:'none',color:'var(--t3)',cursor:'pointer',fontSize:16,padding:0}}>×</button>
             </div>
-            <div className="mod-card-body padded">
-              <div style={{fontSize:14,color:'var(--t1)',lineHeight:1.7}}>
-                {aiBriefingLoading?<span className="pulse">🤖 분석 중...</span>:aiBriefing}
-              </div>
+            <div className="ai-panel-content">
+              {aiBriefingLoading?<span className="pulse">분석 중...</span>:aiBriefing}
             </div>
           </div>
         )}
         {!aiBriefing&&!aiBriefingLoading&&(
-          <button onClick={generateAIBriefing} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'center',gap:8,padding:'14px',marginBottom:14,border:'1.5px dashed var(--b2)',background:'transparent',cursor:'pointer',color:'var(--t2)',fontSize:13,fontWeight:700,borderRadius:20}}>
+          <button onClick={generateAIBriefing} className="ai-btn secondary" style={{width:'100%',justifyContent:'center',marginBottom:16,padding:'10px'}}>
             🤖 AI 오늘의 브리핑 생성
           </button>
         )}
-        {/* ── v19 지연 모듈 카드 ── */}
+        {/* ── 지연 태스크 ── */}
         {overdue.length>0&&(
-          <div className="mod-card" style={{marginBottom:14,borderColor:'rgba(220,38,38,0.25)'}}>
-            <div className="mod-card-header" style={{background:'var(--dlow)',borderBottom:'1px solid rgba(220,38,38,0.15)'}}>
-              <div className="mod-card-header-left">
-                <div className="mod-card-icon" style={{background:'rgba(220,38,38,0.2)'}}>⚠️</div>
-                <div>
-                  <div className="mod-card-title" style={{color:'var(--danger)'}}>지연 항목</div>
-                  <div className="mod-card-subtitle">즉시 처리가 필요합니다</div>
-                </div>
-                <span className="mod-card-badge" style={{background:'var(--dlow)',color:'var(--danger)'}}>{overdue.length}</span>
+          <div className="overdue-card">
+            <div style={{fontSize:12,fontWeight:800,color:'var(--danger)',marginBottom:8,display:'flex',alignItems:'center',gap:6}}>
+              <span>⚠️</span>
+              <span>지연 {overdue.length}개</span>
+            </div>
+            {overdue.slice(0,3).map(t=>(
+              <div key={t.id} className="overdue-item" onClick={()=>setDetailTask(t)}>
+                <span style={{width:5,height:5,borderRadius:2.5,background:'var(--danger)',flexShrink:0,display:'inline-block'}}/>
+                <span style={{flex:1,fontSize:13,color:'var(--t1)',fontWeight:500}}>{t.title}</span>
+                <span style={{fontSize:11,color:'var(--danger)',flexShrink:0,fontWeight:700}}>{relativeDay(t.dueDate)}</span>
               </div>
-            </div>
-            <div className="mod-card-body">
-              {overdue.slice(0,3).map(t=>(
-                <div key={t.id} className="list-item" onClick={()=>setDetailTask(t)}>
-                  <span className="badge-dot" style={{background:'var(--danger)'}}/>
-                  <div className="list-item-content">
-                    <div className="list-item-title">{t.title}</div>
-                    <div className="list-item-meta">{t.projectId||t.domain}</div>
-                  </div>
-                  <span style={{fontSize:11,color:'var(--danger)',fontWeight:700,flexShrink:0}}>{relativeDay(t.dueDate)}</span>
-                </div>
-              ))}
-              {overdue.length>3&&(
-                <div style={{padding:'10px 16px',textAlign:'center',fontSize:11,color:'var(--danger)',opacity:0.7}}>+{overdue.length-3}개 더</div>
-              )}
-            </div>
+            ))}
+            {overdue.length>3&&<div style={{fontSize:11,color:'var(--danger)',marginTop:6,textAlign:'center',opacity:0.7}}>+{overdue.length-3}개 더</div>}
           </div>
         )}
 
-        {/* ── v19 Focus 3 모듈 카드 ── */}
-        <div style={{marginBottom:14}}>
-          <div className="mod-card">
-            <div className="mod-card-header">
-              <div className="mod-card-header-left">
-                <div className="mod-card-icon" style={{background:'rgba(255,107,107,0.15)'}}>🎯</div>
-                <div>
-                  <div className="mod-card-title">Focus 3</div>
-                  <div className="mod-card-subtitle">오늘 최우선 집중 과제</div>
-                </div>
-                {selectedFocus&&<span style={{fontSize:10,background:'var(--work)',color:'#fff',borderRadius:6,padding:'2px 7px',fontWeight:700}}>수동</span>}
-              </div>
-              <button onClick={openFocusAll} className="mod-card-action">수정</button>
+        {/* ── Focus 3 ── */}
+        <div style={{marginBottom:20}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
+            <div style={{display:'flex',alignItems:'center',gap:6}}>
+              <span style={{fontSize:12,fontWeight:700,color:'var(--t2)',letterSpacing:0.8,textTransform:'uppercase'}}>🎯 Focus 3</span>
+              {selectedFocus&&<span style={{fontSize:10,background:'var(--work)',color:'#fff',borderRadius:6,padding:'1px 6px',fontWeight:700}}>수동</span>}
             </div>
-            <div className="mod-card-body">
+            <button onClick={openFocusAll} style={{fontSize:12,color:'var(--work)',background:'none',border:'none',cursor:'pointer',fontWeight:600,padding:'2px 6px'}}>전체 보기 / 수정</button>
+          </div>
+          <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
             {focus3.length===0&&<div style={{padding:'20px',textAlign:'center',color:'var(--t3)',fontSize:13}}>오늘 할 일이 없습니다</div>}
             {focus3.map((t,i)=>(
               <div key={t.id} className="focus-card-item press" onClick={()=>setDetailTask(t)}>
@@ -3190,11 +2913,11 @@ function TodayPage(){
           </div>
         </div>
 
-        {/* ── v19 업무 모듈 카드 ── */}
-        <div className="mod-card" style={{marginBottom:14}}>
-            {modHdr('💼','var(--wlow)','업무','오늘 업무 할 일',workTasks.length,collapseWork,()=>setCollapseWork(v=>!v),()=>setShowAddTask(true))}
+        {/* ── 업무 ── (항상 표시) */}
+        <div style={{marginBottom:20}}>
+            {secHdr('💼','업무',workTasks.length,collapseWork,()=>setCollapseWork(v=>!v),()=>setShowAddTask(true))}
             {!collapseWork&&(
-              <div className="mod-card-body">
+              <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
                 {Object.entries(projMap).map(([projId,ptasks],gi)=>{
                   const proj=projId!=='__none__'?data.projects.find(p=>p.id===projId):null;
                   return(
@@ -3216,14 +2939,15 @@ function TodayPage(){
                 )}
               </div>
             )}
-        </div>
+          </div>
+        )}
 
-        {/* ── v19 개인 모듈 카드 ── */}
+        {/* ── 개인 ── */}
         {(personalTasks.length>0||true)&&(
-          <div className="mod-card" style={{marginBottom:14}}>
-            {modHdr('🌿','var(--plow)','개인','오늘 개인 할 일',personalTasks.length,collapsePersonal,()=>setCollapsePersonal(v=>!v),()=>setShowAddTask(true))}
+          <div style={{marginBottom:20}}>
+            {secHdr('🌿','개인',personalTasks.length,collapsePersonal,()=>setCollapsePersonal(v=>!v),()=>setShowAddTask(true))}
             {!collapsePersonal&&(
-              <div className="mod-card-body">
+              <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
                 {personalTasks.length===0&&(
                   <div className="empty-state">
                     <span className="empty-state-icon">🌿</span>
@@ -3237,47 +2961,47 @@ function TodayPage(){
           </div>
         )}
 
-        {/* ── v19 타임라인 모듈 카드 ── */}
-        <div className="mod-card" style={{marginBottom:14}}>
-          {modHdr('📅','var(--orangelow)','타임라인','일정 및 시간 블록',todayBlocks.length+todayEvents.length,collapseTimeline,()=>setCollapseTimeline(v=>!v),()=>setShowAddEvent(true))}
+        {/* ── 타임라인 (기본 접기) ── */}
+        <div style={{marginBottom:20}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:collapseTimeline?0:10}}>
+            <button onClick={()=>setCollapseTimeline(v=>!v)} style={{display:'flex',alignItems:'center',gap:6,background:'none',border:'none',cursor:'pointer',padding:0}}>
+              <span style={{fontSize:11,fontWeight:700,color:'var(--t2)',letterSpacing:0.8,textTransform:'uppercase'}}>⏱ 타임라인</span>
+              {todayBlocks.length>0&&<span style={{fontSize:10,background:'var(--s3)',color:'var(--t2)',borderRadius:8,padding:'1px 6px',fontWeight:700}}>{todayBlocks.length}</span>}
+              <span style={{fontSize:10,color:'var(--t3)',marginLeft:2}}>{collapseTimeline?'▶':'▼'}</span>
+            </button>
+            {!collapseTimeline&&<button onClick={()=>setShowSchedule(true)} style={{fontSize:12,color:'var(--work)',background:'none',border:'none',cursor:'pointer',fontWeight:600,padding:'2px 6px'}}>자동 배치</button>}
+          </div>
           {!collapseTimeline&&(
-            <div className="mod-card-body" style={{padding:'8px 0'}}>
+            <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)',padding:'8px 0'}}>
               <Timeline date={today} blocks={todayBlocks} events={todayEvents} onAddEvent={()=>setShowAddEvent(true)}/>
             </div>
           )}
         </div>
 
-        {/* ── v19 완료 모듈 카드 ── */}
-        {doneTodayTasks.length>0&&!collapseDone&&(
-          <div className="mod-card" style={{marginBottom:14,opacity:0.85}}>
-            {modHdr('✅','var(--slow)','완료','오늘 완료한 항목',doneTodayTasks.length,false,()=>setCollapseDone(true),null)}
-            <div className="mod-card-body">
-              {doneTodayTasks.map(t=><TaskRow key={t.id} task={t} onTap={setDetailTask} compact/>)}
-            </div>
+        {/* ── 완료 ── */}
+        {doneTodayTasks.length>0&&(
+          <div style={{marginBottom:20}}>
+            {secHdr('✅','완료',doneTodayTasks.length,collapseDone,()=>setCollapseDone(v=>!v),null)}
+            {!collapseDone&&(
+              <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)',opacity:0.7}}>
+                {doneTodayTasks.map(t=><TaskRow key={t.id} task={t} onTap={setDetailTask} compact/>)}
+              </div>
+            )}
           </div>
         )}
 
-        {/* ── v19 가족 현황 모듈 카드 (부모만) ── */}
+        {/* ── 가족 현황 (부모만) ── */}
         {isParent&&familyProgress.length>0&&(
-          <div className="mod-card" style={{marginBottom:14}}>
-            <div className="mod-card-header">
-              <div className="mod-card-header-left">
-                <div className="mod-card-icon" style={{background:'var(--purplow)'}}>👨‍👩‍👧</div>
-                <div>
-                  <div className="mod-card-title">가족 현황</div>
-                  <div className="mod-card-subtitle">오늘 가족 진행률</div>
-                </div>
-                <span className="mod-card-badge">{familyProgress.length}명</span>
-              </div>
-            </div>
-            <div className="mod-card-body">
+          <div style={{marginBottom:20}}>
+            <div style={{fontSize:11,fontWeight:700,color:'var(--t2)',letterSpacing:0.8,textTransform:'uppercase',marginBottom:10}}>👨‍👩‍👧 가족 현황</div>
+            <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
               {familyProgress.map(({child,done,total},i)=>(
-                <div key={child.id} className="list-item" style={{borderBottom:i<familyProgress.length-1?'1px solid var(--b1)':'none'}}>
-                  <span style={{fontSize:24}}>{child.avatar||'👤'}</span>
+                <div key={child.id} style={{padding:'12px 16px',borderBottom:i<familyProgress.length-1?'1px solid var(--b1)':'none',display:'flex',alignItems:'center',gap:12}}>
+                  <span style={{fontSize:22}}>{child.avatar||'👤'}</span>
                   <div style={{flex:1}}>
                     <div style={{fontSize:13,fontWeight:700,color:'var(--t1)'}}>{child.name}</div>
-                    <div style={{height:5,background:'var(--s3)',borderRadius:3,marginTop:6,overflow:'hidden'}}>
-                      <div style={{height:'100%',width:`${total>0?Math.round(done/total*100):0}%`,background:'var(--success)',borderRadius:3,transition:'width 0.5s ease'}}/>
+                    <div style={{height:4,background:'var(--s3)',borderRadius:3,marginTop:5,overflow:'hidden'}}>
+                      <div style={{height:'100%',width:`${total>0?Math.round(done/total*100):0}%`,background:'var(--success)',borderRadius:3}}/>
                     </div>
                   </div>
                   <span style={{fontSize:12,fontWeight:700,color:'var(--t2)',flexShrink:0}}>{done}/{total}</span>
@@ -3326,7 +3050,6 @@ function TodayPage(){
           </div>
         </div>
       )}
-      </div>
 
       {/* Sheets */}
       <TaskDetailSheet task={detailTask} open={!!detailTask} onClose={()=>setDetailTask(null)}/>
@@ -3334,7 +3057,6 @@ function TodayPage(){
       <TriageSuggestSheet open={showTriage} onClose={()=>setShowTriage(false)}/>
       <AddEventSheet open={showAddEvent} onClose={()=>setShowAddEvent(false)} defaultDate={today}/>
       <AddTaskSheet open={showAddTask} onClose={()=>setShowAddTask(false)} defaultDomain="work" defaultDueDate={today}/>
-    </div>
     </div>
   );
 }
@@ -3347,21 +3069,6 @@ function PlanPage(){
   const today=todayStr();
   const [expandedDate,setExpandedDate]=useState(today);
   const [detailTask,setDetailTask]=useState(null);
-  // v19 모듈 헤더 헬퍼
-  const modHdr=(icon,iconBg,title,sub,count,collapsed,onToggle,onAdd)=>(
-    <div className="mod-card-header" onClick={onToggle} style={{cursor:'pointer'}}>
-      <div className="mod-card-header-left">
-        <div className="mod-card-icon" style={{background:iconBg}}>{icon}</div>
-        <div>
-          <div className="mod-card-title">{title}</div>
-          {sub&&<div className="mod-card-subtitle">{sub}</div>}
-        </div>
-        {count>0&&<span className="mod-card-badge">{count}</span>}
-        <span style={{fontSize:10,color:'var(--t3)'}}>{collapsed?'▶':'▼'}</span>
-      </div>
-      {onAdd&&<button onClick={e=>{e.stopPropagation();onAdd();}} className="mod-card-action">+ 추가</button>}
-    </div>
-  );
   const [showAddTask,setShowAddTask]=useState(false);
   const [addTaskDate,setAddTaskDate]=useState(today);
   const [showAddEvent,setShowAddEvent]=useState(false);
@@ -3551,7 +3258,6 @@ function MonthPage(){
       <AddEventSheet open={showAddEvent} onClose={()=>setShowAddEvent(false)} defaultDate={selectedDate}/>
       <AddTaskSheet open={showAddTask} onClose={()=>setShowAddTask(false)} defaultDomain="work" defaultDueDate={selectedDate}/>
     </div>
-    </div>
   );
 }
 
@@ -3719,7 +3425,7 @@ function InboxPage(){
           onChange={e=>setInput(e.target.value)}
           onKeyDown={e=>e.key==='Enter'&&submit()}
           placeholder="무엇이든 빠르게 입력..."
-          style={{flex:1,background:'var(--s1)',border:'1.5px solid var(--b2)',borderRadius:20,padding:'12px 16px',color:'var(--t1)',fontSize:15}}
+          style={{flex:1,background:'var(--s1)',border:'1.5px solid var(--b2)',borderRadius:12,padding:'12px 16px',color:'var(--t1)',fontSize:15}}
         />
         <button onClick={submit} style={{padding:'12px 18px',borderRadius:12,border:'none',background:'var(--work)',color:'#fff',fontWeight:700,fontSize:15,cursor:'pointer'}}>+</button>
       </div>
@@ -3807,7 +3513,7 @@ function FamilyPage(){
             const pct=todayTasks.length>0?Math.round(done/todayTasks.length*100):0;
             const childHW=data.homeworks.filter(hw=>hw.assigneeId===child.id&&hw.status!=='done');
             return(
-              <div key={child.id} style={{background:'var(--s1)',borderRadius:20,padding:'16px',marginBottom:12,border:'1px solid var(--b1)'}}>
+              <div key={child.id} style={{background:'var(--s1)',borderRadius:16,padding:'16px',marginBottom:12,border:'1px solid var(--b1)'}}>
                 <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:12}}>
                   <span style={{fontSize:32}}>{child.avatar}</span>
                   <div style={{flex:1}}>
@@ -3889,7 +3595,7 @@ function FamilyPage(){
             const author=data.familyMembers.find(m=>m.id===ann.authorId);
             const seen=ann.seenBy.includes(currentUser.id);
             return(
-              <div key={ann.id} onClick={()=>markAnnouncementSeen(ann.id,currentUser.id)} style={{background:'var(--s1)',borderRadius:20,padding:'14px',marginBottom:8,border:`1.5px solid ${ann.priority==='high'?'var(--danger)33':'var(--b1)'}`,cursor:'pointer',opacity:seen?0.7:1}}>
+              <div key={ann.id} onClick={()=>markAnnouncementSeen(ann.id,currentUser.id)} style={{background:'var(--s1)',borderRadius:14,padding:'14px',marginBottom:8,border:`1.5px solid ${ann.priority==='high'?'var(--danger)33':'var(--b1)'}`,cursor:'pointer',opacity:seen?0.7:1}}>
                 <div style={{display:'flex',alignItems:'flex-start',gap:8}}>
                   <div style={{flex:1}}>
                     <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:4}}>
@@ -3923,9 +3629,6 @@ function FamilyPage(){
         </div>
         <button onClick={submitAnn} style={{width:'100%',padding:'12px',borderRadius:12,border:'none',background:'var(--work)',color:'#fff',fontWeight:700,fontSize:14,cursor:'pointer'}}>등록</button>
       </Modal>
-        </div>
-      </div>
-    </div>
     </div>
   );
 }
@@ -3971,7 +3674,7 @@ function BudgetPage(){
       </div>
 
       {/* Budget gauge */}
-      <div style={{background:'var(--s1)',borderRadius:20,padding:'16px',marginBottom:14,border:'1px solid var(--b1)'}}>
+      <div style={{background:'var(--s1)',borderRadius:16,padding:'16px',marginBottom:16,border:'1px solid var(--b1)'}}>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
           <div>
             <div style={{fontSize:12,color:'var(--t3)'}}>이번 달 예산</div>
@@ -4006,7 +3709,7 @@ function BudgetPage(){
       {/* AI Insights cards */}
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:16}}>
         {insights.topCats.slice(0,2).map(([cat,amt],i)=>(
-          <div key={cat} style={{background:'var(--s1)',borderRadius:16,padding:'12px',border:'1px solid var(--b1)'}}>
+          <div key={cat} style={{background:'var(--s1)',borderRadius:14,padding:'12px',border:'1px solid var(--b1)'}}>
             <div style={{fontSize:11,color:'var(--t3)',marginBottom:4}}>TOP {i+1} 지출</div>
             <div style={{fontSize:14,fontWeight:700,color:'var(--t1)'}}>{cat}</div>
             <div style={{fontSize:16,fontWeight:900,color:'var(--budget)'}}>{fmtMoney(amt)}</div>
@@ -4052,7 +3755,6 @@ function BudgetPage(){
           <button onClick={submitExpense} style={{width:'100%',padding:'14px',borderRadius:12,border:'none',background:'var(--budget)',color:'#fff',fontWeight:700,fontSize:15,cursor:'pointer'}}>기록하기</button>
         </div>
       </Sheet>
-    </div>
     </div>
   );
 }
@@ -4109,7 +3811,7 @@ function HabitsPage(){
         const streak=computeStreak(h.id);
         const todayDone=!!data.habitLogs.find(l=>l.key===`${h.id}::${today}`);
         return(
-          <div key={h.id} style={{background:'var(--s1)',borderRadius:20,padding:'12px 14px',marginBottom:8,border:'1px solid var(--b1)'}}>
+          <div key={h.id} style={{background:'var(--s1)',borderRadius:14,padding:'12px 14px',marginBottom:8,border:'1px solid var(--b1)'}}>
             <div style={{display:'grid',gridTemplateColumns:`1fr repeat(7,32px)`,gap:4,alignItems:'center'}}>
               <div style={{display:'flex',alignItems:'center',gap:8}}>
                 <span style={{fontSize:20}}>{h.icon}</span>
@@ -4192,7 +3894,7 @@ function NotesPage(){
       </div>
       <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="제목, 내용, 태그 검색..." style={{background:'var(--s1)',border:'1px solid var(--b2)',borderRadius:12,padding:'10px 14px',color:'var(--t1)',fontSize:14,width:'100%',marginBottom:16}}/>
       {filtered.map(n=>(
-        <div key={n.id} className="press" onClick={()=>setSelectedNote(n)} style={{background:'var(--s1)',borderRadius:20,padding:'14px',marginBottom:8,border:'1px solid var(--b1)',cursor:'pointer'}}>
+        <div key={n.id} className="press" onClick={()=>setSelectedNote(n)} style={{background:'var(--s1)',borderRadius:14,padding:'14px',marginBottom:8,border:'1px solid var(--b1)',cursor:'pointer'}}>
           <div style={{fontWeight:700,fontSize:14,color:'var(--t1)',marginBottom:4}}>{n.title}</div>
           <div style={{fontSize:12,color:'var(--t2)',marginBottom:6,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{n.body}</div>
           <div style={{display:'flex',gap:4,flexWrap:'wrap'}}>
@@ -4290,7 +3992,7 @@ function SettingsPage(){
           ['습관 스트릭',`${habitStreak}일 🔥`,'var(--warn)'],
           ['프로젝트',`${data.projects.length}개`,'var(--work)'],
         ].map(([l,v,c])=>(
-          <div key={l} style={{background:'var(--s1)',borderRadius:20,padding:'14px',border:'1px solid var(--b1)'}}>
+          <div key={l} style={{background:'var(--s1)',borderRadius:14,padding:'14px',border:'1px solid var(--b1)'}}>
             <div style={{fontSize:11,color:'var(--t3)'}}>{l}</div>
             <div style={{fontSize:20,fontWeight:800,color:c,marginTop:4}}>{v}</div>
           </div>
@@ -4301,7 +4003,7 @@ function SettingsPage(){
 
       {/* Theme */}
       <div style={sectionTitle}>🎨 테마</div>
-      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px',borderRadius:16,border:'1px solid var(--b1)',background:'var(--s1)'}}>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px',borderRadius:14,border:'1px solid var(--b1)',background:'var(--s1)'}}>
         <div>
           <div style={{fontWeight:900,fontSize:13}}>라이트 / 다크</div>
           <div style={{fontSize:12,color:'var(--t2)',marginTop:4}}>현재: {s.theme==='dark'?'다크':'라이트'}</div>
@@ -5131,7 +4833,6 @@ function TeacherHomeworkPage(){
         </div>
       </Panel>
     </div>
-    </div>
   );
 }
 
@@ -5363,7 +5064,6 @@ function AppInner({tab,setTab,showAddTask,setShowAddTask,fabShort,fabLong}){
         defaultDueDate={tab==='today'||tab==='family'?todayStr():null}
       />
     </div>
-    </div>
   );
 }
 
@@ -5408,7 +5108,6 @@ function PageHeader({title, chips=[], action=null, subtitle=null}){
           {action.label}
         </button>
       ) : <div style={{width:36}}/>}
-    </div>
     </div>
   );
 }
