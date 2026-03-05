@@ -1356,7 +1356,7 @@ function addExpense(exp){
       return {...d, lessons, familyMembers, posts, comments, materials, homeworks, tasks};
     });
     showToast(opts?.cascade ? '레슨+관련 데이터 삭제됨' : '레슨 삭제됨', 'info');
-  
+  }
   function getLessonCascadeCounts(d, lessonId){
     const posts = (d.posts||[]).filter(p=>p.lessonId===lessonId);
     const postIds = new Set(posts.map(p=>p.id));
@@ -1370,8 +1370,6 @@ function addExpense(exp){
     updateLesson(lessonId, { active: !!active });
     showToast(active ? '레슨 복원됨' : '레슨 아카이브됨', 'info');
   }
-
-}
   function setLessonTeacher(lessonId, teacherId){
     setData(d=>{
       const prev = (d.lessons||[]).find(L=>L.id===lessonId);
