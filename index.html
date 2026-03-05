@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -2023,7 +2023,31 @@ function LogoMark({login=false}){
   if(login) return <img src={src} alt="JF OS" style={{height:62,width:'auto',maxWidth:260,objectFit:'contain'}}/>;
   return <img src={src} alt="JF OS" style={{height:26,width:'auto',objectFit:'contain'}}/>;
 }
-
+function ThemeToggle(){
+  const {data,updateSettings}=useApp();
+  const s=data.settings;
+  return(
+    <button
+      className="press no-dim"
+      role="switch"
+      aria-checked={s.theme==='dark'}
+      onClick={()=>updateSettings({theme: s.theme==='dark'?'light':'dark'})}
+      style={{
+        width:44,height:26,borderRadius:999,border:'1px solid var(--b1)',
+        background: s.theme==='dark' ? 'var(--work)' : 'var(--s2)',
+        position:'relative',padding:0,cursor:'pointer',flexShrink:0
+      }}
+    >
+      <span style={{
+        position:'absolute',top:3,
+        left: s.theme==='dark'?'calc(100% - 22px)':'3px',
+        width:20,height:20,borderRadius:'50%',
+        background: s.theme==='dark'?'#fff':'var(--t2)',
+        transition:'left 0.2s',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11
+      }}>{s.theme==='dark'?'🌙':'☀️'}</span>
+    </button>
+  );
+}
 function LoginPage(){
   const {data,login}=useApp();
   const [username,setUsername]=useState('');
@@ -2569,10 +2593,14 @@ function TodayPage(){
             <div style={{fontSize:15,fontWeight:800,color:'var(--t1)',letterSpacing:-0.3}}>{fmt(today).full}</div>
           </div>
           <button onClick={()=>setViewDate(addDays(today,1))} style={{width:30,height:30,borderRadius:8,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t1)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>›</button>
-          {!isToday&&<button onClick={()=>setViewDate(todayReal)} style={{fontSize:11,padding:'4px 8px',borderRadius:7,border:'none',background:'var(--work)',color:'#fff',cursor:'pointer',fontWeight:700,flexShrink:0}}>오늘</button>}
+           {!isToday&&<button onClick={()=>setViewDate(todayReal)} style={{fontSize:11,padding:'4px 8px',borderRadius:7,border:'none',background:'var(--work)',color:'#fff',cursor:'pointer',fontWeight:700,flexShrink:0}}>오늘</button>}
           <ThemeToggle/>
         </div>
-
+        {/* 액션 버튼 */}
+        <div style={{display:'flex',gap:6,marginBottom:12}}>
+          <button onClick={()=>setShowTriage(true)} style={{padding:'7px 10px',borderRadius:10,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:11,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap'}}>⚡ 우선순위</button>
+          <button onClick={()=>setShowSchedule(true)} style={{padding:'7px 10px',borderRadius:10,border:'none',background:'var(--work)',color:'#fff',fontSize:11,fontWeight:700,cursor:'pointer',whiteSpace:'nowrap'}}>🗓 자동배치</button>
+        </div>
         {/* 진행률 바 - 개선된 UI */}
         <div style={{marginBottom:20,padding:'16px 18px',background:'var(--s1)',borderRadius:16,border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
