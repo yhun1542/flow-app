@@ -717,7 +717,7 @@ const SEED={
 /* ═══════════════════════════════════════════
    LOCAL STORAGE
 ═══════════════════════════════════════════ */
-const STORE_KEY='flow_v8_auth';
+const STORE_KEY='flow_v10_auth'; // v10: 목업 데이터 제거 - 기존 캐시 무효화
 const SESSION_KEY='flow_session_user';
 function getSessionUserId(){
   try{
@@ -791,15 +791,23 @@ function AppProvider({children}){
     try{localStorage.setItem(STORE_KEY+'_ts', Date.now().toString());}catch(e){}
   },[data]);
 
-  // Firebase 초기 데이터 마이그레이션: Firebase가 비어있으면 현재 데이터 업로드
+  // Firebase 초기 데이터 로드: Firebase에 데이터가 있으면 가져와서 localStorage 덮어쓰기
   useEffect(()=>{
     if(!window._fbReady || !window._fbDb) return;
     window._fbDb.ref('flowdata').once('value').then(snap=>{
-      if(!snap.val()){
-        // Firebase가 비어있으면 현재 데이터 업로드
-        const toSave={...data, settings:{...data.settings, currentUserId:undefined, sessionUserId:undefined}};
-        window._fbDb.ref('flowdata').set(toSave);
+      const remote=snap.val();
+      if(remote){
+        // Firebase에 데이터가 있으면 로컬 데이터를 Firebase 데이터로 교체
+        const merged={
+          ...SEED,...remote,
+          settings:{...SEED.settings,...(remote.settings||{})},
+          familyMembers:remote.familyMembers||SEED.familyMembers,
+          authUsers:remote.authUsers||SEED.authUsers,
+        };
+        try{localStorage.setItem(STORE_KEY,JSON.stringify(merged));}catch(e){}
+        setData(d=>({...merged,settings:{...merged.settings,currentUserId:d.settings.currentUserId,sessionUserId:d.settings.sessionUserId,rememberLogin:d.settings.rememberLogin}}));
       }
+      // Firebase가 비어있으면 아무것도 올리지 않음 (빈 상태 유지)
     });
   },[]);
 
