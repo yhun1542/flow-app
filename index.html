@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>FLOW v17 — Family OS</title>
+<title>FLOW v18 — Family OS</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#0D9488">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -133,6 +133,11 @@ button{cursor:pointer}
 
 .mono{font-family:'DM Mono',monospace}
 .scroll{overflow-y:auto;-webkit-overflow-scrolling:touch}
+/* [v18 Grok] 모바일 터치 최적화 */
+button,[role="button"],.tap-target{touch-action:manipulation;user-select:none}
+button:active,[role="button"]:active{transform:scale(0.97);transition:transform 0.1s ease}
+input,textarea,select{font-size:16px!important}
+.scroll-container{-webkit-overflow-scrolling:touch;will-change:scroll-position}
 
 .tab-bar{
   position:fixed;bottom:0;left:0;right:0;
@@ -327,6 +332,20 @@ const {useState,useEffect,useRef,useMemo,useContext,createContext,useCallback,us
 ═══════════════════════════════════════════ */
 let _uid=0;
 function uid(){return 'id_'+(++_uid)+'_'+Math.random().toString(36).slice(2,7)}
+// [v18 Gemini] XSS 방지 - 사용자 입력 텍스트 이스케이프
+function sanitizeHTML(str){
+  if(!str) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+// [v18 Gemini] 오프라인 감지 유틸
+function isOnline(){return navigator.onLine;}
+
+
 
 // v8.8: human-friendly lessonId (slug)
 function slugifyBase(s){
@@ -981,29 +1000,94 @@ function mergeArrayById(remoteArr, localArr, baseArr){
   return out;
 }
 function saveData(data, baseRemote, currentUserId){
+  // [v18 Claude] stale closure 방지: toSave를 직렬화로 snapshot 고정
   const toSave=sanitizeForPersist(data);
+  const toSaveJson=JSON.stringify(toSave);
   // localStorage (로컬 캐시)
-  try{localStorage.setItem(STORE_KEY,JSON.stringify(toSave));}catch(e){}
-  // Firebase Realtime Database (실시간 동기화) — 동시편집 안전(핵심: tasks/notes)
+  try{localStorage.setItem(STORE_KEY,toSaveJson);}catch(e){}
+  // Firebase Realtime Database — transaction으로 경쟁조건 방지
   if(window._fbReady && window._fbDb){
     try{
       const ref=window._fbDb.ref('flowdata');
       const base=baseRemote||{};
+      // [v18] transaction 외부에서 파싱하여 stale closure 방지
+      const localSnap=JSON.parse(toSaveJson);
       ref.transaction(curr=>{
+        if(curr===null) return localSnap; // 첫 쓰기
         const remote=curr||{};
-        const next={...remote,...toSave};
-
-        next.tasks = mergeArrayById(remote.tasks, toSave.tasks, base.tasks);
-        next.notes = mergeArrayById(remote.notes, toSave.notes, base.notes);
-
+        const next={...remote,...localSnap};
+        // 배열 3-way merge (tasks, notes, events, habits)
+        next.tasks  = mergeArrayById(remote.tasks||[], localSnap.tasks||[], base.tasks||[]);
+        next.notes  = mergeArrayById(remote.notes||[], localSnap.notes||[], base.notes||[]);
+        next.events = mergeArrayById(remote.events||[], localSnap.events||[], base.events||[]);
+        next.habits = mergeArrayById(remote.habits||[], localSnap.habits||[], base.habits||[]);
         const rev=((remote.meta&&remote.meta.rev)||0)+1;
-        next.meta={...(remote.meta||{}),...(toSave.meta||{}),rev,updatedAt:Date.now(),updatedBy:currentUserId||null};
-
+        next.meta={...(remote.meta||{}),...(localSnap.meta||{}),rev,updatedAt:Date.now(),updatedBy:currentUserId||null};
         return next;
       },(err,committed,snap)=>{
-        if(err){console.warn('Firebase tx save error',err);}
+        if(err){console.warn('[v18] Firebase tx save error',err);}
+        else if(committed && snap){
+          try{window.dispatchEvent(new CustomEvent('fb_tx_committed',{detail:snap.val()}));}catch(_){}
+        }
       });
-    }catch(e){console.warn('Firebase save error',e);}
+    }catch(e){console.warn('[v18] Firebase save error',e);}
+  }
+}
+
+/* ═══════════════════════════════════════════
+   ERROR BOUNDARY (v18 GPT)
+   전역 크래시 방지 - 컴포넌트 오류를 격리
+═══════════════════════════════════════════ */
+class ErrorBoundary extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={hasError:false,error:null,errorInfo:null};
+  }
+  static getDerivedStateFromError(error){
+    return {hasError:true,error};
+  }
+  componentDidCatch(error,errorInfo){
+    console.error('[FLOW ErrorBoundary]',error,errorInfo);
+    this.setState({errorInfo});
+  }
+  render(){
+    if(this.state.hasError){
+      return React.createElement('div',{
+        style:{
+          display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
+          minHeight:'100vh',padding:'24px',background:'#fff1f2',fontFamily:'sans-serif'
+        }
+      },
+        React.createElement('div',{style:{fontSize:'48px',marginBottom:'16px'}},'⚠️'),
+        React.createElement('h2',{style:{color:'#e11d48',marginBottom:'8px'}},'앱 오류가 발생했습니다'),
+        React.createElement('p',{style:{color:'#6b7280',marginBottom:'24px',textAlign:'center'}},
+          '일시적인 오류입니다. 새로고침 하거나 아래 버튼을 눌러주세요.'
+        ),
+        React.createElement('button',{
+          onClick:()=>{this.setState({hasError:false,error:null,errorInfo:null});},
+          style:{
+            padding:'12px 24px',background:'#0D9488',color:'#fff',border:'none',
+            borderRadius:'8px',cursor:'pointer',fontSize:'16px',fontWeight:'600'
+          }
+        },'다시 시도'),
+        React.createElement('button',{
+          onClick:()=>{window.location.reload();},
+          style:{
+            marginTop:'8px',padding:'8px 16px',background:'transparent',color:'#6b7280',
+            border:'1px solid #d1d5db',borderRadius:'8px',cursor:'pointer',fontSize:'14px'
+          }
+        },'새로고침'),
+        this.state.error && React.createElement('details',{
+          style:{marginTop:'16px',fontSize:'12px',color:'#9ca3af',maxWidth:'400px',wordBreak:'break-all'}
+        },
+          React.createElement('summary',null,'오류 상세'),
+          React.createElement('pre',{style:{whiteSpace:'pre-wrap'}},
+            String(this.state.error)
+          )
+        )
+      );
+    }
+    return this.props.children;
   }
 }
 
@@ -1142,6 +1226,18 @@ function AppProvider({children}){
   useEffect(()=>{
     document.documentElement.setAttribute('data-theme',data.settings.theme||'light');
   },[data.settings.theme]);
+  // [v18 Gemini] 오프라인/온라인 감지 토스트
+  useEffect(()=>{
+    function handleOffline(){showToast('인터넷 연결이 끊겼습니다. 로컬에 저장됩니다.','warn',null,5000);}
+    function handleOnline(){showToast('인터넷에 다시 연결되었습니다.','success',null,3000);}
+    window.addEventListener('offline',handleOffline);
+    window.addEventListener('online',handleOnline);
+    return ()=>{
+      window.removeEventListener('offline',handleOffline);
+      window.removeEventListener('online',handleOnline);
+    };
+  },[]);
+
 
   function showToast(msg,type='info',action=null,duration=3000){
   const id=uid();
@@ -5852,7 +5948,11 @@ function FloatingAIOrb(){
           </div>
         </div>
       )}
-      <button className={"ai-orb press"+(open?' pulse-ring':'')} onClick={()=>setOpen(o=>!o)} title="AI 어시스턴트">
+      <button className={"ai-orb press"+(open?' pulse-ring':'')} onClick={()=>{
+          // [v18 Claude] haptic feedback (모바일)
+          if(navigator.vibrate) navigator.vibrate(10);
+          setOpen(o=>!o);
+        }} title="AI 어시스턴트">
         🤖
       </button>
     </>
@@ -5872,9 +5972,9 @@ function App(){
   }
 
   return(
-    <AppProvider>
+    <ErrorBoundary><AppProvider>
       <AppInner tab={tab} setTab={setTab} showAddTask={showAddTask} setShowAddTask={setShowAddTask} fabShort={fabShort} fabLong={fabLong}/>
-    </AppProvider>
+    </AppProvider></ErrorBoundary>
   );
 }
 
