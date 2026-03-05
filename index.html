@@ -10,6 +10,26 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+@font-face {
+  font-family: 'GmarketSans';
+  src: url('./GmarketSansTTFLight.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GmarketSans';
+  src: url('./GmarketSansTTFMedium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GmarketSans';
+  src: url('./GmarketSansTTFBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+</style>
+<style>
 /* ═══════════════════════════════════════════
    DARK THEME (default)
 ═══════════════════════════════════════════ */
@@ -37,34 +57,34 @@
    LIGHT THEME
 ═══════════════════════════════════════════ */
 :root[data-theme="light"] {
-  --bg:#F7F8FA; --s1:#FFFFFF; --s2:#F0F1F5; --s3:#E5E7EB; --s4:#D1D5DB;
-  --b1:rgba(17,24,39,0.07); --b2:rgba(17,24,39,0.13); --b3:rgba(17,24,39,0.20);
-  --t1:#111827; --t2:#6B7280; --t3:#9CA3AF;
-  --work:#2563EB; --wlow:rgba(37,99,235,0.09); --wmid:rgba(37,99,235,0.18);
-  --personal:#10B981; --plow:rgba(16,185,129,0.09); --pmid:rgba(16,185,129,0.18);
-  --danger:#EF4444; --dlow:rgba(239,68,68,0.10);
-  --warn:#F59E0B; --warnlow:rgba(245,158,11,0.12);
-  --success:#10B981; --slow:rgba(16,185,129,0.12);
-  --purple:#8B5CF6; --purplow:rgba(139,92,246,0.12);
-  --a1c:#EF4444; --a1low:rgba(239,68,68,0.10);
-  --orange:#FB923C; --orangelow:rgba(251,146,60,0.12);
-  --school:#D97706; --tapflash:rgba(0,0,0,0.06); --schoollow:rgba(217,119,6,0.12);
-  --lesson:#7C3AED; --lessonlow:rgba(124,58,237,0.12);
-  --budget:#DB2777; --budgetlow:rgba(219,39,119,0.12);
-  --tabbar-bg:rgba(255,255,255,0.93);
-  --card-shadow:0 2px 12px rgba(0,0,0,0.08);
-  --overlay:rgba(0,0,0,0.5);
+  --bg:#FFFFFF; --s1:#FFFFFF; --s2:#F8F9FC; --s3:#EEF0F6; --s4:#E2E5EF;
+  --b1:rgba(17,24,39,0.06); --b2:rgba(17,24,39,0.11); --b3:rgba(17,24,39,0.18);
+  --t1:#0F172A; --t2:#475569; --t3:#94A3B8;
+  --work:#2563EB; --wlow:rgba(37,99,235,0.08); --wmid:rgba(37,99,235,0.16);
+  --personal:#059669; --plow:rgba(5,150,105,0.08); --pmid:rgba(5,150,105,0.16);
+  --danger:#DC2626; --dlow:rgba(220,38,38,0.08);
+  --warn:#D97706; --warnlow:rgba(217,119,6,0.10);
+  --success:#059669; --slow:rgba(5,150,105,0.10);
+  --purple:#7C3AED; --purplow:rgba(124,58,237,0.10);
+  --a1c:#DC2626; --a1low:rgba(220,38,38,0.08);
+  --orange:#EA580C; --orangelow:rgba(234,88,12,0.10);
+  --school:#B45309; --tapflash:rgba(0,0,0,0.05); --schoollow:rgba(180,83,9,0.10);
+  --lesson:#6D28D9; --lessonlow:rgba(109,40,217,0.10);
+  --budget:#BE185D; --budgetlow:rgba(190,24,93,0.10);
+  --tabbar-bg:rgba(255,255,255,0.96);
+  --card-shadow:0 1px 8px rgba(15,23,42,0.08), 0 0 0 1px rgba(15,23,42,0.05);
+  --overlay:rgba(0,0,0,0.45);
 }
-:root { data-theme: light; }
+
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
 html,body,#root{
   height:100%;
-  font-family:'Noto Sans KR',sans-serif;
+  font-family:'GmarketSans','Noto Sans KR',sans-serif;
   background:var(--bg);
   color:var(--t1);
 }
-body{overflow:hidden;font-size:17px;line-height:1.45}
+body{overflow:hidden;font-size:16px;line-height:1.55}
 ::-webkit-scrollbar{width:0;height:0}
 button,input,textarea,select{font-family:inherit}
 input,textarea,select{background:none;color:inherit}
@@ -121,11 +141,12 @@ button{cursor:pointer}
 
 /* Swipe */
 .swipe-wrap{position:relative;border-radius:12px;overflow:hidden;margin-bottom:6px;user-select:none}
-.swipe-bg{position:absolute;inset:0;display:flex;align-items:center;border-radius:12px}
+.swipe-bg{position:absolute;inset:0;display:flex;align-items:center;border-radius:12px;z-index:2}
 .swipe-bg-left{justify-content:flex-start;padding-left:16px;gap:8px}
 .swipe-bg-right{justify-content:flex-end;padding-right:16px;gap:8px}
-.swipe-front{position:relative;border-radius:12px;background:var(--s1);border:1px solid var(--b1);will-change:transform;transition:transform 0.22s cubic-bezier(0.16,1,0.3,1)}
+.swipe-front{position:relative;border-radius:12px;background:var(--s1);border:1px solid var(--b1);will-change:transform;transition:transform 0.22s cubic-bezier(0.16,1,0.3,1);z-index:3}
 .swipe-front.dragging{transition:none}
+.swipe-front.snapped{pointer-events:none}
 
 .dot{width:5px;height:5px;border-radius:3px;display:inline-block}
 .tl-now-line{position:absolute;left:0;right:0;height:2px;background:var(--danger);pointer-events:none;z-index:5}
@@ -209,6 +230,19 @@ function generateLessonId(base, existingIds){
   while(set.has(`${b}-${i}`)) i++;
   return `${b}-${i}`;
 }
+const TASK_TYPES=[
+  {value:'deepwork',label:'딥워크',icon:'🎯'},
+  {value:'task',label:'할일',icon:'✓'},
+  {value:'shopping',label:'쇼핑',icon:'🛒'},
+  {value:'exercise',label:'운동',icon:'💪'},
+  {value:'call',label:'전화',icon:'📞'},
+  {value:'research',label:'연구',icon:'🔬'},
+  {value:'homework',label:'숙제',icon:'📝'},
+  {value:'researchinfo',label:'리서치',icon:'🔍'},
+  {value:'reading',label:'독서',icon:'📚'},
+  {value:'meeting',label:'미팅',icon:'👥'},
+  {value:'lesson',label:'레슨',icon:'🎓'},
+];
 function todayStr(){
   const d=new Date();
   const yy=d.getFullYear();
@@ -729,7 +763,7 @@ const SEED={
     lunchStart:'12:00',lunchEnd:'13:00',
     deepWorkWindows:[{start:'10:00',end:'12:00'},{start:'14:00',end:'16:00'}],
     slotMin:30,
-    theme:'dark',
+    theme:'light',
     currentUserId:null,
     rememberLogin:false,
     sessionUserId:null,
@@ -798,7 +832,7 @@ function AppProvider({children}){
 
   // Theme effect
   useEffect(()=>{
-    document.documentElement.setAttribute('data-theme',data.settings.theme||'dark');
+    document.documentElement.setAttribute('data-theme',data.settings.theme||'light');
   },[data.settings.theme]);
 
   function showToast(msg,type='info'){
@@ -1299,23 +1333,23 @@ function SwipeRow({children,onLeft1,onLeft2,onRight1,onRight2,left1Label='완료
     <div className="swipe-wrap" style={{touchAction:'pan-y'}}>
       {showLeft&&(
         <div className="swipe-bg swipe-bg-right" style={{opacity:btnOpacity}}>
-          <button onClick={()=>{setDx(0);setStage(0);onLeft2&&onLeft2();}} style={{background:left2Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{left2Label}</button>
-          <button onClick={()=>{setDx(0);setStage(0);onLeft1&&onLeft1();}} style={{background:left1Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{left1Label}</button>
+          <button onPointerDown={e=>e.stopPropagation()} onClick={()=>{setDx(0);setStage(0);stateRef.current.dx=0;onLeft2&&onLeft2();}} style={{background:left2Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{left2Label}</button>
+          <button onPointerDown={e=>e.stopPropagation()} onClick={()=>{setDx(0);setStage(0);stateRef.current.dx=0;onLeft1&&onLeft1();}} style={{background:left1Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{left1Label}</button>
         </div>
       )}
       {showRight&&(
         <div className="swipe-bg swipe-bg-left" style={{opacity:btnOpacity}}>
-          <button onClick={()=>{setDx(0);setStage(0);onRight1&&onRight1();}} style={{background:right1Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{right1Label}</button>
-          <button onClick={()=>{setDx(0);setStage(0);onRight2&&onRight2();}} style={{background:right2Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{right2Label}</button>
+          <button onPointerDown={e=>e.stopPropagation()} onClick={()=>{setDx(0);setStage(0);stateRef.current.dx=0;onRight1&&onRight1();}} style={{background:right1Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{right1Label}</button>
+          <button onPointerDown={e=>e.stopPropagation()} onClick={()=>{setDx(0);setStage(0);stateRef.current.dx=0;onRight2&&onRight2();}} style={{background:right2Color,border:'none',color:'#fff',borderRadius:10,padding:'8px 14px',fontSize:12,fontWeight:700,cursor:'pointer'}}>{right2Label}</button>
         </div>
       )}
       <div
         ref={frontRef}
-        className={`swipe-front${stateRef.current.active?' dragging':''}`}
+        className={`swipe-front${stateRef.current.active?' dragging':''}${stage>0?' snapped':''}`}
         style={{transform:`translateX(${dx}px)`}}
         onMouseDown={onPD} onMouseMove={onPM} onMouseUp={onPU} onMouseLeave={onPU}
         onTouchStart={onPD} onTouchMove={onPM} onTouchEnd={onPU}
-        onClick={dx!==0?(e=>{e.stopPropagation();setDx(0);setStage(0);}):undefined}
+        onClick={dx!==0?(e=>{e.stopPropagation();setDx(0);setStage(0);stateRef.current.dx=0;}):undefined}
       >
         {children}
       </div>
@@ -1449,9 +1483,7 @@ function TaskDetailSheet({task,open,onClose}){
   const [deadlineDate,setDeadlineDate]=useState('');
   const [priority,setPriority]=useState(3);
   const [domain,setDomain]=useState('work');
-  const [type,setType]=useState('admin');
-  const [durationMin,setDurationMin]=useState(30);
-  const [energy,setEnergy]=useState('med');
+  const [type,setType]=useState('todo');
   const [projectId,setProjectId]=useState(null);
   const [notes,setNotes]=useState('');
 
@@ -1514,25 +1546,12 @@ function TaskDetailSheet({task,open,onClose}){
 
           <label style={labelStyle}>작업 유형</label>
           <div style={{display:'flex',gap:8,marginTop:6,flexWrap:'wrap'}}>
-            {[['deepwork','🧠 딥워크'],['call','📞 콜/회신'],['errand','🚗 심부름'],['admin','📋 행정']].map(([v,l])=>(
-              <button key={v} onClick={()=>setType(v)} style={{...btnStyle,flex:'none',padding:'8px 12px',fontSize:12,background:type===v?'var(--s3)':'var(--s2)',color:type===v?'var(--t1)':'var(--t2)',border:`1.5px solid ${type===v?'var(--b3)':'var(--b1)'}`}}>{l}</button>
+            {TASK_TYPES.map(({value:v,label:l,icon:ic})=>(
+              <button key={v} onClick={()=>setType(v)} style={{...btnStyle,flex:'none',padding:'8px 12px',fontSize:12,background:type===v?'var(--wlow)':'var(--s2)',color:type===v?'var(--work)':'var(--t2)',border:`1.5px solid ${type===v?'var(--work)':'var(--b1)'}`}}>{ic} {l}</button>
             ))}
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginTop:14}}>
-            <div>
-              <label style={labelStyle}>소요시간(분)</label>
-              <input type="number" value={durationMin} onChange={e=>setDurationMin(Number(e.target.value))} style={fieldStyle} min={5} max={480} step={5}/>
-            </div>
-            <div>
-              <label style={labelStyle}>에너지</label>
-              <select value={energy} onChange={e=>setEnergy(e.target.value)} style={fieldStyle}>
-                <option value="high">🔴 높음</option>
-                <option value="med">🟡 중간</option>
-                <option value="low">🟢 낮음</option>
-              </select>
-            </div>
-          </div>
+
 
           <label style={labelStyle}>프로젝트</label>
           <select value={projectId||''} onChange={e=>setProjectId(e.target.value||null)} style={fieldStyle}>
@@ -1562,27 +1581,19 @@ function AddTaskSheet({open,onClose,defaultDomain='work',defaultDueDate=null}){
   const [domain,setDomain]=useState(defaultDomain);
   const [priority,setPriority]=useState(3);
   const [dueDate,setDueDate]=useState(defaultDueDate||todayStr());
-  const [type,setType]=useState('admin');
-  const [durationMin,setDurationMin]=useState(30);
-  const [energy,setEnergy]=useState('med');
+  const [type,setType]=useState('todo');
   const [projectId,setProjectId]=useState('');
   const inputRef=useRef(null);
 
   useEffect(()=>{
     if(open){
       setTitle('');setDomain(defaultDomain);setPriority(3);setDueDate(defaultDueDate||todayStr());
-      setType('admin');setDurationMin(30);setEnergy('med');setProjectId('');
+      setType('todo');setProjectId('');
       setTimeout(()=>inputRef.current?.focus(),200);
     }
   },[open]);
 
-  useEffect(()=>{
-    if(title){
-      const h=heuristicTriage(title,todayStr());
-      setType(h.type);setDurationMin(h.durationMin);setPriority(h.priority);
-      if(h.dueDate)setDueDate(h.dueDate);
-    }
-  },[title]);
+
 
   function submit(){
     if(!title.trim())return;
@@ -1599,7 +1610,7 @@ function AddTaskSheet({open,onClose,defaultDomain='work',defaultDueDate=null}){
     <Sheet open={open} onClose={onClose} title="새 태스크" height="85vh">
       <div style={{paddingTop:12}}>
         <input ref={inputRef} value={title} onChange={e=>setTitle(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()} style={{...fieldStyle,fontSize:16,fontWeight:600}} placeholder="무엇을 해야 하나요?"/>
-        {title&&<div style={{fontSize:11,color:'var(--t3)',marginTop:4}}>🤖 자동 분류: {type} / {durationMin}분 / 우선순위 {priority}</div>}
+
 
         <label style={labelStyle}>도메인</label>
         <div style={{display:'flex',gap:8,marginTop:6,flexWrap:'wrap'}}>
@@ -1620,25 +1631,17 @@ function AddTaskSheet({open,onClose,defaultDomain='work',defaultDueDate=null}){
             <label style={labelStyle}>실행일</label>
             <input type="date" value={dueDate} onChange={e=>setDueDate(e.target.value)} style={fieldStyle}/>
           </div>
-          <div>
-            <label style={labelStyle}>소요시간(분)</label>
-            <input type="number" value={durationMin} onChange={e=>setDurationMin(Number(e.target.value))} style={fieldStyle} min={5} max={480} step={5}/>
-          </div>
+
         </div>
 
         <label style={labelStyle}>작업 유형</label>
-        <div style={{display:'flex',gap:8,marginTop:6,flexWrap:'wrap'}}>
-          {[['deepwork','🧠 딥워크'],['call','📞 콜/회신'],['errand','🚗 심부름'],['admin','📋 행정']].map(([v,l])=>(
-            <button key={v} onClick={()=>setType(v)} style={{...btnStyle,flex:'none',padding:'8px 12px',fontSize:12,background:type===v?'var(--s3)':'var(--s2)',color:type===v?'var(--t1)':'var(--t2)',border:`1.5px solid ${type===v?'var(--b3)':'var(--b1)'}`}}>{l}</button>
+        <div style={{display:'flex',gap:6,marginTop:6,flexWrap:'wrap'}}>
+          {TASK_TYPES.map(({value:v,label:l,icon:ic})=>(
+            <button key={v} onClick={()=>setType(v)} style={{...btnStyle,flex:'none',padding:'8px 12px',fontSize:12,background:type===v?'var(--wlow)':'var(--s2)',color:type===v?'var(--work)':'var(--t2)',border:`1.5px solid ${type===v?'var(--work)':'var(--b1)'}`}}>{ic} {l}</button>
           ))}
         </div>
 
-        <label style={labelStyle}>에너지</label>
-        <div style={{display:'flex',gap:8,marginTop:6}}>
-          {[['high','🔴 높음'],['med','🟡 중간'],['low','🟢 낮음']].map(([v,l])=>(
-            <button key={v} onClick={()=>setEnergy(v)} style={{...btnStyle,fontSize:12,background:energy===v?'var(--s3)':'var(--s2)',color:energy===v?'var(--t1)':'var(--t2)',border:`1.5px solid ${energy===v?'var(--b3)':'var(--b1)'}`}}>{l}</button>
-          ))}
-        </div>
+
 
         {domain==='work'&&(
           <>
@@ -1902,8 +1905,8 @@ function OrganizeSheet({open,onClose,task}){
 
           <label style={labelStyle}>작업 유형</label>
           <div style={{display:'flex',gap:8,marginTop:6,flexWrap:'wrap'}}>
-            {[['deepwork','🧠 딥워크'],['call','📞 콜/회신'],['errand','🚗 심부름'],['admin','📋 행정']].map(([v,l])=>(
-              <button key={v} onClick={()=>setType(v)} style={{...btnStyle,flex:'none',padding:'8px 12px',fontSize:12,background:type===v?'var(--s3)':'var(--s2)',color:type===v?'var(--t1)':'var(--t2)',border:`1.5px solid ${type===v?'var(--b3)':'var(--b1)'}`}}>{l}</button>
+            {TASK_TYPES.map(({value:v,label:l,icon:ic})=>(
+              <button key={v} onClick={()=>setType(v)} style={{...btnStyle,flex:'none',padding:'8px 12px',fontSize:12,background:type===v?'var(--wlow)':'var(--s2)',color:type===v?'var(--work)':'var(--t2)',border:`1.5px solid ${type===v?'var(--work)':'var(--b1)'}`}}>{ic} {l}</button>
             ))}
           </div>
 
@@ -2476,20 +2479,31 @@ function TodayPage(){
   const [showTriage,setShowTriage]=useState(false);
   const [showAddEvent,setShowAddEvent]=useState(false);
   const [showAddTask,setShowAddTask]=useState(false);
+  // Focus3 관련 상태
+  const [showFocusAll,setShowFocusAll]=useState(false);
+  const [selectedFocus,setSelectedFocus]=useState(null); // null = 자동
+  const [tempFocus,setTempFocus]=useState([]);
+  // 모듈 접기 상태
+  const [collapseWork,setCollapseWork]=useState(false);
+  const [collapsePersonal,setCollapsePersonal]=useState(false);
+  const [collapseTimeline,setCollapseTimeline]=useState(true); // 기본 접기
+  const [collapseDone,setCollapseDone]=useState(false);
+
   const tasks=data.tasks.filter(t=>!t.deletedAt);
   const todayTasks=tasks.filter(t=>t.dueDate===today&&t.status!=='done');
   const doneTodayTasks=tasks.filter(t=>t.dueDate===today&&t.status==='done');
   const totalToday=todayTasks.length+doneTodayTasks.length;
   const doneCount=doneTodayTasks.length;
   const pct=totalToday>0?Math.round((doneCount/totalToday)*100):0;
-  const isToday=viewDate===todayReal;;
+  const isToday=viewDate===todayReal;
 
-  // Focus 3: top priority tasks for today
-  const focus3=tasks
+  // Focus 3: 자동 선택 (점수 기반 상위 3개)
+  const allCandidates=tasks
     .filter(t=>t.status!=='done'&&(t.dueDate===today||t.priority===1))
-    .sort((a,b)=>{
-      const as=scoreTask(a,today);const bs=scoreTask(b,today);return bs-as;
-    }).slice(0,3);
+    .sort((a,b)=>scoreTask(b,today)-scoreTask(a,today));
+  const focus3=selectedFocus&&selectedFocus.length>0
+    ? selectedFocus.map(id=>tasks.find(t=>t.id===id)).filter(Boolean)
+    : allCandidates.slice(0,3);
 
   // Work tasks grouped by project
   const workTasks=todayTasks.filter(t=>t.domain==='work');
@@ -2499,17 +2513,13 @@ function TodayPage(){
     if(!projMap[key])projMap[key]=[];
     projMap[key].push(t);
   }
-
   // Personal tasks
   const personalTasks=todayTasks.filter(t=>t.domain==='personal');
-
   // Overdue
   const overdue=tasks.filter(t=>t.status!=='done'&&t.dueDate&&t.dueDate<today);
-
   // Today's blocks and events
   const todayBlocks=data.timeBlocks.filter(b=>!b.deletedAt&&b.date===today);
   const todayEvents=data.events.filter(e=>!e.deletedAt&&(e.startDateTime||'').slice(0,10)===today);
-
   // Family summary (for parent)
   const isParent=currentUser.role==='parent';
   const familyProgress=isParent?data.familyMembers.filter(m=>m.role==='child').map(child=>{
@@ -2518,155 +2528,247 @@ function TodayPage(){
     return{child,done,total:childTasks.length};
   }):[];
 
-  const [showAll,setShowAll]=useState(false);
-  const sectionStyle={marginBottom:24};
-  const sectionTitle={fontSize:12,fontWeight:700,color:'var(--t2)',letterSpacing:1,textTransform:'uppercase',marginBottom:10};
+  // Focus3 전체 목록 토글 열기
+  function openFocusAll(){
+    setTempFocus(selectedFocus||focus3.map(t=>t.id));
+    setShowFocusAll(true);
+  }
+  function saveFocus(){
+    setSelectedFocus(tempFocus.slice(0,3));
+    setShowFocusAll(false);
+    showToast('Focus 3 저장됨');
+  }
+  function toggleTempFocus(id){
+    setTempFocus(prev=>{
+      if(prev.includes(id)) return prev.filter(x=>x!==id);
+      if(prev.length>=3) return [...prev.slice(1),id];
+      return [...prev,id];
+    });
+  }
+
+  const secHdr=(icon,label,count,collapsed,onToggle,onAdd)=>(
+    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:collapsed?0:10}}>
+      <button onClick={onToggle} style={{display:'flex',alignItems:'center',gap:6,background:'none',border:'none',cursor:'pointer',padding:0}}>
+        <span style={{fontSize:11,fontWeight:700,color:'var(--t2)',letterSpacing:0.8,textTransform:'uppercase'}}>{icon} {label}</span>
+        {count>0&&<span style={{fontSize:10,background:'var(--s3)',color:'var(--t2)',borderRadius:8,padding:'1px 6px',fontWeight:700}}>{count}</span>}
+        <span style={{fontSize:10,color:'var(--t3)',marginLeft:2}}>{collapsed?'▶':'▼'}</span>
+      </button>
+      {onAdd&&!collapsed&&<button onClick={onAdd} style={{fontSize:12,color:'var(--work)',background:'none',border:'none',cursor:'pointer',fontWeight:600,padding:'2px 6px'}}>+ 추가</button>}
+    </div>
+  );
 
   return(
-    <div className="scroll" style={{flex:1,padding:'16px 16px 80px'}}>
-      {/* Header: 로고 옆에 날짜 + 버튼 한 줄 */}
-      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12,gap:8}}>
-        {/* 날짜 네비게이터 */}
-        <div style={{display:'flex',alignItems:'center',gap:6,flex:1,minWidth:0}}>
-          <button onClick={()=>setViewDate(addDays(today,-1))} style={{width:28,height:28,borderRadius:8,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>‹</button>
-          <div style={{flex:1,minWidth:0}}>
-            <div style={{display:'flex',alignItems:'center',gap:6}}>
-              <span style={{fontSize:17,fontWeight:900,color:'var(--t1)',whiteSpace:'nowrap'}}>{fmt(today).full}</span>
-              {!isToday&&<button onClick={()=>setViewDate(todayReal)} style={{fontSize:10,padding:'2px 7px',borderRadius:6,border:'none',background:'var(--work)',color:'#fff',cursor:'pointer',fontWeight:700,flexShrink:0}}>오늘</button>}
+    <div className="scroll" style={{flex:1,padding:'0 0 80px',background:'var(--bg)'}}>
+      {/* ── 헤더 영역 ── */}
+      <div style={{padding:'12px 16px 0',background:'var(--bg)'}}>
+        {/* 로고 + 날짜 네비게이터 한 줄 */}
+        <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:12,borderBottom:'1px solid var(--b1)',paddingBottom:12}}>
+          <LogoMark size={26}/>
+          <button onClick={()=>setViewDate(addDays(today,-1))} style={{width:30,height:30,borderRadius:8,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t1)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>‹</button>
+          <div style={{flex:1,textAlign:'center'}}>
+            <div style={{fontSize:15,fontWeight:800,color:'var(--t1)',letterSpacing:-0.3}}>{fmt(today).full}</div>
+          </div>
+          <button onClick={()=>setViewDate(addDays(today,1))} style={{width:30,height:30,borderRadius:8,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t1)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>›</button>
+          {!isToday&&<button onClick={()=>setViewDate(todayReal)} style={{fontSize:11,padding:'4px 8px',borderRadius:7,border:'none',background:'var(--work)',color:'#fff',cursor:'pointer',fontWeight:700,flexShrink:0}}>오늘</button>}
+          <ThemeToggle/>
+        </div>
+
+        {/* 진행률 바 - 개선된 UI */}
+        <div style={{marginBottom:20,padding:'16px 18px',background:'var(--s1)',borderRadius:16,border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
+            <div>
+              <span style={{fontSize:14,fontWeight:700,color:'var(--t1)'}}>오늘 진행률</span>
+              <div style={{fontSize:12,color:'var(--t3)',marginTop:2}}>
+                {pct===100?'🎉 모두 완료!':pct>=50?`잘 하고 있어요 · ${totalToday-doneCount}개 남음`:`${totalToday-doneCount}개 남음`}
+              </div>
             </div>
-            <div style={{fontSize:12,color:'var(--t2)',marginTop:1}}>
-              {isToday?(pct===100?'🎉 오늘 완료!':pct>=50?`${pct}% 완료 · 잘 하고 있어요`:`${totalToday-doneCount}개 남음`):relativeDay(today)}
+            <div style={{textAlign:'right'}}>
+              <span style={{fontSize:22,fontWeight:900,color:pct===100?'var(--success)':pct>=50?'var(--work)':'var(--warn)',letterSpacing:-1}}>{pct}<span style={{fontSize:13,fontWeight:600}}>%</span></span>
             </div>
           </div>
-          <button onClick={()=>setViewDate(addDays(today,1))} style={{width:28,height:28,borderRadius:8,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>›</button>
-        </div>
-        {/* 액션 버튼 */}
-        <div style={{display:'flex',gap:6,flexShrink:0}}>
-          <button onClick={()=>setShowTriage(true)} style={{padding:'7px 10px',borderRadius:10,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:11,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap'}}>⚡ 우선순위</button>
-          <button onClick={()=>setShowSchedule(true)} style={{padding:'7px 10px',borderRadius:10,border:'none',background:'var(--work)',color:'#fff',fontSize:11,fontWeight:700,cursor:'pointer',whiteSpace:'nowrap'}}>🗓 자동배치</button>
-        </div>
-      </div>
-
-      {/* Progress bar */}
-      <div style={{marginBottom:20}}>
-        <div className="prog-track">
-          <div className="prog-fill" style={{width:`${pct}%`}}/>
-        </div>
-        <div style={{display:'flex',justifyContent:'space-between',marginTop:4}}>
-          <span style={{fontSize:11,color:'var(--t3)'}}>완료 {doneCount}/{totalToday}</span>
-          <span style={{fontSize:11,color:'var(--t3)'}}>{pct}%</span>
+          <div style={{height:10,background:'var(--s3)',borderRadius:8,overflow:'hidden'}}>
+            <div style={{height:'100%',width:`${pct}%`,background:pct===100?'var(--success)':pct>=50?'var(--work)':'var(--warn)',borderRadius:8,transition:'width 0.5s cubic-bezier(0.4,0,0.2,1)'}}/>
+          </div>
+          <div style={{display:'flex',justifyContent:'space-between',marginTop:10}}>
+            <span style={{fontSize:12,color:'var(--success)',fontWeight:600}}>✓ 완료 {doneCount}개</span>
+            <span style={{fontSize:12,color:'var(--t3)'}}>전체 {totalToday}개</span>
+          </div>
         </div>
       </div>
 
-      {/* Overdue */}
-      {overdue.length>0&&(
-        <div style={{...sectionStyle,background:'var(--dlow)',borderRadius:14,padding:'12px 14px',border:'1px solid var(--danger)33'}}>
-          <div style={{fontSize:12,fontWeight:700,color:'var(--danger)',marginBottom:8}}>⚠️ 지연 {overdue.length}개</div>
-          {overdue.slice(0,3).map(t=>(
-            <div key={t.id} style={{fontSize:13,color:'var(--t1)',padding:'4px 0',cursor:'pointer'}} onClick={()=>setDetailTask(t)}>
-              {t.title} <span style={{fontSize:11,color:'var(--danger)'}}>({relativeDay(t.dueDate)})</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Family summary (parent only) */}
-      {isParent&&familyProgress.some(f=>f.total>0)&&(
-        <div style={sectionStyle}>
-          <div style={sectionTitle}>가족 현황</div>
-          <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
-            {familyProgress.filter(f=>f.total>0).map(({child,done,total})=>(
-              <div key={child.id} style={{background:'var(--s2)',borderRadius:12,padding:'10px 14px',flex:1,minWidth:100}}>
-                <div style={{fontSize:18,marginBottom:4}}>{child.avatar}</div>
-                <div style={{fontSize:12,fontWeight:700,color:'var(--t1)'}}>{child.name}</div>
-                <div style={{fontSize:11,color:'var(--t3)'}}>{done}/{total}</div>
-                <div className="prog-track" style={{marginTop:6}}>
-                  <div className="prog-fill" style={{width:`${total>0?Math.round(done/total*100):0}%`}}/>
-                </div>
+      <div style={{padding:'0 16px'}}>
+        {/* ── 지연 태스크 ── */}
+        {overdue.length>0&&(
+          <div style={{marginBottom:16,background:'var(--dlow)',borderRadius:14,padding:'12px 14px',border:'1px solid rgba(220,38,38,0.2)'}}>
+            <div style={{fontSize:12,fontWeight:700,color:'var(--danger)',marginBottom:8}}>⚠️ 지연 {overdue.length}개</div>
+            {overdue.slice(0,3).map(t=>(
+              <div key={t.id} style={{fontSize:13,color:'var(--t1)',padding:'4px 0',cursor:'pointer',display:'flex',alignItems:'center',gap:8}} onClick={()=>setDetailTask(t)}>
+                <span style={{width:4,height:4,borderRadius:2,background:'var(--danger)',flexShrink:0,display:'inline-block'}}/>
+                <span style={{flex:1}}>{t.title}</span>
+                <span style={{fontSize:11,color:'var(--danger)',flexShrink:0}}>({relativeDay(t.dueDate)})</span>
               </div>
             ))}
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Focus 3 */}
-      {focus3.length>0&&(
-        <div style={sectionStyle}>
-          <div style={sectionTitle}>🎯 Focus 3</div>
-          <div style={{background:'var(--s2)',borderRadius:14,padding:'4px 0',border:'1px solid var(--b1)'}}>
+        {/* ── Focus 3 ── */}
+        <div style={{marginBottom:20}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
+            <div style={{display:'flex',alignItems:'center',gap:6}}>
+              <span style={{fontSize:12,fontWeight:700,color:'var(--t2)',letterSpacing:0.8,textTransform:'uppercase'}}>🎯 Focus 3</span>
+              {selectedFocus&&<span style={{fontSize:10,background:'var(--work)',color:'#fff',borderRadius:6,padding:'1px 6px',fontWeight:700}}>수동</span>}
+            </div>
+            <button onClick={openFocusAll} style={{fontSize:12,color:'var(--work)',background:'none',border:'none',cursor:'pointer',fontWeight:600,padding:'2px 6px'}}>전체 보기 / 수정</button>
+          </div>
+          <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
+            {focus3.length===0&&<div style={{padding:'20px',textAlign:'center',color:'var(--t3)',fontSize:13}}>오늘 할 일이 없습니다</div>}
             {focus3.map((t,i)=>(
-              <div key={t.id} className="focus-item press" onClick={()=>setDetailTask(t)} style={{padding:'10px 14px'}}>
-                <span style={{fontSize:16,fontWeight:900,color:'var(--t3)',minWidth:20}}>{i+1}</span>
-                <div style={{flex:1}}>
-                  <div style={{fontSize:14,fontWeight:700,color:'var(--t1)'}}>{t.title}</div>
-                  <div style={{display:'flex',gap:6,marginTop:2}}>
-                    {t.energy&&<EnergyDot level={t.energy}/>}
-                    <span style={{fontSize:11,color:'var(--t3)'}}>{t.durationMin}분</span>
-                    {t.type==='deepwork'&&<span style={{fontSize:10,color:'var(--purple)'}}>🧠</span>}
+              <div key={t.id} className="press" onClick={()=>setDetailTask(t)} style={{display:'flex',alignItems:'center',gap:12,padding:'13px 16px',borderBottom:i<focus3.length-1?'1px solid var(--b1)':'none',cursor:'pointer'}}>
+                <div style={{width:26,height:26,borderRadius:8,background:i===0?'var(--a1c)':i===1?'var(--warn)':'var(--s3)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                  <span style={{fontSize:13,fontWeight:900,color:i<2?'#fff':'var(--t2)'}}>{i+1}</span>
+                </div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontSize:14,fontWeight:700,color:'var(--t1)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{t.title}</div>
+                  <div style={{display:'flex',gap:6,marginTop:3,alignItems:'center'}}>
+                    <span style={{fontSize:11,color:'var(--t3)',background:'var(--s2)',borderRadius:5,padding:'1px 6px'}}>{t.type||'할일'}</span>
+                    {t.projectId&&data.projects.find(p=>p.id===t.projectId)&&<span style={{fontSize:11,color:'var(--work)'}}>{data.projects.find(p=>p.id===t.projectId).name}</span>}
                   </div>
                 </div>
-                <span style={{fontSize:12,fontWeight:700,color:t.priority===1?'var(--a1c)':t.priority===2?'var(--warn)':'var(--t3)'}}>
+                <span style={{fontSize:11,fontWeight:800,color:t.priority===1?'var(--a1c)':t.priority===2?'var(--warn)':'var(--t3)',flexShrink:0,background:t.priority===1?'var(--a1low)':t.priority===2?'var(--warnlow)':'var(--s2)',borderRadius:6,padding:'3px 7px'}}>
                   {t.priority===1?'A1':t.priority===2?'B1':'C1'}
                 </span>
               </div>
             ))}
           </div>
         </div>
-      )}
 
-      {/* 더보기 토글 버튼 */}
-      <div style={{marginBottom:12}}>
-        <button onClick={()=>setShowAll(v=>!v)} style={{width:'100%',padding:'10px',borderRadius:12,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:13,fontWeight:600,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',gap:6}}>
-          <span>{showAll?'▲ 접기':'▼ 더보기 (업무/개인/완료)'}</span>
-          {!showAll&&(Object.keys(projMap).length>0||personalTasks.length>0||doneTodayTasks.length>0)&&<span style={{fontSize:11,background:'var(--work)',color:'#fff',borderRadius:10,padding:'1px 7px'}}>{Object.values(projMap).flat().length+personalTasks.length+doneTodayTasks.length}</span>}
-        </button>
-      </div>
-      {showAll&&<div>
-      {/* Work tasks by project */}
-      {Object.keys(projMap).length>0&&(
-        <div style={sectionStyle}>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
-            <div style={sectionTitle}>💼 업무</div>
-            <button onClick={()=>setShowAddTask(true)} style={{fontSize:12,color:'var(--work)',background:'none',border:'none',cursor:'pointer',fontWeight:600}}>+ 추가</button>
-          </div>
-          {Object.entries(projMap).map(([projId,ptasks])=>{
-            const proj=projId!=='__none__'?data.projects.find(p=>p.id===projId):null;
-            return(
-              <div key={projId} style={{marginBottom:12}}>
-                {proj&&<div style={{fontSize:11,fontWeight:700,color:proj.color,marginBottom:6,display:'flex',alignItems:'center',gap:6}}><span style={{width:8,height:8,borderRadius:4,background:proj.color,display:'inline-block'}}/>{proj.name}</div>}
-                {ptasks.map(t=><TaskRow key={t.id} task={t} onTap={setDetailTask} showProject={false}/>)}
+        {/* ── 업무 ── */}
+        {(Object.keys(projMap).length>0||workTasks.length>0)&&(
+          <div style={{marginBottom:20}}>
+            {secHdr('💼','업무',workTasks.length,collapseWork,()=>setCollapseWork(v=>!v),()=>setShowAddTask(true))}
+            {!collapseWork&&(
+              <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
+                {Object.entries(projMap).map(([projId,ptasks],gi)=>{
+                  const proj=projId!=='__none__'?data.projects.find(p=>p.id===projId):null;
+                  return(
+                    <div key={projId}>
+                      {proj&&<div style={{fontSize:11,fontWeight:700,color:proj.color,padding:'8px 16px 4px',display:'flex',alignItems:'center',gap:6,borderTop:gi>0?'1px solid var(--b1)':'none'}}>
+                        <span style={{width:7,height:7,borderRadius:3.5,background:proj.color,display:'inline-block'}}/>
+                        {proj.name}
+                      </div>}
+                      {ptasks.map((t,i)=><TaskRow key={t.id} task={t} onTap={setDetailTask} showProject={false}/>)}
+                    </div>
+                  );
+                })}
+                {workTasks.length===0&&<div style={{padding:'16px',textAlign:'center',color:'var(--t3)',fontSize:13}}>업무 할 일이 없습니다</div>}
               </div>
-            );
-          })}
-        </div>
-      )}
+            )}
+          </div>
+        )}
 
-      {/* Personal tasks */}
-      {personalTasks.length>0&&(
-        <div style={sectionStyle}>
-          <div style={sectionTitle}>🌿 개인</div>
-          {personalTasks.map(t=><TaskRow key={t.id} task={t} onTap={setDetailTask}/>)}
-        </div>
-      )}
+        {/* ── 개인 ── */}
+        {(personalTasks.length>0||true)&&(
+          <div style={{marginBottom:20}}>
+            {secHdr('🌿','개인',personalTasks.length,collapsePersonal,()=>setCollapsePersonal(v=>!v),()=>setShowAddTask(true))}
+            {!collapsePersonal&&(
+              <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
+                {personalTasks.length===0&&<div style={{padding:'16px',textAlign:'center',color:'var(--t3)',fontSize:13}}>개인 할 일이 없습니다</div>}
+                {personalTasks.map(t=><TaskRow key={t.id} task={t} onTap={setDetailTask}/>)}
+              </div>
+            )}
+          </div>
+        )}
 
-      {/* Timeline */}
-      <div style={sectionStyle}>
-        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
-          <div style={sectionTitle}>⏱ 타임라인</div>
-          <button onClick={()=>setShowSchedule(true)} style={{fontSize:12,color:'var(--work)',background:'none',border:'none',cursor:'pointer',fontWeight:600}}>자동 배치</button>
+        {/* ── 타임라인 (기본 접기) ── */}
+        <div style={{marginBottom:20}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:collapseTimeline?0:10}}>
+            <button onClick={()=>setCollapseTimeline(v=>!v)} style={{display:'flex',alignItems:'center',gap:6,background:'none',border:'none',cursor:'pointer',padding:0}}>
+              <span style={{fontSize:11,fontWeight:700,color:'var(--t2)',letterSpacing:0.8,textTransform:'uppercase'}}>⏱ 타임라인</span>
+              {todayBlocks.length>0&&<span style={{fontSize:10,background:'var(--s3)',color:'var(--t2)',borderRadius:8,padding:'1px 6px',fontWeight:700}}>{todayBlocks.length}</span>}
+              <span style={{fontSize:10,color:'var(--t3)',marginLeft:2}}>{collapseTimeline?'▶':'▼'}</span>
+            </button>
+            {!collapseTimeline&&<button onClick={()=>setShowSchedule(true)} style={{fontSize:12,color:'var(--work)',background:'none',border:'none',cursor:'pointer',fontWeight:600,padding:'2px 6px'}}>자동 배치</button>}
+          </div>
+          {!collapseTimeline&&(
+            <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)',padding:'8px 0'}}>
+              <Timeline date={today} blocks={todayBlocks} events={todayEvents} onAddEvent={()=>setShowAddEvent(true)}/>
+            </div>
+          )}
         </div>
-        <Timeline date={today} blocks={todayBlocks} events={todayEvents} onAddEvent={()=>setShowAddEvent(true)}/>
+
+        {/* ── 완료 ── */}
+        {doneTodayTasks.length>0&&(
+          <div style={{marginBottom:20}}>
+            {secHdr('✅','완료',doneTodayTasks.length,collapseDone,()=>setCollapseDone(v=>!v),null)}
+            {!collapseDone&&(
+              <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)',opacity:0.7}}>
+                {doneTodayTasks.map(t=><TaskRow key={t.id} task={t} onTap={setDetailTask} compact/>)}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── 가족 현황 (부모만) ── */}
+        {isParent&&familyProgress.length>0&&(
+          <div style={{marginBottom:20}}>
+            <div style={{fontSize:11,fontWeight:700,color:'var(--t2)',letterSpacing:0.8,textTransform:'uppercase',marginBottom:10}}>👨‍👩‍👧 가족 현황</div>
+            <div style={{background:'var(--s1)',borderRadius:16,overflow:'hidden',border:'1px solid var(--b1)',boxShadow:'var(--card-shadow)'}}>
+              {familyProgress.map(({child,done,total},i)=>(
+                <div key={child.id} style={{padding:'12px 16px',borderBottom:i<familyProgress.length-1?'1px solid var(--b1)':'none',display:'flex',alignItems:'center',gap:12}}>
+                  <span style={{fontSize:22}}>{child.avatar||'👤'}</span>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:13,fontWeight:700,color:'var(--t1)'}}>{child.name}</div>
+                    <div style={{height:4,background:'var(--s3)',borderRadius:3,marginTop:5,overflow:'hidden'}}>
+                      <div style={{height:'100%',width:`${total>0?Math.round(done/total*100):0}%`,background:'var(--success)',borderRadius:3}}/>
+                    </div>
+                  </div>
+                  <span style={{fontSize:12,fontWeight:700,color:'var(--t2)',flexShrink:0}}>{done}/{total}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Done */}
-      {doneTodayTasks.length>0&&(
-        <div style={sectionStyle}>
-          <div style={sectionTitle}>✅ 완료 ({doneTodayTasks.length})</div>
-          {doneTodayTasks.map(t=><TaskRow key={t.id} task={t} onTap={setDetailTask} compact/>)}
+      {/* ── Focus3 전체 보기 모달 ── */}
+      {showFocusAll&&(
+        <div style={{position:'fixed',inset:0,background:'var(--overlay)',zIndex:200,display:'flex',alignItems:'flex-end'}} onClick={()=>setShowFocusAll(false)}>
+          <div style={{width:'100%',background:'var(--s1)',borderRadius:'20px 20px 0 0',padding:'20px 16px 40px',maxHeight:'80vh',overflow:'auto'}} onClick={e=>e.stopPropagation()}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}}>
+              <div>
+                <div style={{fontSize:16,fontWeight:800,color:'var(--t1)'}}>전체 할 일</div>
+                <div style={{fontSize:12,color:'var(--t3)',marginTop:2}}>최대 3개 선택 → Focus 3으로 저장</div>
+              </div>
+              <button onClick={saveFocus} style={{padding:'8px 16px',borderRadius:10,border:'none',background:'var(--work)',color:'#fff',fontWeight:700,fontSize:13,cursor:'pointer'}}>저장</button>
+            </div>
+            <div style={{fontSize:11,color:'var(--t3)',marginBottom:8}}>선택됨: {tempFocus.length}/3</div>
+            {allCandidates.map((t,i)=>{
+              const sel=tempFocus.includes(t.id);
+              const selIdx=tempFocus.indexOf(t.id);
+              return(
+                <div key={t.id} onClick={()=>toggleTempFocus(t.id)} style={{display:'flex',alignItems:'center',gap:12,padding:'12px 14px',borderRadius:12,marginBottom:6,background:sel?'var(--wlow)':'var(--s2)',border:`1.5px solid ${sel?'var(--work)':'var(--b1)'}`,cursor:'pointer',transition:'all 0.15s'}}>
+                  <div style={{width:26,height:26,borderRadius:8,background:sel?'var(--work)':'var(--s3)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,transition:'all 0.15s'}}>
+                    <span style={{fontSize:12,fontWeight:900,color:sel?'#fff':'var(--t3)'}}>{sel?selIdx+1:'○'}</span>
+                  </div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontSize:14,fontWeight:700,color:'var(--t1)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{t.title}</div>
+                    <div style={{display:'flex',gap:6,marginTop:3}}>
+                      <span style={{fontSize:11,color:'var(--t3)',background:'var(--s3)',borderRadius:5,padding:'1px 6px'}}>{t.type||'할일'}</span>
+                      {t.dueDate&&<span style={{fontSize:11,color:t.dueDate<today?'var(--danger)':'var(--t3)'}}>{relativeDay(t.dueDate)}</span>}
+                    </div>
+                  </div>
+                  <span style={{fontSize:11,fontWeight:800,color:t.priority===1?'var(--a1c)':t.priority===2?'var(--warn)':'var(--t3)',flexShrink:0,background:t.priority===1?'var(--a1low)':t.priority===2?'var(--warnlow)':'var(--s2)',borderRadius:6,padding:'3px 7px'}}>
+                    {t.priority===1?'A1':t.priority===2?'B1':'C1'}
+                  </span>
+                </div>
+              );
+            })}
+            {allCandidates.length===0&&<div style={{textAlign:'center',color:'var(--t3)',padding:'30px 0',fontSize:14}}>할 일이 없습니다</div>}
+            <button onClick={()=>{setSelectedFocus(null);setShowFocusAll(false);showToast('자동 선택으로 초기화');}} style={{width:'100%',marginTop:12,padding:'12px',borderRadius:12,border:'1px solid var(--b2)',background:'var(--s2)',color:'var(--t2)',fontSize:13,fontWeight:600,cursor:'pointer'}}>자동 선택으로 초기화</button>
+          </div>
         </div>
       )}
 
-      </div>}
       {/* Sheets */}
       <TaskDetailSheet task={detailTask} open={!!detailTask} onClose={()=>setDetailTask(null)}/>
       <ScheduleSheet open={showSchedule} onClose={()=>setShowSchedule(false)} date={today}/>
@@ -4564,11 +4666,14 @@ function AppInner({tab,setTab,showAddTask,setShowAddTask,fabShort,fabLong}){
   return(
     <div style={{display:'flex',flexDirection:'column',height:'100dvh',background:'var(--bg)',color:'var(--t1)',overflow:'hidden'}}>
       <div style={{height:'env(safe-area-inset-top,0px)',background:'var(--s1)'}}/>
-      <div style={{background:'var(--s1)',borderBottom:'1px solid var(--b1)',padding:'7px 16px',display:'flex',alignItems:'center',flexShrink:0}}>
-        <LogoMark/>
-      </div>
       <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden',paddingBottom:'calc(64px + env(safe-area-inset-bottom,0px))'}}>
-        {tab==='today'&&<TodayPage/>}
+        {tab!=='today'&&(
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 16px 8px',background:'var(--s1)',borderBottom:'1px solid var(--b1)',flexShrink:0}}>
+          <LogoMark size={26}/>
+          <ThemeToggle/>
+        </div>
+      )}
+      {tab==='today'&&<TodayPage/>}
         {tab==='plan'&&<PlanPage/>}
         {tab==='month'&&<MonthPage/>}
         {tab==='signal'&&<SignalPage/>}
