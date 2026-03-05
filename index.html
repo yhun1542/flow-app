@@ -3088,6 +3088,7 @@ function TodayPage(){
           )}
         </div>
       </div>
+      </div>
 
       <div style={{padding:'0 16px'}}>
         {/* ── v19 AI 브리핑 모듈 카드 ── */}
@@ -3319,6 +3320,7 @@ function TodayPage(){
           </div>
         </div>
       )}
+      </div>
 
       {/* Sheets */}
       <TaskDetailSheet task={detailTask} open={!!detailTask} onClose={()=>setDetailTask(null)}/>
@@ -3326,6 +3328,7 @@ function TodayPage(){
       <TriageSuggestSheet open={showTriage} onClose={()=>setShowTriage(false)}/>
       <AddEventSheet open={showAddEvent} onClose={()=>setShowAddEvent(false)} defaultDate={today}/>
       <AddTaskSheet open={showAddTask} onClose={()=>setShowAddTask(false)} defaultDomain="work" defaultDueDate={today}/>
+    </div>
     </div>
   );
 }
